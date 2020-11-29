@@ -1,12 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { AnimateSharedLayout, AnimatePresence } from "framer-motion";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Home from './Content/Pages/Home';
+import About from './Content/Pages/About';
+import './index.scss';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AnimateSharedLayout type="crossfade">
+    <Router>
+          <AnimatePresence exitBeforeEnter initial={false}>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/about" component={About} />
+          </AnimatePresence>
+    </Router>
+    </AnimateSharedLayout>
   </React.StrictMode>,
   document.getElementById('root')
 );
