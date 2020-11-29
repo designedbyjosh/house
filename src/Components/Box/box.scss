@@ -1,0 +1,41 @@
+li.box {
+
+    display: block;
+    padding: 20px;
+    box-sizing: border-box;
+
+    .content {
+        background-color: gray;
+        height: 250px;
+        border-radius: 40px;
+        cursor: pointer;
+        padding: 30px;
+        box-sizing: border-box;
+        overflow: hidden;
+        word-wrap: normal;
+
+        h1 {
+            margin: 0px;
+            font-size: 50px
+        }
+    }
+    
+}
+
+li.box:first-of-type {
+    padding-left: 0px;
+}
+
+@media screen and (max-width: 750) {
+    li.box {
+        padding: 10px;
+    
+        .content {
+            background-color: gray;
+            border-radius: 40px;
+            cursor: pointer;
+        }
+        
+    }
+    
+}

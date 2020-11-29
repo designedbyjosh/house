@@ -1,0 +1,39 @@
+div.home { 
+
+    margin-left: 150px;
+    margin-top: 150px;
+
+    > h2 {
+        color: white;
+        font-size: 75px;
+        margin-left: 20px;
+        margin-bottom: 0px;
+    }
+
+    > p {
+        color: white;
+        font-size: 30px;
+        margin-left: 20px;
+        margin-top: 0px;
+        opacity: 0.7;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    div.home { 
+
+        padding: 10px;
+        margin-left: 0px;
+        margin-top: 0px;
+        text-align: center;
+    
+        h2 {
+            font-size: 40px;
+        }
+
+        > p {
+            color: white;
+            font-size: 15px;
+        }
+    }
+}
