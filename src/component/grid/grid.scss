@@ -1,13 +1,12 @@
 div.grid {
-
     ul {
         padding: 20px;
         box-sizing: border-box;
         list-style-type: none;
-        overflow-x: scroll;
-        width: 100%;
-        white-space: nowrap;
         margin: 0px;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
 
         .title {
             position: absolute;
@@ -15,10 +14,11 @@ div.grid {
             margin-top: 65px;
             font-size: x-large;
             left: 90px;
-            -webkit-transform: rotate(90deg);/* Safari and Chrome */
-    -moz-transform: rotate(90deg); /* Firefox */
-    -ms-transform: rotate(90deg); /* ie9 */
-    -o-transform: rotate(90deg); /* Opera */
+            transform: rotate(90deg);
+            -webkit-transform: rotate(90deg); /* Safari and Chrome */
+            -moz-transform: rotate(90deg); /* Firefox */
+            -ms-transform: rotate(90deg); /* ie9 */
+            -o-transform: rotate(90deg); /* Opera */
         }
     }
 
@@ -29,19 +29,9 @@ div.grid {
     }
 }
 
-
-ul.horizontal > li { 
-    display: inline-block;
-}
-
 @media screen and (max-width: 700px) {
 
-    ul.horizontal > li { 
-        display: flex !important;
-    }
-
     div.grid {
-    
         text-align: center;
 
         ul {
@@ -49,10 +39,9 @@ ul.horizontal > li {
             align-items: center;
             flex-direction: column;
         }
-
     }
 
     .title {
-        display:none;
+        display: none;
     }
 }

@@ -3,18 +3,18 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import { AnimateSharedLayout, AnimatePresence } from "framer-motion";
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Home from './Content/Pages/Home';
-import About from './Content/Pages/About';
+import ReactTooltip from 'react-tooltip';
+import Home from './content/pages/home';
+import About from './content/pages/about';
 import './index.scss';
 
 ReactDOM.render(
   <React.StrictMode>
     <AnimateSharedLayout type="crossfade">
+    <ReactTooltip /> 
     <Router>
-          <AnimatePresence exitBeforeEnter initial={false}>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/about" component={About} />
-          </AnimatePresence>
+              <Route key="home" exact  path={["/article/:id", "/"]} component={Home} />
+              <Route key="about" exact path="/about" component={About} />
     </Router>
     </AnimateSharedLayout>
   </React.StrictMode>,
