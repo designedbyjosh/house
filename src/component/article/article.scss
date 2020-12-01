@@ -20,11 +20,13 @@
 }
 
 .viewport {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+  overflow-y:scroll;
+  z-index: 999;
 }
 
 .article {
@@ -68,12 +70,27 @@
     }
 
     .article-content-container {
-      margin-top: 460px;
-      padding: 35px;
+      padding-top: 460px;
       width: 100%;
-      background-color: rgb(39, 39, 39);
       color: white;
       z-index: 15;
+
+      .text {
+        background-color: rgb(27, 27, 27);
+        padding: 35px 60px;
+        line-height: 150%;
+        text-align: justify;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-size: x-large;
+      }
     }
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .article-content {
+
+    max-width: 100% !important;
+
   }
 }
