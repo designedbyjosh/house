@@ -1,0 +1,79 @@
+.overlay {
+  z-index: 6;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.8);
+  will-change: opacity;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  pointer-events: none;
+
+  .open-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+.viewport {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.article {
+  top: 50px;
+  margin-bottom: 150px;
+  left: 0;
+  right: 0;
+  position: relative;
+  pointer-events: none;
+  z-index: 10;
+
+  .article-content {
+    border-radius: 50px;
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    height: auto;
+    margin: 0 auto;
+    max-width: 50%;
+    overflow-y: auto;
+
+    .article-image-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+    }
+
+    .article-title-container {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      max-width: 300px;
+      font-size: 30px;
+      text-align: left;
+      color: white;
+
+      h2 {
+        margin: 0px;
+      }
+    }
+
+    .article-content-container {
+      margin-top: 460px;
+      padding: 35px;
+      width: 100%;
+      background-color: rgb(39, 39, 39);
+      color: white;
+      z-index: 15;
+    }
+  }
+}

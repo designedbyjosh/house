@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
-import Box from '../../../Components/Box';
-import Grid from '../../../Components/Grid'
+import Box from '../../../component/article';
+import Grid from '../../../component/grid'
 
 function About() {
   return (
