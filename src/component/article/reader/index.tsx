@@ -40,6 +40,7 @@ function Reader({ article }: ReaderProps) {
                         className="article-image-container open"
                         style={{ backgroundColor: !metadata.image ? metadata.backgroundColor : 'black' }}
                         layoutId={`article-image-container-${metadata.id}`}>
+                            {/* eslint-disable-next-line*/}
                         <img
                             alt={metadata.image?.alt}
                             style={{ opacity: metadata.brightness }}
