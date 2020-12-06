@@ -2,12 +2,7 @@ name: "Deployment"
 
 on:
   push:
-    branches: [ master ]
-
-env:
-  AZURE_WEBAPP_NAME: josh.house    # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: './build'      # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '14.15.1'                # set this to the node version to use
+    branches: [ feature/ci ]
 
 jobs:
   build-and-deploy:
@@ -34,8 +29,3 @@ jobs:
       with:
         name: build
         path: build.zip
-    - name: Deploy to Production
-      uses: TravisSpomer/deploy-to-azure-storage@v1
-      with:
-        source-path: build
-        sas-url: ${{ secrets.DEPLOY_SAS_URL }}
