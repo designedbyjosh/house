@@ -1,32 +1,50 @@
 import React from 'react';
-import Box from '../../../component/article';
 import Grid from '../../../component/grid'
 import { AnimatePresence, motion } from 'framer-motion';
-import { posts } from '../../articles/articles'
+import articles, { idToArticle } from '../../articles'
 import './home.scss';
-import Thumbnail from '../../../component/thumbnail';
-import Article from '../../../component/article';
+import Thumbnail from '../../../component/article/thumbnail';
+import Reader from '../../../component/article/reader';
 
-function Home({match, history}: any) {
-  console.log(match)
+/**
+ * The home page is what everyone will see when they first visit the website (beyond referral links)
+ * 
+ * @author Josh <code@josh.house>
+ */
+function Home({ match, history }: any) {
 
   const id = match?.params?.id
+
+  const posts = Object.keys(articles).map((id) => {
+
+    // Convert id to article
+    const article = idToArticle(id)
+
+    // Determine if the article is meant to be available yet
+    if (Date.now() > article.metadata.published) {
+      return <Thumbnail metadata={article.metadata} />
+    }
+    
+    // By default return nothing
+    return null
+    
+  })
 
   return (
     <div className="home">
       <motion.h2 initial="hidden" animate="show">
-          Josh <span style={{opacity: 0.3}}> LIVES HERE</span>
+        Josh <span style={{ opacity: 0.3 }}> LIVES HERE</span>
       </motion.h2>
       <motion.p initial="hidden" animate="show">
-          I'm an Australian <span data-tip="Bachelor of Mechatronics Engineering (Honours)">hardware</span> and <span data-tip="Bachelor of Computer Science">software</span> engineer.
+        I'm an Australian <span data-tip="Bachelor of Mechatronics Engineering (Honours)">hardware</span> and <span data-tip="Bachelor of Computer Science">software</span> engineer.
       </motion.p>
-      <Grid id="software" title="Posts">
-        {posts.map((item) => <Thumbnail selected={item.id === id} key={item.id} {...item} />)}
+      <Grid title="Posts">
+        {posts}
       </Grid>
       <AnimatePresence>
-        {id && <Article id={id} />}
+        {id && <Reader article={idToArticle(id)} />}
       </AnimatePresence>
-     
+
     </div>
   );
 }

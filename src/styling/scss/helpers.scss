@@ -1,0 +1,20 @@
+.expanded {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.expanded-fixed {
+    @extend .expanded;
+    position: fixed;
+}
+
+.expanded-absolute {
+    @extend .expanded;
+    position: absolute;
+}
+
+.clickable {
+    cursor: pointer;
+}

@@ -1,0 +1,60 @@
+@import "../../../styling/scss/index.scss";
+@import "../article.scss";
+
+
+.overlay {  
+  @extend .expanded-fixed;
+  z-index: 1;
+  background: $dark-transluscent;
+  will-change: opacity;
+  pointer-events: none;
+}
+
+.viewport {
+  @extend .expanded-fixed;
+  overflow-y:scroll;
+}
+
+.article-body {
+  width: 100%;
+  color: white;
+  padding: $medium-padding $large-padding;
+  box-sizing: border-box;
+}
+
+.article-body.text {
+    background-color: $not-quite-dark;
+    line-height: 150%;
+    text-align: justify;
+    font-family:  serif;
+    font-size: large;
+    border-bottom: $dark-border;
+}
+
+.article-body.metadata {
+  display: flex;
+  background-color: $pretty-much-dark;
+  font-size: small;
+  color: rgba(255,255,255,0.5);
+
+  > div {
+    display: flex;
+    flex: 1;
+    width: 100%;
+  }
+
+  > div:first-child {
+    justify-content: flex-start;
+  }
+
+  > div:nth-child() {
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  > div:last-child {
+    justify-content: flex-end;
+    text-align: end;
+  }
+}
