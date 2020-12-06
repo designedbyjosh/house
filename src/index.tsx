@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
-import { AnimateSharedLayout, AnimatePresence } from "framer-motion";
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { AnimateSharedLayout } from "framer-motion";
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import Home from './content/pages/home';
 import './styling/scss/index.scss';
