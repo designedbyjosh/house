@@ -23,7 +23,16 @@ jobs:
     - name: Build
       run: |
         npm run-script build --if-present
-    - name: Deploy to Azure
+    - name: Zip Build
+      uses: montudor/action-zip@v0.1.1
+      with:
+        args: zip -qq -r build.zip build
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: build.zip
+    - name: Deploy to Production
       uses: TravisSpomer/deploy-to-azure-storage@v1
       with:
         source-path: build
