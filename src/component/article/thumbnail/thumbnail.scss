@@ -1,0 +1,40 @@
+li.thumbnail {
+  flex: 0 0 40%;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  padding: 25px;
+}
+
+li.thumbnail:nth-child(4n + 1),
+li.thumbnail:nth-child(4n + 4) {
+  flex: 0 0 60%;
+  max-width: 60%;
+}
+
+li.thumbnail:nth-child(2n - 3) {
+  padding-left: 0px;
+}
+
+li.thumbnail:nth-child(2n) {
+  padding-right: 0px;
+}
+
+@media only screen and (max-width: 900px) {
+  li.thumbnail {
+    flex: 1 0 100% !important;
+    max-width: 100% !important;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  li.thumbnail:nth-child(4n + 1),
+  li.thumbnail:nth-child(4n + 4) {
+    flex: 1 0 100%;
+    max-width: 100%;
+  }
+
+  li.thumbnail-content-container.open {
+    padding: 0;
+  }
+}

@@ -1,0 +1,47 @@
+div.grid {
+    ul {
+        padding: 20px;
+        padding-top: 0px;
+        box-sizing: border-box;
+        list-style-type: none;
+        margin: 0px;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+    }
+
+    h2 {
+        margin-left: 10px;
+        text-align: left;
+        color: white;
+    }
+}
+
+.title {
+    position: absolute;
+    color: white;
+    margin-top: 0px;
+    padding-top: 115px;
+    font-size: xx-large;
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg); /* Safari and Chrome */
+    -moz-transform: rotate(90deg); /* Firefox */
+    -ms-transform: rotate(90deg); /* ie9 */
+    -o-transform: rotate(90deg); /* Opera */
+}
+
+@media screen and (max-width: 600px) {
+
+    div.grid {
+
+        ul {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+    }
+
+    .title {
+        display: none;
+    }
+}
