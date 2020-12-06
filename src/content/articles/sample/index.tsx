@@ -17,7 +17,7 @@ const metadata = {
   title: "This is a sample post",
   focusIndex: 120,
   backgroundColor: "#959684",
-  image: {URL: new URL("https://content.fortune.com/wp-content/uploads/2015/06/gettyimages-470851485.jpg"), author: "Ethan Miller (Getty Images)", alt: "Shangai Solar Farm by Oakland"},
+  image: {URL: new URL("https://content.fortune.com/wp-content/uploads/2015/06/gettyimages-470851485.jpg"), author: "Ethan Miller (Getty)", alt: "Shangai Solar Farm by Oakland"},
   published: Date.parse("2020-10-30T12:00:00Z")
 } as ArticleMetadata
 

@@ -2,8 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShareAlt, faShareAltSquare } from '@fortawesome/free-solid-svg-icons'
 import './reader.scss';
 import '../article.scss';
 
