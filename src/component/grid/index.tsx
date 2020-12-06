@@ -1,45 +1,38 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import './grid.scss';
+import { fade, staggered } from '../../styling/animations/transitions';
 
 type GridProps = {
   children?: any,
-  horizontal?: boolean,
   title?: string,
-  id: string
+  id?: string
 }
 
-function Grid({ id, title, children, horizontal = false }: GridProps) {
-
-  const [active, setActive] = useState(false);
-
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-    }
-  };
-
-  const listItem = {
-    hidden: { opacity: 0 },
-    show: { opacity: 1 }
-  };
+/**
+ * A grid contains multiple grid elements (usually thumbnails) that are transitioned in
+ * 
+ * @author Josh <code@josh.house>
+ */
+function Grid({ id, title, children = false }: GridProps) {
 
   return (
-    <div className="grid">
-      <AnimatePresence>
-        <motion.ul
-          layout 
-          key={`ul-${id}`}
-          className="horizontal"
-          variants={container}
-          initial="hidden"
-          animate="show"
-          onMouseLeave={() => setActive(false)}
-          onMouseEnter={() => setActive(true)}>
-          {children}
-        </motion.ul>
-      </AnimatePresence>
+    <div
+      key={`grid-${id}`}
+      className="grid">
+      {title && <motion.span
+        variants={fade}
+        className="title">
+        {title}
+      </motion.span>}
+      <motion.ul
+        initial="hidden"
+        animate="show"
+        variants={staggered}
+        layout
+        className="horizontal">
+        {children}
+      </motion.ul>
     </div>
   );
 }
