@@ -1,6 +1,6 @@
 on:
   push:
-    branches: [ feature/ci ]
+    branches: [ master ]
 
 env:
   AZURE_WEBAPP_NAME: josh.house    # set this to your application's name
