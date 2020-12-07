@@ -80,4 +80,8 @@
     .article-content {
         max-width: 100% !important;
     }
+
+    .article-body.text {
+        padding: $medium-padding;
+    }
 }

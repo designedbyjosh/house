@@ -19,6 +19,16 @@ function Reader({ article }: ReaderProps) {
     const { content, metadata } = article;
     const Content = content;
 
+    const parent = {
+        expanded: { opacity: 1 },
+        withdrawn: { opacity: 0.5 }
+    }
+
+    const child = {
+        expanded: { scale: 1 },
+        withdrawn: { scale: 0 }
+    }
+
     return (
         <div className="viewport">
             <motion.div
@@ -40,29 +50,37 @@ function Reader({ article }: ReaderProps) {
                         className="article-image-container open"
                         style={{ backgroundColor: !metadata.image ? metadata.backgroundColor : 'black' }}
                         layoutId={`article-image-container-${metadata.id}`}>
-                            {/* eslint-disable-next-line*/}
+                        {/* eslint-disable-next-line*/}
                         <img
                             alt={metadata.image?.alt}
                             style={{ opacity: metadata.brightness }}
-                            src={metadata.image?.URL.toString()} />
+                            src={metadata.image?.src!} />
                     </motion.div>
                     <motion.div
                         className="article-title-container open"
                         layoutId={`article-title-container-${metadata.id}`}>
                         <h2>{metadata.title}</h2>
                     </motion.div>
-                    <div className="article-body text" >
-                        {<Content />}
-                    </div>
-                    <div className="article-body metadata">
-                        <div >
-                        <span className="reference">Cover by <a href={metadata.image?.URL.toString()}> {metadata.image?.author}</a></span>
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                        <div className="article-body tldr" >
+                            {metadata.tldr && <div>
+                                <h4>tl;dr</h4>
+                                <span>{metadata.tldr}</span>
+                            </div>}
                         </div>
-                        <div >
-                         
-                         <span data-tip={moment(metadata.published).toLocaleString()}>Published {moment(metadata.published).fromNow()}</span>
+                        <div className="article-body text" >
+                            {<Content />}
                         </div>
-                    </div>
+                        <div className="article-body metadata">
+                            <div >
+                                <span className="reference">Cover by {metadata.image?.author}</span>
+                            </div>
+                            <div >
+
+                                <span data-tip={moment(metadata.published).toLocaleString()}>Published {moment(metadata.published).fromNow()}</span>
+                            </div>
+                        </div>
+                    </motion.div>
                 </motion.div>
             </div>
         </div>

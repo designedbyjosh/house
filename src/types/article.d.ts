@@ -6,11 +6,12 @@ interface ArticleMetadata {
     backgroundColor: string,
     image?: ReferencedImage,
     brightness?: number,
-    published: any
+    published: any,
+    tldr?: string
 }
 
 interface ReferencedImage {
-    URL: URL,
+    src: string
     author: string,
     alt: string
 }

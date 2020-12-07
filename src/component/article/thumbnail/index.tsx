@@ -31,7 +31,7 @@ function Thumbnail({ metadata }: ThumbnailProps) {
                         layoutId={`article-image-container-${metadata.id}`}
                         style={{ backgroundColor: !metadata.image ? metadata.backgroundColor : 'black', left: -metadata.focusIndex! }}>
                         <img
-                            src={metadata.image?.URL.toString()!}
+                            src={metadata.image?.src!}
                             style={{ opacity: metadata.brightness! }}
                             alt="" />
                     </motion.div>
