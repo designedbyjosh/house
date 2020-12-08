@@ -86,10 +86,11 @@ const content: React.FC = () => {
 
 const metadata = {
   id: "reflectance",
-  category: "Academic",
+  category: {name: "Academic", icon: "fas fa-books"},
   title: "Cameras, mirrors and soiling? A year of reflection",
   focusIndex: 120,
-  backgroundColor: "#959684",
+  color: "#2cb2ff",
+  backgroundColor: "dark-gray",
   image: { src: solar, author: "Ethan Miller (Getty)", alt: "Shangai Solar Farm by Oakland" },
   published: Date.parse("2020-10-30T12:00:00Z"),
   tldr: "i researched, using long range cameras with existing methods, a way to estimate reflectance of mirrors for large solar farms."

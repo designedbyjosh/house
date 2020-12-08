@@ -7,6 +7,7 @@ $large-border-radius: 30px;
 $dark-transluscent: rgba(0, 0, 0, 0.92);
 $not-quite-dark: rgb(27, 27, 27);
 $pretty-much-dark:  rgb(14, 14, 14);
+$faded-white: rgba(255,255,255,0.5);
 
 // Border definitions
 $dark-border: 3px solid  $pretty-much-dark;
@@ -15,3 +16,13 @@ $dark-border: 3px solid  $pretty-much-dark;
 $small-padding: 10px;
 $medium-padding: 25px;
 $large-padding: 50px;
+
+// Sizing definitions
+$max-page-width: 900px;
+
+// Font sizing definitions
+$x-small-font: 15px;
+$small-font: 25px;
+$medium-font: 35px;
+$large-font: 50px;
+$x-large-font: 75px;

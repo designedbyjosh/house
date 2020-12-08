@@ -40,6 +40,11 @@ function Thumbnail({ metadata }: ThumbnailProps) {
                         layoutId={`article-title-container-${metadata.id}`}>
                         <h2>{metadata.title}</h2>
                     </motion.div>
+                    <motion.div
+                        className="article-metadata-container"
+                        layoutId={`article-metadata-container-${metadata.id}`}>
+                        <h2><i className={metadata.category.icon}></i></h2>
+                    </motion.div>
                 </motion.div>
                 <Link
                     className={`expanded-absolute`} 

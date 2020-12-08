@@ -19,16 +19,6 @@ function Reader({ article }: ReaderProps) {
     const { content, metadata } = article;
     const Content = content;
 
-    const parent = {
-        expanded: { opacity: 1 },
-        withdrawn: { opacity: 0.5 }
-    }
-
-    const child = {
-        expanded: { scale: 1 },
-        withdrawn: { scale: 0 }
-    }
-
     return (
         <div className="viewport">
             <motion.div
@@ -45,6 +35,7 @@ function Reader({ article }: ReaderProps) {
                     className="article-content open"
                     layoutId={`article-container-${metadata.id}`}>
                     <motion.div
+                        data-tip-delay={500}
                         data-tip={`Image captured by ${metadata.image?.author}`}
                         data-place="right"
                         className="article-image-container open"
@@ -61,10 +52,21 @@ function Reader({ article }: ReaderProps) {
                         layoutId={`article-title-container-${metadata.id}`}>
                         <h2>{metadata.title}</h2>
                     </motion.div>
+                    <motion.div
+                        className="article-close-button open">
+                        <h2> <i className="fas fa-times-circle clickable"><Link className="expanded-absolute"to="/" /></i></h2>
+                    </motion.div>
+                    <motion.div
+                        className="article-metadata-container open"
+                        layoutId={`article-metadata-container-${metadata.id}`}>
+                        <motion.h2 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}}>{moment(metadata.published).fromNow()}</motion.h2>
+                        <motion.h2 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}} style={{color: metadata.color}}>#{metadata.category.name}</motion.h2>
+                        <h2 data-tip={metadata.category}><i className={metadata.category.icon}></i></h2>
+                    </motion.div>
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                         <div className="article-body tldr" >
                             {metadata.tldr && <div>
-                                <h4>tl;dr</h4>
+                                <h4 style={{color: metadata.color}}>tl;dr</h4>
                                 <span>{metadata.tldr}</span>
                             </div>}
                         </div>

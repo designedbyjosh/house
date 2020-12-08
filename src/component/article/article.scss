@@ -1,10 +1,13 @@
 @import "../../styling/scss/index.scss";
 
+$thumbnail-height: 350px;
+$article-expanded-width: 700px;
+$thumbnail-width: 350px;
+
 .article-container {
-    height: 350px;
+    height: $thumbnail-height;
     box-sizing: border-box;
     position: relative;
-    min-width: 250px;
     pointer-events: auto;
 }
 
@@ -19,8 +22,7 @@
 }
 
 .article-container.open {
-    top: 50px;
-    margin-bottom: 150px;
+    top: $large-padding;
     left: 0;
     right: 0;
     pointer-events: none;
@@ -29,25 +31,84 @@
 .article-content.open {
     position: relative;
     height: auto !important;
-    max-width: 700px;
+    max-width: $article-expanded-width;
     overflow-y: auto;
     pointer-events: auto;
     display: block;
 }
 
-.article-title-container {
+.article-overlay-container {
     position: absolute;
-    top: 25px;
-    left: 25px;
-    width: 300px;
-    height: 420px;
-    font-size: 25px;
-    text-align: left;
+    height: $thumbnail-height;
     color: white;
+    top: 0px;
+    left: 0px;
+    box-sizing: border-box;
 
     > h2 {
         margin: 0px;
     }
+}
+
+.article-close-button.open {
+    @extend .article-overlay-container;
+    width: 100%;
+    text-align: right;
+    padding: $medium-padding;
+    font-size: $small-font;
+
+    > h2 {
+        @extend .transition-opacity;
+        z-index: 6;
+        opacity: 0.5;
+    }
+
+    > h2:hover {
+        opacity: 1;
+    }
+    
+}
+
+.article-title-container {
+    @extend .article-overlay-container;
+    padding: $medium-padding;
+    width: $thumbnail-width;
+    font-size: $small-font;
+    text-align: left;
+}
+
+.article-title-container.open {
+    top: $medium-padding;
+    left: $medium-padding;
+}
+
+.article-metadata-container {
+    @extend .article-overlay-container;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    pointer-events: none;
+    text-align: right;
+    width: 100%;
+    padding: $medium-padding;
+    
+    > h2 {
+        font-size: $x-small-font;
+        margin-left: $small-padding;
+    }
+}
+
+.article-metadata-container.open {
+    padding: $large-padding;
+
+    > h2 {
+        z-index: 6;
+    }
+}
+
+
+.article-close-button {
+  
 }
 
 .article-image-container {
@@ -55,7 +116,7 @@
     left: 0;
     background-color: black;
     overflow: hidden;
-    height: 420px;
+    height: $thumbnail-height;
     min-width: 750px;
     position: absolute;
 
@@ -76,12 +137,16 @@
     z-index: 5;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 500px) {
     .article-content {
         max-width: 100% !important;
     }
 
     .article-body.text {
         padding: $medium-padding;
+    }
+
+    .article-title-container {
+        width: 250px;
     }
 }

@@ -54,13 +54,13 @@
     }
 
     > .tiny {
-      font-size: small;
+      font-size: $x-small-font;
       font-style: italic;
     }
 
     > .caption {
       opacity: 0.5;
-      font-size: small;
+      font-size: $x-small-font;
       line-height: normal;
     }
 }
@@ -80,8 +80,11 @@
 .article-body.metadata {
   display: flex;
   background-color: $pretty-much-dark;
-  font-size: small;
-  color: rgba(255,255,255,0.5);
+  font-size: $x-small-font;
+  color: $faded-white;
+  margin-bottom: $medium-padding;
+  border-radius: 0px 0px  $medium-border-radius $medium-border-radius;
+  pointer-events: none;
 
   > div {
     display: flex;
