@@ -3,12 +3,29 @@ on:
     # Sequence of patterns matched against refs/tags
     tags:
     - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
-
-name: Upload Release Asset
+name: "Project House"
 
 jobs:
+  analyze:
+    name: Analyze Security
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: ${{ matrix.language }}
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
   build:
-    name: Upload Release Asset
+    name: Build and Release
     runs-on: ubuntu-latest
     steps:
       # 1. Checkout the code
