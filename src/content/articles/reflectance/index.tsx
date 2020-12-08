@@ -4,13 +4,13 @@ import Image from '../../../component/article/image';
 
 const Content: React.FC = () => {
 
+  // Create the URL path for this article for assets
   const base = `${process.env.REACT_APP_BASE_URL}/${metadata.id}`
 
-  console.log(metadata.image)
-
+  // Used to store chart data
   const [chartData, setChartData] = useState<any>(null);
 
-  // Retrieve chart data
+  // Retrieve chart data on page load
   useEffect(() => {
     fetch(`${base}/reflectance_data.json`)
     .then(response => response.json())
@@ -18,8 +18,7 @@ const Content: React.FC = () => {
       .catch((error) => console.error(error))
   }, [base])
 
-  console.log(chartData)
-
+  // Create the charts where needed
   const chartOne = <div style={{textAlign: "center" }}>
     {chartData ? <ResponsiveContainer height={300} width="90%">
       <LineChart data={chartData?.average_error_simulated}>
@@ -88,7 +87,6 @@ const Content: React.FC = () => {
       <p className="sidenote tiny">P.S. This article contains references to unpublished research (hence the omission of author names). When the primary research that this project extends upon is published, this article will be updated with references and links to the published research as well as an opportunity to download my thesis. Please direct inquiries to my <a href="mailto:blog@josh.house">email</a> if you have questions.</p>
     </>
   )
-
 }
 
 const metadata = {
