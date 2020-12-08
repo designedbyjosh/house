@@ -105,3 +105,9 @@
     text-align: end;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .article-body {
+    padding: $medium-padding !important;
+  }
+}
