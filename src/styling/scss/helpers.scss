@@ -17,4 +17,14 @@
 
 .clickable {
     cursor: pointer;
+    position: relative;
+}
+
+$transition-speed: .2s;
+
+.transition-opacity {
+    transition: opacity $transition-speed ease-out;
+    -moz-transition: opacity $transition-speed ease-out;
+    -webkit-transition: opacity $transition-speed ease-out;
+    -o-transition: opacity $transition-speed ease-out;
 }

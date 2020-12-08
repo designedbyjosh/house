@@ -1,7 +1,7 @@
-import sample from './sample';
+import reflectance from './reflectance';
 
 const articles = {
-    [sample.metadata.id]: sample
+    [reflectance.metadata.id]: reflectance
 } as Articles;
 
 export const idToArticle = (id: string): Article => articles[id];

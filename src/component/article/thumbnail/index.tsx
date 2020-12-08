@@ -31,7 +31,7 @@ function Thumbnail({ metadata }: ThumbnailProps) {
                         layoutId={`article-image-container-${metadata.id}`}
                         style={{ backgroundColor: !metadata.image ? metadata.backgroundColor : 'black', left: -metadata.focusIndex! }}>
                         <img
-                            src={metadata.image?.URL.toString()!}
+                            src={metadata.image?.src!}
                             style={{ opacity: metadata.brightness! }}
                             alt="" />
                     </motion.div>
@@ -39,6 +39,11 @@ function Thumbnail({ metadata }: ThumbnailProps) {
                         className="article-title-container"
                         layoutId={`article-title-container-${metadata.id}`}>
                         <h2>{metadata.title}</h2>
+                    </motion.div>
+                    <motion.div
+                        className="article-metadata-container"
+                        layoutId={`article-metadata-container-${metadata.id}`}>
+                        <h2><i className={metadata.category.icon}></i></h2>
                     </motion.div>
                 </motion.div>
                 <Link
