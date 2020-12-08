@@ -10,7 +10,7 @@
   <p align="center">
     A 🔥🗑️ that is my personal website that definitely hasn't been me trying and failing seven times to showcase what I have and haven't done.
     <br />
-    <a href="https://github.com/designedbyjosh/housepeak"><strong>View the website »</strong></a>
+    <a href="https://josh.house"><strong>View the website »</strong></a>
     <br />
     <br />
     <a href="https://incubator.josh.house">Incubator Deployment</a>
