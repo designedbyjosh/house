@@ -15,13 +15,13 @@ function Home({ match, history }: any) {
 
   const id = match?.params?.id
 
-  const posts = Object.keys(articles).map((id) => {
+  const posts = Object.keys(articles).map((reference) => {
 
     // Convert id to article
-    const article = idToArticle(id)
+    const article = idToArticle(reference)
 
     // Determine if the article is meant to be available yet
-    if (Date.now() > article.metadata.published) {
+    if (Date.now() > article.metadata.published && reference !== id) {
       return <Thumbnail metadata={article.metadata} />
     }
     
@@ -32,9 +32,9 @@ function Home({ match, history }: any) {
 
   return (
     <div className="home">
-      <motion.h2 initial="hidden" animate="show">
-        Josh <span style={{ opacity: 0.3 }}> LIVES HERE</span>
-      </motion.h2>
+      <motion.h3 initial="hidden" animate="show">
+        Josh <span style={{ opacity: 0.3 }}> lives here</span>
+      </motion.h3>
       <motion.p initial="hidden" animate="show">
         I'm an Australian <span data-tip="Bachelor of Mechatronics Engineering (Honours)">hardware</span> and <span data-tip="Bachelor of Computer Science">software</span> engineer.
       </motion.p>

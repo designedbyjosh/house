@@ -45,7 +45,7 @@ $thumbnail-width: 350px;
     left: 0px;
     box-sizing: border-box;
 
-    > h2 {
+    > h2, h1 {
         margin: 0px;
     }
 }
@@ -57,13 +57,13 @@ $thumbnail-width: 350px;
     padding: $medium-padding;
     font-size: $small-font;
 
-    > h2 {
+    > h2, h1 {
         @extend .transition-opacity;
         z-index: 6;
         opacity: 0.5;
     }
 
-    > h2:hover {
+    > h2:hover, h1:hover {
         opacity: 1;
     }
     
@@ -78,6 +78,7 @@ $thumbnail-width: 350px;
 }
 
 .article-title-container.open {
+    z-index: 6;
     padding: $large-padding;
 }
 
@@ -91,7 +92,7 @@ $thumbnail-width: 350px;
     width: 100%;
     padding: $medium-padding;
     
-    > h2 {
+    > h2, h1, h3 {
         font-size: $x-small-font;
         margin-left: $x-small-padding;
     }
@@ -100,7 +101,7 @@ $thumbnail-width: 350px;
 .article-metadata-container.open {
     padding: $large-padding;
 
-    > h2 {
+    > h2, h1, h3 {
         z-index: 6;
     }
 }

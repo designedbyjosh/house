@@ -17,8 +17,8 @@ const content: React.FC = () => {
       <LineChart data={simulated}>
         <XAxis stroke="white" domain = {['auto', 'auto']} minTickGap={50} dataKey="PPM" padding={{ left: 30, right: 30 }}/>
         <YAxis stroke="white"/>
-        <Tooltip contentStyle={{backgroundColor: 'slate', borderRadius: 20}} labelFormatter={(value) => `PPM: ${value}`} formatter={(value) => `${value}%`}/>
-        <Line type="monotone" dataKey="Error"  stroke="orange" dot={{r: 1}} activeDot={{ r: 8 }} />
+        <Tooltip contentStyle={{backgroundColor: 'black', borderRadius: 20}} labelFormatter={(value) => `PPM: ${value}`} formatter={(value) => `${value}%`}/>
+        <Line type="monotone" dataKey="Error"  stroke={metadata.color} dot={{r: 1}} activeDot={{ r: 8 }} />
       </LineChart>
     </ResponsiveContainer>
   </div>
@@ -55,7 +55,7 @@ const content: React.FC = () => {
         So, in early 2020, I set off with my giant mirrors, my camera and started testing the robustness of the estimation algorithm. <span className="sidenote">Plot twist, the algorithm was in development simultaneously to my research which introduced challenges but let's ignore those for now</span>. Over the following year, I quickly discovered that there is so much more to taking pictures than opening the Camera app and clicking that big white circle. You also have to take off the lens cap.
         </p>
       <p>
-        The project involved two stages in evaluating the robustness of the estimation algorithm to spatial resolution degradation in tandem with the effect of changing capture parameters. In English, what I'm saying is, let's say you move further and further away from your subject, how well does the estimation algorithm handle that extra distance (and less pixels per subject). The stages were <b>the Acquisition Phase</b>, where I physically took photos for my study, followed by <b>the Processing Phase</b>, where the images were processed and I made conclusions. Over 1000 images were taken over 11 different days with the total size of the dataset reaching almost 1TB in imagery.
+        The project involved two stages in evaluating the robustness of the estimation algorithm to pixel resolution degradation in tandem with the effect of changing capture parameters. In English, what I'm saying is, let's say you move further and further away from your subject, how well does the estimation algorithm handle that extra distance (and less pixels per subject). The stages were <b>the Acquisition Phase</b>, where I physically took photos for my study, followed by <b>the Processing Phase</b>, where the images were processed and I made conclusions. Over 1000 images were taken over 11 different days with the total size of the dataset reaching almost 1TB in imagery.
         </p>
       <p>
         Images were captured using a Canon EOS 550D from 2010 with an 18 megapixel (MP) effective resolution (18.7MP total). The camera type was a TTL-CT-SIR AF-dedicated with a CMOS sensor. I used a tripod to stabilise the camera, particularly when using low shutter-speeds, and three separate lenses were used for several different datasets.
@@ -92,7 +92,7 @@ const metadata = {
   backgroundColor: "dark-gray",
   image: { src: solar, author: "Ethan Miller (Getty)", alt: "Shangai Solar Farm by Oakland" },
   published: Date.parse("2020-10-30T12:00:00Z"),
-  tldr: "i researched, using long range cameras with existing methods, a way to estimate reflectance of mirrors for large solar farms."
+  tldr: "i researched a way to estimate reflectance of mirrors for large solar farms using long range cameras and existing reflectance estimation algorithms. Turns out, these algorithms are damn good at handling degraded pixel resolution. Data indicates that pixel resolution ranges down to 100PPM are still viable estimators to manual measurement of reflectance of a mirror."
 } as ArticleMetadata
 
 export default { metadata, content } as Article
