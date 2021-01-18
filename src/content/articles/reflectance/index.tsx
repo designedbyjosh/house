@@ -95,6 +95,7 @@ const metadata = {
   title: "Cameras, mirrors and soiling? A year of reflection",
   focusIndex: 120,
   color: "#2cb2ff",
+  showMetadata: true,
   backgroundColor: "dark-gray",
   image: { src: `${process.env.REACT_APP_BASE_URL}/reflectance/solar.jpg`, author: "Ethan Miller (Getty)", alt: "Shangai Solar Farm by Oakland" },
   published: Date.parse("2020-10-30T12:00:00Z"),

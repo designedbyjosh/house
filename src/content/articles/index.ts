@@ -1,10 +1,13 @@
 import reflectance from './reflectance';
+import sundance from './sundance';
 
-const articles = {
+export const posts = {
     [reflectance.metadata.id]: reflectance
 } as Articles;
 
-export const idToArticle = (id: string): Article => articles[id];
+export const projects = {
+    [sundance.metadata.id]: sundance
+} as Articles;
 
-export default articles;
+export const idToArticle = (id: string): Article => { return {...posts, ...projects}[id]};
 

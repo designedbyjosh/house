@@ -59,8 +59,8 @@ function Reader({ article }: ReaderProps) {
                     <motion.div
                         className="article-metadata-container open"
                         layoutId={`article-metadata-container-${metadata.id}`}>
-                        <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}}>{moment(metadata.published).fromNow()}</motion.h3>
-                        <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}} style={{color: metadata.color}}>#{metadata.category.name}</motion.h3>
+                        <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: metadata.showMetadata ? 1 : 0, y: 0}} transition={{delay: 0.5, duration: 0.3}}>{moment(metadata.published).fromNow()}</motion.h3>
+                        <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: metadata.showMetadata ? 1 : 0, y: 0}} transition={{delay: 0.5, duration: 0.3}} style={{color: metadata.color}}>#{metadata.category.name}</motion.h3>
                         <h3 data-tip={metadata.category}><i className={metadata.category.icon}></i></h3>
                     </motion.div>
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
@@ -74,11 +74,10 @@ function Reader({ article }: ReaderProps) {
                             {<Content />}
                         </div>
                         <div className="article-body metadata">
-                            <div >
-                                <span className="reference">Cover by {metadata.image?.author}</span>
+                            <div>
+                                <span className="reference">Cover {metadata.image?.author ? "by" : "is"} {metadata.image?.author || metadata.backgroundColor}</span>
                             </div>
-                            <div >
-
+                            <div style={{opacity: metadata.showMetadata ? 1 : 0}} >
                                 <span data-tip={moment(metadata.published).toLocaleString()}>Published {moment(metadata.published).fromNow()}</span>
                             </div>
                         </div>

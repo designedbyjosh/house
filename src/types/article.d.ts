@@ -8,7 +8,8 @@ interface ArticleMetadata {
     brightness?: number,
     published: any,
     tldr?: string,
-    color: string
+    color: string,
+    showMetadata: boolean
 }
 
 interface Category {
