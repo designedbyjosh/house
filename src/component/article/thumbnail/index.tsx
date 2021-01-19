@@ -16,6 +16,8 @@ type ThumbnailProps = {
  */
 function Thumbnail({ metadata }: ThumbnailProps) {
 
+    let Override = metadata.thumbnail;
+
     return (
         <motion.li
             variants={fade}
@@ -26,29 +28,33 @@ function Thumbnail({ metadata }: ThumbnailProps) {
                 <motion.div
                     className="article-content"
                     layoutId={`article-container-${metadata.id}`}>
-                    <motion.div
-                        className="article-image-container"
-                        layoutId={`article-image-container-${metadata.id}`}
-                        style={{ backgroundColor: !metadata.image ? metadata.backgroundColor : 'black', left: -metadata.focusIndex! }}>
-                        <img
-                            src={metadata.image?.src!}
-                            style={{ opacity: metadata.brightness! }}
-                            alt="" />
-                    </motion.div>
-                    <motion.div
-                        className="article-title-container"
-                        layoutId={`article-title-container-${metadata.id}`}>
-                        <h2>{metadata.title}</h2>
-                    </motion.div>
-                    <motion.div
-                        className="article-metadata-container"
-                        layoutId={`article-metadata-container-${metadata.id}`}>
-                        <h2><i className={metadata.category.icon}></i></h2>
-                    </motion.div>
+                    {Override
+                        ? <Override />
+                        : <>
+                            <motion.div
+                                className="article-image-container"
+                                layoutId={`article-image-container-${metadata.id}`}
+                                style={{ backgroundColor: !metadata.image ? metadata.backgroundColor : 'black', left: -metadata.focusIndex! }}>
+                                <img
+                                    src={metadata.image?.src!}
+                                    style={{ opacity: metadata.brightness! }}
+                                    alt="" />
+                            </motion.div>
+                            <motion.div
+                                className="article-title-container"
+                                layoutId={`article-title-container-${metadata.id}`}>
+                                <h2>{metadata.title}</h2>
+                            </motion.div>
+                            <motion.div
+                                className="article-metadata-container"
+                                layoutId={`article-metadata-container-${metadata.id}`}>
+                                <h2><i className={metadata.category.icon}></i></h2>
+                            </motion.div>
+                        </>}
                 </motion.div>
                 <Link
-                    className={`expanded-absolute`} 
-                    to={`/article/${metadata.id}`}/>
+                    className={`expanded-absolute`}
+                    to={`/${metadata.type}/${metadata.id}`} />
             </motion.div>
 
         </motion.li>

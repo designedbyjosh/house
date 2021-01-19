@@ -16,7 +16,7 @@ ReactDOM.render(
       <Provider store={store}>
         <AnimateSharedLayout type="crossfade">
           <Router>
-            <Route key="home" exact path={["/article/:id", "/"]} component={Home} />
+            <Route key="home" exact path={["/:type/:id", "/"]} component={Home} />
           </Router>
         </AnimateSharedLayout>
       </Provider>

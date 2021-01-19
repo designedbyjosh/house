@@ -1,0 +1,30 @@
+.canvas {
+    flex: 1;
+    position: relative;
+    -webkit-user-select: none;
+	-webkit-user-drag: none;
+	-webkit-app-region: no-drag;
+    // Row
+    > div {
+        display: flex;
+        position: relative;
+
+        //Pixel
+        > div {
+            float: left;
+            flex: 1;
+        }
+
+        > div:hover {
+            opacity: 0.9;
+            cursor: pointer;
+
+        }
+
+        > div:before {
+            content: "";
+            float: left;
+            padding-top: 100%; /* initial ratio of 1:1*/
+        }
+    }
+}

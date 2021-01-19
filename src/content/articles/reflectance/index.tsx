@@ -91,6 +91,7 @@ const Content: React.FC = () => {
 
 const metadata = {
   id: "reflectance",
+  type: "article",
   category: { name: "Academic", icon: "fas fa-books" },
   title: "Cameras, mirrors and soiling? A year of reflection",
   focusIndex: 120,

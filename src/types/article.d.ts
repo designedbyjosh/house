@@ -1,3 +1,7 @@
+interface ThumbnailProps {
+    opened?: boolean
+}
+
 interface ArticleMetadata {
     id: string,
     category: Category,
@@ -9,7 +13,9 @@ interface ArticleMetadata {
     published: any,
     tldr?: string,
     color: string,
-    showMetadata: boolean
+    showMetadata: boolean,
+    thumbnail?: React.FC<ThumbnailProps>,
+    type: string
 }
 
 interface Category {
@@ -30,4 +36,8 @@ type Article = {
 
 interface Articles {
     [key: string]: Article
+}
+
+interface Projects extends Articles {
+    
 }

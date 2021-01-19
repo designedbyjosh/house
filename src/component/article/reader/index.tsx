@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import moment from 'moment';
 import './reader.scss';
 import '../article.scss';
@@ -16,8 +16,11 @@ type ReaderProps = {
  */
 function Reader({ article }: ReaderProps) {
 
+    if (article === null || article === undefined) return <Redirect to="/" />;
+
     const { content, metadata } = article;
     const Content = content;
+    let Override = metadata.thumbnail;
 
     return (
         <div className="viewport">
@@ -34,6 +37,9 @@ function Reader({ article }: ReaderProps) {
                 <motion.div
                     className="article-content open"
                     layoutId={`article-container-${metadata.id}`}>
+                    {Override 
+                    ? <Override opened /> 
+                    : <>
                     <motion.div
                         data-tip-delay={500}
                         data-tip={`Image captured by ${metadata.image?.author}`}
@@ -63,13 +69,14 @@ function Reader({ article }: ReaderProps) {
                         <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: metadata.showMetadata ? 1 : 0, y: 0}} transition={{delay: 0.5, duration: 0.3}} style={{color: metadata.color}}>#{metadata.category.name}</motion.h3>
                         <h3 data-tip={metadata.category}><i className={metadata.category.icon}></i></h3>
                     </motion.div>
+                    </>}
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                        <div className="article-body tldr" >
-                            {metadata.tldr && <div>
+                    {metadata.tldr && <div className="article-body tldr" >
+                            <div>
                                 <h4 style={{color: metadata.color}}>tl;dr</h4>
                                 <span>{metadata.tldr}</span>
-                            </div>}
-                        </div>
+                            </div>
+                        </div>}
                         <div className="article-body text" >
                             {<Content />}
                         </div>
