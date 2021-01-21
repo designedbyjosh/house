@@ -15,7 +15,8 @@ interface ArticleMetadata {
     color: string,
     showMetadata: boolean,
     thumbnail?: React.FC<ThumbnailProps>,
-    type: string
+    type: string,
+    wide?: boolean
 }
 
 interface Category {

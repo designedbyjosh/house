@@ -5,6 +5,10 @@
     right: 0;
 }
 
+.full-width {
+    width: 100%;
+}
+
 .expanded-fixed {
     @extend .expanded;
     position: fixed;

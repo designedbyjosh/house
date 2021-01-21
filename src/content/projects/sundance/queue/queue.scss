@@ -1,0 +1,11 @@
+.queue {
+    background-color: red;
+    width: 100%;
+    overflow-x: auto;
+
+    > div {
+        height: 20px;
+        width: 750px;
+        background-color: blue;
+    }
+}

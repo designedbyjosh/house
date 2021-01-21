@@ -8,9 +8,29 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
 
 .sundance-thumbnail.opened {
-    height: $thumbnail-height;
-    border-radius: $medium-border-radius $medium-border-radius 0px 0px;
+    border-radius: $medium-border-radius $medium-border-radius;
+    min-height: 350px;
+    
+}
+
+.sundance-panel {
+    @extend .curved-border;
+    margin: 25px 0px;
+    overflow: hidden;
+    
+}
+
+.sundance-control-panel {
+    background-color: $not-quite-dark;
+    border-top: $dark-border;
+    border-bottom: $dark-border;
+}
+
+.sundance-panel.footer {
+    @extend .curved-bottom-border;
+    margin-top: 0px;
 }

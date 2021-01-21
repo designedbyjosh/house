@@ -7,18 +7,22 @@ import ReactTooltip from 'react-tooltip';
 import Home from './content/pages/home';
 import './styling/scss/index.scss';
 import { Provider } from 'react-redux';
-import store from './store';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {store, persistor} from './store';
+import { PersistGate } from 'redux-persist/integration/react';
 
 ReactDOM.render(
   <React.StrictMode>
     <ReactTooltip />
     <div className="container">
       <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
         <AnimateSharedLayout type="crossfade">
           <Router>
             <Route key="home" exact path={["/:type/:id", "/"]} component={Home} />
           </Router>
         </AnimateSharedLayout>
+        </PersistGate>
       </Provider>
     </div>
   </React.StrictMode>,

@@ -1,6 +1,6 @@
 @import "../../styling/scss/index.scss";
 
-$thumbnail-height: 350px;
+$thumbnail-height: 240px;
 $article-expanded-width: 700px;
 $thumbnail-width: 350px;
 
@@ -120,6 +120,18 @@ $thumbnail-width: 350px;
         width: 750px;
         height: auto;
     }
+}
+
+.curved-bottom-border {
+    border-radius: 0px 0px $medium-border-radius $medium-border-radius;
+}
+
+.curved-top-border{
+    border-radius: $medium-border-radius $medium-border-radius 0px 0px ;
+}
+
+.curved-border {
+    border-radius: $medium-border-radius;
 }
 
 .article-image-container.open {

@@ -1,11 +1,60 @@
+@import "../../../../component/article/article.scss";
+
+.canvas-container {
+    width:100%;
+    background-color: #000000;
+    overflow: hidden;
+    position: relative;
+    min-height: $thumbnail-height;
+}
+
+.content-warning {
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+
+    > p {
+        max-width: 50%;
+        text-align: center;
+    }
+}
+
+.blurred {
+    filter: blur(20px) brightness(20%);
+    transition: 1s filter linear;
+    -webkit-transition: 1s -webkit-filter linear;
+    -moz-transition: 1s -moz-filter linear;
+    -ms-transition: 1s -ms-filter linear;
+    -o-transition: 1s -o-filter linear;
+    opacity: 0.5;
+}
+
 .canvas {
     flex: 1;
     position: relative;
     -webkit-user-select: none;
 	-webkit-user-drag: none;
-	-webkit-app-region: no-drag;
+    -webkit-app-region: no-drag;
+    -webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+
+    > .editing {
+        > div:hover {
+            opacity: 0.9;
+            cursor: pointer;
+
+        }
+    }
     // Row
-    > div {
+    > .canvas_row {
         display: flex;
         position: relative;
 
@@ -15,11 +64,7 @@
             flex: 1;
         }
 
-        > div:hover {
-            opacity: 0.9;
-            cursor: pointer;
-
-        }
+        
 
         > div:before {
             content: "";
@@ -27,4 +72,10 @@
             padding-top: 100%; /* initial ratio of 1:1*/
         }
     }
+}
+
+.color-picker {
+    justify-content: center;
+    padding: $small-padding !important;
+    box-sizing: border-box;
 }

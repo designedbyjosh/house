@@ -77,9 +77,14 @@ function Reader({ article }: ReaderProps) {
                                 <span>{metadata.tldr}</span>
                             </div>
                         </div>}
-                        <div className="article-body text" >
+                        {metadata.wide ? 
+                         <Content />
+                            :
+                            <div className="article-body text" >
                             {<Content />}
                         </div>
+                                }
+                       
                         <div className="article-body metadata">
                             <div>
                                 <span className="reference">Cover {metadata.image?.author ? "by" : "is"} {metadata.image?.author || metadata.backgroundColor}</span>
