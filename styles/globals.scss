@@ -51,6 +51,19 @@ div.links {
     margin-left: 10px;
   }
 }
+
+div.about {
+  padding: $medium-padding;
+  color: hsla(0, 0%, 100%, 0.8);
+  opacity: 0.7;
+  font-size: $small-font;
+  margin-top: 0px;
+
+  > p {
+    margin-top: 0px;
+  }
+}
+
 div.home { 
 
     flex: 1;
