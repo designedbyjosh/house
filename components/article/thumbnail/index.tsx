@@ -17,12 +17,12 @@ function Thumbnail({ metadata }: ThumbnailProps) {
     return (
             <motion.li
                 variants={fade}
-                className={`thumbnail umami--mouseover--thumbnail:${metadata.id}`}>
+                className={`thumbnail`}>
                 <Link
                         href={`/article/${metadata.id}`}>
                 <motion.div
                     key={`article-container-${metadata.id}`}
-                    className="article-container">
+                    className={`article-container umami--mouseover--thumbnail:${metadata.id} umami--click--thumbnail:${metadata.id}`}>
                     <motion.div
                         className="article-content"
                         layoutId={`article-container-${metadata.id}`}>

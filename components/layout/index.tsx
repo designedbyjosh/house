@@ -17,11 +17,11 @@ const Layout = ({ children }: any) => {
     <div className="home">
       <div className="header">
         <div className="titles">
-          <motion.h3 className="page-title umami--mouseover--title" initial="hidden" animate="show">
+          <motion.h3 className="page-title" initial="hidden" animate="show">
           <ReactTooltip />
             Josh <span style={{ opacity: 0.3 }}> lives here</span>
           </motion.h3>
-          <motion.p className="page-subtitle umami--mouseover--subtitle" initial="hidden" animate="show">
+          <motion.p className="page-subtitle" initial="hidden" animate="show">
             I design interfaces for physical and digital machines. I'm a <span className="umami--mouseover--hardware-degree" data-tip="Bachelor of Mechatronics Engineering (Honours)">hardware</span> and <span className="umami--mouseover--software-degree" data-tip="Bachelor of Computer Science">software</span> engineer from <span data-tip="that means Australia">down-under</span>.
           </motion.p>
         </div>
