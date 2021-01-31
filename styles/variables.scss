@@ -1,0 +1,29 @@
+// Border radius definitions
+$light-border-radius: 10px;
+$medium-border-radius: 20px;
+$large-border-radius: 30px;
+
+// Colour definitions
+$dark-transluscent: rgba(0, 0, 0, 0.92);
+$not-quite-dark: rgb(27, 27, 27);
+$pretty-much-dark:  rgb(14, 14, 14);
+$faded-white: rgba(255,255,255,0.5);
+
+// Border definitions
+$dark-border: 3px solid  $pretty-much-dark;
+
+// Padding definitions
+$x-small-padding: 10px;
+$small-padding: 15px;
+$medium-padding: 25px;
+$large-padding: 50px;
+
+// Sizing definitions
+$max-page-width: 950px;
+
+// Font sizing definitions
+$x-small-font: 12px;
+$small-font: 20px;
+$medium-font: 23px;
+$large-font: 40px;
+$x-large-font: 60px;
