@@ -18,7 +18,6 @@ const Layout = ({ children }: any) => {
       <div className="header">
         <div className="titles">
           <motion.h3 className="page-title" initial="hidden" animate="show">
-          <ReactTooltip />
             Josh <span style={{ opacity: 0.3 }}> lives here</span>
           </motion.h3>
           <motion.p className="page-subtitle" initial="hidden" animate="show">
@@ -31,8 +30,6 @@ const Layout = ({ children }: any) => {
         </div>
       </div>
       {children}
-
-
     </div>
   );
 }

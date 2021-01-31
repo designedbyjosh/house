@@ -12,6 +12,7 @@ function House({ Component, pageProps }) {
   return <div className="container">
       <Layout>
         <AnimateSharedLayout type="crossfade">
+        <ReactTooltip />
           <AnimatePresence>
             <Component {...pageProps} />
           </AnimatePresence>
