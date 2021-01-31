@@ -6,18 +6,6 @@ import Head from 'next/head';
 import ReactTooltip from 'react-tooltip';
 import { useRouter } from 'next/router';
 
-export async function getStaticPaths() {
-
-  const fs = require("fs");
-  const files = fs.readdirSync(`${process.cwd()}/content/articles`, "utf-8");
-  const articles = files.filter((fn) => fn.endsWith(".md")).map((article: string) => {return {params: {id: article.substr(0, article.length-3)}}});
-
-  return {
-    fallback: true,
-    paths: articles
-  }
-}
-
 export async function getStaticProps() {
 
   const fs = require("fs");
