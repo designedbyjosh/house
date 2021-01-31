@@ -21,7 +21,7 @@ So, let's go through - using the three points above on why client side applicati
 
 ## SEO
 
-<img src="https://josh-house.s3-ap-southeast-2.amazonaws.com/migrating-to-next/notveryhigh.mp4" width="100%">
+<img src="https://josh-house.s3-ap-southeast-2.amazonaws.com/migrating-to-next/notveryhigh.png" width="100%">
 
 Search Engine Optimisation (SEO) is how you climb the ladder of attention for your target users. Poor SEO equates to fewer users visiting your website. SEO relies on search engine crawlers successfully navigating your website and categorising and viewing its' contents. When a web crawler fails to parse your website, it'll be dismissed and drop in ranking. And yes, this website doesn't even appear in search at the moment (15 minutes after updating to NextJS), so in a way, that speaks for itself. There's a heap of other factors that affect SEO as well, such as how populated the search term you're targeting is (in my case, Josh's House tends to nick most of the traffic) or how useful your content *appears* to be.
 
