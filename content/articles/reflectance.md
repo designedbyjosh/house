@@ -1,7 +1,7 @@
 ---
  id: reflectance
  title: Cameras, mirrors and soiling? A year of reflection
- focusIndex: 120
+ focusIndex: 240
  color: 2cb2ff
  category: books
  backgroundColor: dark-gray

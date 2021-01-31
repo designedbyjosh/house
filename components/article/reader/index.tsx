@@ -16,10 +16,7 @@ type ReaderProps = {
  */
 function Reader({ article }: ReaderProps) {
 
-    console.log(article)
-
     const { content, metadata } = article;
-    const Content = content;
 
     return (
       <>
