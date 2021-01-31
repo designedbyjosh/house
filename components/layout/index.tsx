@@ -23,7 +23,7 @@ const Layout = ({ children }: any) => {
           </motion.h3>
           </Link>
           <motion.p className="page-subtitle" initial="hidden" animate="show">
-            I design interfaces for physical and digital systems. I'm a <span className="umami--mouseover--hardware-degree" data-tip="Bachelor of Mechatronics Engineering (Honours)">hardware</span> and <span className="umami--mouseover--software-degree" data-tip="Bachelor of Computer Science">software</span> engineer from <span data-tip="that means Australia">down-under</span>. <Link href="/about"><i className="fas clickable fa-sm fa-arrow-down"></i></Link>
+            I design interfaces for physical and digital systems. I'm a <span className="umami--mouseover--hardware-degree" data-tip="Bachelor of Mechatronics Engineering (Honours)">hardware</span> and <span className="umami--mouseover--software-degree" data-tip="Bachelor of Computer Science">software</span> engineer from <span data-tip="that means Australia">down-under</span>. <Link href="/about">more</Link>
           </motion.p>
         </div>
         <div className="links umami--mouseover-links">
