@@ -48,7 +48,7 @@ div.links {
   color: white;
 
   > * {
-    flex: 1;
+    margin-left: 10px;
   }
 }
 div.home { 
@@ -81,6 +81,7 @@ div.home {
           font-size: $small-font;
           margin-top: 0px;
           opacity: 0.7;
+          max-width: 75%;
         }
       }
     }
