@@ -1,6 +1,6 @@
 ---
  id: flooring-it
- title: I saved our floor and the planet with laminate
+ title: The mission to replace my old carpet with recycled laminate
  focusIndex: 300
  color: rgb(79,42,46)
  category: home
