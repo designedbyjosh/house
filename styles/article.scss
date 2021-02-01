@@ -78,7 +78,7 @@ $thumbnail-width: 350px;
     padding-top: $medium-padding;
     box-sizing: border-box;
     width: $thumbnail-width;
-    font-size: $medium-font;
+    font-size: $larger-font;
     text-align: left;
     font-family: 'Bebas Neue';
     z-index: 6;
@@ -123,7 +123,7 @@ $thumbnail-width: 350px;
     position: absolute;
 
     > img {
-        opacity: 0.8;
+        opacity: 0.5;
         width: $max-page-width;
         height: auto;
     }

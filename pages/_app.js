@@ -9,7 +9,9 @@ import '../styles/grid.scss';
 import '../styles/reader.scss';
 
 function House({ Component, pageProps }) {
-  return <div className="container">
+  return <>
+   <ReactTooltip delayShow={150}/>
+  <div className="container">
       <Layout>
         <AnimateSharedLayout type="crossfade">
           <AnimatePresence>
@@ -18,6 +20,7 @@ function House({ Component, pageProps }) {
         </AnimateSharedLayout>
       </Layout>
   </div>
+  </>
 }
 
 export default House
