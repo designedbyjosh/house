@@ -10,7 +10,6 @@ import '../styles/reader.scss';
 
 function House({ Component, pageProps }) {
   return <>
-   <ReactTooltip delayShow={150}/>
   <div className="container">
       <Layout>
         <AnimateSharedLayout type="crossfade">
