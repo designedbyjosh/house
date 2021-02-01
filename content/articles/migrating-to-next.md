@@ -1,6 +1,6 @@
 ---
  id: migrating-to-next
- title: Yes, I loved migrating from React Boilerplate to NextJS
+ title: Loving life and Migrating from React Boilerplate to NextJS
  focusIndex: 0
  color: 2cb2ff
  category: code
@@ -10,14 +10,14 @@
  description: This blog was initially created using Create React App which required developing my own routing protocols and including a heap of packages that provided support for SEO, which in the end, didn't work particularly well anyway. I found that migrating to NextJS allowed me to retain my components and layout I was already using while also exposing my application to easier deployment tools and better SEO.
 ---
 
-React provides a great framework for developing responsive web applications. The downside is, React websites are single page applications that rely on a heap of logic being run on the client side. When stuff is run on the client side, we start to encounter a few compromises that may or may not be a problem, depending on use cases.
+React provides a great framework for developing responsive web applications. The downside is, React websites are single page applications that rely on extensive logic being run on the client side. When stuff is run on the client side, we start to encounter a few compromises that may or may not be a problem, depending on use cases.
 
-- SEO is a mixed bag since some crawlers will refuse to render your application since it takes too long.
-- Clever engineers can work out application logic for restricted paths which can expose security vulnerabilities in business logic.
+- SEO is a mixed bag since some crawlers will refuse to render your application, since it takes too long.
+- Clever engineers can work out application logic for restricted paths, which can expose security vulnerabilities in business logic.
 
-NextJS was something I knew about but, being a bit of a React purist, I dismissed on the premise that to demonstrate my skills and abilities in web development, I *must* be developing **everything** on my own. In reality, I've now discovered that this is a pretty stripped down view on web development and in reality, the best way to use the tools available is a testament to the ability of a good engineer.
+NextJS was something I knew about but, being a bit of a React purist, I dismissed on the premise that to demonstrate my skills and abilities in web development, I *must* be developing **everything** on my own. In reality, I've now discovered that this is a pretty stripped down view on web development. In reality, the best way to use your tools and how experienced you are with them is a testament to the ability of a good engineer.
 
-So, let's go through - using the three points above on why client side applications may not always the best idea - why I loved migrating to NextJS and the considerations you should make when considering making that switch.
+So, let's go through - using the three points above on why client side applications may not always the best idea - the reasons I loved migrating to NextJS and the considerations you should make when considering making that switch for your next web project.
 
 ## SEO
 

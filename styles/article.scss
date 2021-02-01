@@ -75,6 +75,7 @@ $thumbnail-width: 350px;
 .article-title-container {
     @extend .article-overlay-container;
     padding: $medium-padding;
+    padding-top: $medium-padding;
     box-sizing: border-box;
     width: $thumbnail-width;
     font-size: $medium-font;
@@ -85,7 +86,7 @@ $thumbnail-width: 350px;
 
 .article-title-container.open {
     z-index: 6;
-    padding: $medium-padding;
+    padding: $medium-padding + 10px;
     padding-left: $medium-padding + 10px;
 }
 
@@ -137,7 +138,7 @@ $thumbnail-width: 350px;
     z-index: 5;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 950px) {
     .article-content {
         max-width: 100% !important;
     }

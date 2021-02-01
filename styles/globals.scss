@@ -48,7 +48,8 @@ div.links {
   color: white;
 
   > * {
-    margin-left: 10px;
+    margin-left: 20px;
+    color: white;
   }
 }
 
@@ -100,7 +101,7 @@ div.home {
     }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 950px) {
   .home {
       max-width: 100% !important;
   }
@@ -114,6 +115,11 @@ div.home {
   div.links {
     justify-content: flex-start;
     text-align: left;
+
+    > * {
+      margin-left: 2px;
+      margin-right: 15px;
+    }
   }
   
 }
