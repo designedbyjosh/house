@@ -48,7 +48,7 @@ jobs:
       - name: Zip Build
         uses: montudor/action-zip@v0.1.1
         with:
-          args: zip -qq -r build.zip build
+          args: zip -qq -r build.zip .next
       # 6. Create a release on GitHub
       - name: Create Release
         id: create_release
