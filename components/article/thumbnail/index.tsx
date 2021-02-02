@@ -19,7 +19,7 @@ function Thumbnail({ metadata }: ThumbnailProps) {
                 variants={fade}
                 className={`thumbnail`}>
                 <Link
-                        href={`/article/${metadata.id}`}>
+                        href={metadata.customLink || `/article/${metadata.id}`}>
                 <motion.div
                     key={`article-container-${metadata.id}`}
                     className={`article-container umami--mouseover--thumbnail:${metadata.id} umami--click--thumbnail:${metadata.id}`}>

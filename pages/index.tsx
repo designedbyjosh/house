@@ -5,6 +5,7 @@ import matter from 'gray-matter';
 import Head from 'next/head';
 import ReactTooltip from 'react-tooltip';
 import { useRouter } from 'next/router';
+import { WSAENAMETOOLONG } from 'constants';
 
 export async function getStaticProps() {
 

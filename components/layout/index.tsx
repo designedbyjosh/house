@@ -27,9 +27,9 @@ const Layout = ({ children }: any) => {
           </motion.p>
         </div>
         <div className="links umami--mouseover-links">
-            <a href="mailto:hello@josh.house"><i className="clickable fas fa-envelope umami--click--umami"></i></a>
-            <a target="_blank" href="https://analytics.josh.house/share/BWhWCRhq/Josh's%20House"><i data-tip="This will take you to my Umami (self-hosted Google analytics) instance" className="clickable fas fa-chart-area umami--click--umami"></i></a>
-            <a target="_blank" href="https://github.com/designedbyjosh/house"><i data-tip="This will take you to GitHub" className="clickable fab fa-github umami--click--github"></i></a>
+            <a className="umami--click--email" href="mailto:hello@josh.house"><i className="clickable fas fa-envelope umami--click--umami"></i></a>
+            <a className="umami--click--analytics" target="_blank" href="https://analytics.josh.house/share/BWhWCRhq/Josh's%20House"><i data-tip="This will take you to my Umami (self-hosted Google analytics) instance" className="clickable fas fa-chart-area umami--click--umami"></i></a>
+            <a className="umami--click--github"target="_blank" href="https://github.com/designedbyjosh/house"><i data-tip="This will take you to GitHub" className="clickable fab fa-github umami--click--github"></i></a>
         </div>
       </div>
       {children}

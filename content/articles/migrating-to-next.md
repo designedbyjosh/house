@@ -39,6 +39,13 @@ Although this isn't a major security threat in and of itself, it's a considerati
 
 NextJS facilitates improved security by concealing your business logic to it's minimal requirements, when using server side rendering requests are transmitted to the server and calls are made out to wherever they need to go, before being rendered into a new website and returned to the user. No more public endpoints that can be hit by anyone for any reason and no more client processing of these responses that can be reverse engineered to expose how your private APIs behave.
 
+## Other benefits
+
+- Module level CSS/SCSS which reduces collisions in larger projects
+- Easier management of routes and automatic generation of smaller assets for faster load times
+- Easier support for ```head``` and ```meta``` tags
+- Easily swappable backends using the built in ```getStaticProps``` functions to help accelerate load times for users by preloading content that is static
+
 ## So what do I do?
 
 Migrating to NextJS provided a great chance to try out a new framework and apply it to a small project. The conversion was painless and allowed me to reuse most of my code (although there's still some refactoring needing to be done). If you're intereseted in providing a secure and positive user experience for all your targeted users that may be reaching your site through search, I recommended checking it out.

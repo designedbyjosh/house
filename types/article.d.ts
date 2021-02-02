@@ -9,7 +9,8 @@ interface ArticleMetadata {
     published: any,
     description?: string,
     color: string
-    backgroundColor?: string
+    backgroundColor?: string,
+    customLink?: string
 }
 
 interface Category {
