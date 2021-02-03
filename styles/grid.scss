@@ -19,19 +19,6 @@ div.grid {
     }
 }
 
-.title {
-    position: absolute;
-    color: white;
-    margin-top: 0px;
-    padding-top: 115px;
-    font-size: $medium-font;
-    transform: rotate(90deg);
-    -webkit-transform: rotate(90deg); /* Safari and Chrome */
-    -moz-transform: rotate(90deg); /* Firefox */
-    -ms-transform: rotate(90deg); /* ie9 */
-    -o-transform: rotate(90deg); /* Opera */
-}
-
 @media screen and (max-width: 600px) {
 
     div.grid {
@@ -43,7 +30,4 @@ div.grid {
         }
     }
 
-    .title {
-        display: none;
-    }
 }

@@ -4,6 +4,7 @@
  focusIndex: 300
  color: rgb(79,42,46)
  category: home
+ type: article
  backgroundColor: dark-gray
  published: "2021-02-01T12:00:00Z"
  coverImage: https://josh-house.s3-ap-southeast-2.amazonaws.com/flooring-it/laminate-flooring.jpeg

@@ -7,26 +7,25 @@ import ReactTooltip from 'react-tooltip';
 import { useRouter } from 'next/router';
 import { WSAENAMETOOLONG } from 'constants';
 
-export async function getStaticProps() {
-
+const extractMarkdownFiles = (path: string) => {
   const fs = require("fs");
+  let directory = fs.readdirSync(path, "utf-8");
+  let files = directory.filter((fn) => fn.endsWith(".md"));
 
-  const files = fs.readdirSync(`${process.cwd()}/content/articles`, "utf-8");
-
-  const articles = files.filter((fn) => fn.endsWith(".md"));
-
-  const parsed = articles.map((blog) => {
-    const path = `${process.cwd()}/content/articles/${blog}`;
-    const rawContent = fs.readFileSync(path, {
+ return files.map((blog) => {
+    let current = `${path}/${blog}`;
+    return fs.readFileSync(current, {
       encoding: "utf-8",
     });
-
-    return rawContent;
   });
+}
+
+export async function getStaticProps() {
 
   return {
     props: {
-      articles: parsed
+      articles: extractMarkdownFiles(`${process.cwd()}/content/article`),
+      problems: extractMarkdownFiles(`${process.cwd()}/content/problem/notes`)
     },
   };
 }
@@ -36,9 +35,7 @@ export async function getStaticProps() {
  * 
  * @author Josh <code@josh.house>
  */
-const Home = ({ articles }: any) => {
-
-  const posts = articles.map((reference) =>  <Thumbnail metadata={matter(reference).data as ArticleMetadata} />)
+const Home = ({ articles, problems }: any) => {
 
   return (
     <>
@@ -61,7 +58,16 @@ const Home = ({ articles }: any) => {
         <script type="text/javascript" src="" ></script>
     </Head>
       <Grid title="Posts">
-        {posts}
+        {articles.map((reference) =>  <Thumbnail metadata={matter(reference).data as ArticleMetadata} />)}
+      </Grid>
+      <hr />
+      <div className="submodule">
+        <h3>
+          Daily Coding Problem
+        </h3>
+      </div>
+      <Grid title="Problems">
+        {problems.map((reference) =>  <Thumbnail style={{height: 120}} metadata={matter(reference).data as ArticleMetadata} />)}
       </Grid>
       </>
   );

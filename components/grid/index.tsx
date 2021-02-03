@@ -19,13 +19,6 @@ function Grid({ id, title, children = false }: GridProps) {
     <div
       key={`grid-${id}`}
       className="grid">
-      {/* {title && <motion.span
-      initial="hidden"
-      animate="show"
-        variants={fade}
-        className="title">
-        {title}
-      </motion.span>} */}
       <motion.ul
         initial="hidden"
         animate="show"

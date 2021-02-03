@@ -3,6 +3,7 @@
  title: Cameras, mirrors and soiling? A year of reflection
  focusIndex: 240
  color: 2cb2ff
+ type: article
  category: books
  backgroundColor: dark-gray
  published: "2020-10-30T12:00:00Z"

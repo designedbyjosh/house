@@ -7,6 +7,7 @@ import { fade } from '../../../styles/animations/transitions';
 
 type ReaderProps = {
     article: Article,
+    style?: React.CSSProperties | undefined
 }
 
 /**
@@ -14,7 +15,7 @@ type ReaderProps = {
  * 
  * @author Josh <code@josh.house>
  */
-function Reader({ article }: ReaderProps) {
+function Reader({ article, style }: ReaderProps) {
 
     const { content, metadata } = article;
 
@@ -29,7 +30,7 @@ function Reader({ article }: ReaderProps) {
                         data-tip={`Image captured by ${metadata.image?.author}`}
                         data-place="right"
                         className="article-image-container open"
-                        style={{ backgroundColor: !metadata.image ? metadata.backgroundColor : 'black' }}
+                        style={{ ...style, backgroundColor: !metadata.image ? metadata.backgroundColor : 'black' }}
                         layoutId={`article-image-container-${metadata.id}`}>
                         {/* eslint-disable-next-line*/}
                         <img
@@ -38,6 +39,7 @@ function Reader({ article }: ReaderProps) {
                             src={metadata.coverImage} />
                     </motion.div>
                     <motion.div
+                        style={style}
                         className="article-title-container open"
                         layoutId={`article-title-container-${metadata.id}`}>
                         <h2>{metadata.title}</h2>
@@ -49,6 +51,7 @@ function Reader({ article }: ReaderProps) {
                         <Link href="/"><i className="fas fa-times-circle clickable"></i></Link>
                     </motion.div>
                     <motion.div
+                        style={style}
                         className="article-metadata-container open"
                         layoutId={`article-metadata-container-${metadata.id}`}>
                         <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}}>{moment(metadata.published).fromNow()}</motion.h3>
@@ -70,7 +73,7 @@ function Reader({ article }: ReaderProps) {
                         <div className="article-body metadata">
                             <div >
 
-                                <span data-tip={moment(metadata.published).toLocaleString()}>Published {moment(metadata.published).fromNow()}</span>
+                                <span data-tip={moment(metadata.published).toLocaleString()}>Published {moment(metadata.published).format("dddd, MMMM Do YYYY, h:mm:ss a")}</span>
                             </div>
                         </div>
                     </motion.div>

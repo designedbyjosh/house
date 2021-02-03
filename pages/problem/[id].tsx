@@ -1,7 +1,9 @@
 import react from "react";
 import matter from 'gray-matter';
 import Reader from "../../components/article/reader";
-import Head from '../../components/head';
+import Link from "next/link";
+import Router from 'next/router'
+import Head from "next/head";
 
 /**
  * Renders an article for a given slug (id)
@@ -15,11 +17,11 @@ const Article = ({ props }) => {
     }
     else {
 
-        let parsed = matter(props.article)
-        return (<>
-            <Head {...parsed.data} />
-            <Reader article={{ metadata: parsed.data, content: parsed.content } as Article} />
-        </>)
+    let parsed = matter(props.problem)
+    return (<>
+    <Head {...parsed.data} />
+    <Reader style={{height: 120}} article={{metadata: parsed.data, content: parsed.content} as Article} />
+    </>)
     }
 };
 
@@ -27,11 +29,11 @@ Article.getInitialProps = async (context) => {
 
     const { id } = context.query;
 
-    var article;
+    var problem;
     var error;
     try {
-        article = await import(`../../content/article/${id}.md`);
-        article = article.default;
+        problem = await import(`../../content/problem/notes/${id}.md`);
+        problem = problem.default;
     }
     catch {
         error = true;
@@ -39,7 +41,7 @@ Article.getInitialProps = async (context) => {
 
     return {
         props: {
-            article,
+            problem,
             error
         },
     };

@@ -4,10 +4,14 @@ $medium-border-radius: 20px;
 $large-border-radius: 30px;
 
 // Colour definitions
-$dark-transluscent: rgba(0, 0, 0, 0.92);
-$not-quite-dark: rgb(27, 27, 27);
-$pretty-much-dark:  rgb(14, 14, 14);
-$faded-white: rgba(255,255,255,0.5);
+$dark-transluscent: rgba(0, 0, 0, 0.92) !important;
+$not-quite-dark: rgb(27, 27, 27) !important;
+$pretty-much-dark:  rgb(14, 14, 14) !important;
+$faded-white: rgba(255,255,255,0.5) !important;
+$mostly-white: white !important;
+$mostly-dark: #222222 !important;
+
+
 
 // Border definitions
 $dark-border: 3px solid  $pretty-much-dark;
@@ -23,8 +27,9 @@ $max-page-width: 950px;
 
 // Font sizing definitions
 $x-small-font: 12px;
+$smaller-font: 15px;
 $small-font: 20px;
 $medium-font: 23px;
 $larger-font: 28px;
 $large-font: 40px;
-$x-large-font: 60px;
+$x-large-font: 70px;

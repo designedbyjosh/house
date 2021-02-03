@@ -4,6 +4,7 @@
  focusIndex: 0
  color: 2cb2ff
  category: code
+ type: article
  backgroundColor: dark-gray
  published: "2021-01-30T12:00:00Z"
  coverImage: https://josh-house.s3-ap-southeast-2.amazonaws.com/migrating-to-next/background.jpeg

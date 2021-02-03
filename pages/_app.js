@@ -10,7 +10,7 @@ import '../styles/reader.scss';
 
 function House({ Component, pageProps }) {
   return <>
-  <div className="container">
+  <div className="container dark">
       <Layout>
         <AnimateSharedLayout type="crossfade">
           <AnimatePresence>

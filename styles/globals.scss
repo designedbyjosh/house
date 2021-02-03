@@ -1,21 +1,33 @@
 @import "./helpers.scss";
 @import "./variables.scss";
 
+code {
+    background: black;
+    border-left: 5px solid #f36d33;
+    color: white;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: $small-font;
+    line-height: 1.6;
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
+    max-width: 100%;
+    overflow: auto;
+    padding: 1em 1.5em;
+    display: block;
+    word-wrap: break-word;
+}
 body {
     margin: 0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #252525;
+    background-color: $mostly-dark;
   }
   
-  code {
-
-  }
-
   a {
-    color: rgb(170, 203, 255);
+    color: rgb(27, 64, 129);
     text-decoration: none;
     font-weight: bold;
     opacity: 0.6;
@@ -45,11 +57,11 @@ div.links {
   flex: 1;
   padding-right: $medium-padding;
   font-size: $medium-font;
-  color: white;
+  color: $mostly-white;
 
   > * {
     margin-left: 20px;
-    color: white;
+    color: $mostly-white;
   }
 }
 
@@ -62,6 +74,51 @@ div.about {
 
   > p {
     margin-top: 0px;
+  }
+}
+
+.title {
+  color: $mostly-white;
+  font-size: $x-large-font;
+  
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-weight: 900;
+  font-family: 'Bebas Neue';
+}
+
+.subtitle {
+  color: $mostly-white;
+  font-size: $small-font;
+  margin-top: 0px;
+  opacity: 0.7;
+}
+
+.sub {
+  margin-left: $medium-padding;
+  margin-right: $medium-padding;
+}
+
+hr {
+  opacity: 0.5;
+  margin-left: $medium-padding;
+  margin-right: $medium-padding;
+}
+
+div.submodule {
+  @extend .sub;
+  text-align: right;
+
+  > h3 {
+    @extend .title;
+    font-size: $medium-font;
+    margin-top: $medium-padding;
+    opacity: 0.5;
+  }
+
+  > p {
+    @extend .subtitle;
+    font-size: $smaller-font;
   }
 }
 
@@ -78,25 +135,9 @@ div.home {
       margin-top: $large-padding;
       margin-left: $medium-padding;
       margin-right: $medium-padding;
-      .titles {
-        
-        .page-title {
-          color: white;
-          font-size: $x-large-font;
-          
-          margin-top: 0px;
-          margin-bottom: 0px;
-          font-weight: 900;
-          font-family: 'Bebas Neue';
-        }
-        
-        .page-subtitle {
-          color: white;
-          font-size: $small-font;
-          margin-top: 0px;
-          opacity: 0.7;
-          max-width: 75%;
-        }
+
+      > p {
+        max-width: 75%;
       }
     }
 }

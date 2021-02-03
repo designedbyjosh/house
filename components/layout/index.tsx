@@ -18,11 +18,11 @@ const Layout = ({ children }: any) => {
       <div className="header">
         <div className="titles">
           <Link href="/">
-          <motion.h3 className="page-title clickable" initial="hidden" animate="show">
+          <motion.h3 className="title clickable" initial="hidden" animate="show">
             Josh <span style={{ opacity: 0.3 }}> lives here</span>
           </motion.h3>
           </Link>
-          <motion.p className="page-subtitle" initial="hidden" animate="show">
+          <motion.p className="subtitle" initial="hidden" animate="show">
             I design interfaces for physical and digital systems. I'm a <span className="umami--mouseover--hardware-degree" data-tip="Bachelor of Mechatronics Engineering (Honours)">hardware</span> and <span className="umami--mouseover--software-degree" data-tip="Bachelor of Computer Science">software</span> engineer from <span data-tip="that means Australia">down-under</span>. <Link href="/about">more</Link>
           </motion.p>
         </div>
