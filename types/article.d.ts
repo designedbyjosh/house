@@ -10,7 +10,8 @@ interface ArticleMetadata {
     description?: string,
     color: string
     backgroundColor?: string,
-    customLink?: string
+    customLink?: string,
+    type: string
 }
 
 interface Category {
