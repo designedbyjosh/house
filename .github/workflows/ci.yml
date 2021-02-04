@@ -33,6 +33,8 @@ jobs:
       # 1. Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Checkout submodules
+        run: git submodule update --init --recursive
       # 2. Get ready to Node.JS it up
       - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v1
