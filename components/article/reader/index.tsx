@@ -1,9 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link'
-import moment from 'moment';
+import moment, { lang } from 'moment';
 import ReactMarkdown from 'react-markdown';
 import { fade } from '../../../styles/animations/transitions';
+import CodeBlock from '../code';
 
 type ReaderProps = {
     article: Article,
@@ -68,6 +69,7 @@ function Reader({ article, style }: ReaderProps) {
                             <ReactMarkdown
                                 escapeHtml={false}
                                 source={content}
+                                renderers={{ code: ({ language, value }) => <CodeBlock language={language} value={value} />}}
                             />
                         </div>
                         <div className="article-body metadata">

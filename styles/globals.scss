@@ -1,21 +1,10 @@
 @import "./helpers.scss";
 @import "./variables.scss";
 
-code {
-    background: black;
-    border-left: 5px solid #f36d33;
-    color: white;
-    page-break-inside: avoid;
-    font-family: monospace;
-    font-size: $small-font;
-    line-height: 1.6;
-    margin-top: 1.6em;
-    margin-bottom: 1.6em;
-    max-width: 100%;
-    overflow: auto;
-    padding: 1em 1.5em;
-    display: block;
-    word-wrap: break-word;
+pre {
+    background-color: $pretty-much-dark;
+    border-left: 9px solid black;
+    border-radius: 5px;
 }
 body {
     margin: 0;
