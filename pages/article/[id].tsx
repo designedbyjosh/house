@@ -45,14 +45,4 @@ Article.getInitialProps = async (context) => {
     };
 }
 
-export const getStaticPaths = async () => {
-    return {
-        paths: [
-          { params: { id: 'category-slug-1'} },
-          { params: { id: 'category-slug-2'} },
-          { params: { id: 'category-slug-3'} }
-         ],
-       fallback: false // fallback is set to false because we already know the slugs ahead of time
-     }  
-  }
 export default Article;
