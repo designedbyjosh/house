@@ -17,7 +17,8 @@ const Article = ({ props }) => {
     }
     else {
 
-    let parsed = matter(props.problem)
+    let parsed = matter(props.problem);
+    
     return (<>
     <Head metadata={parsed.data as any} />
     <Reader style={{height: 120}} article={{metadata: parsed.data, content: parsed.content} as Article} />

@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
+import matter from 'gray-matter';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
+import Head from '../components/head';
 import { fade } from '../styles/animations/transitions';
 
 export async function getStaticProps() {
@@ -22,13 +24,18 @@ export async function getStaticProps() {
  */
 const About = ({ content }: {content: string}) => {
 
+  let parsed = matter(content);
+
   return (
+    <>
+    <Head metadata={parsed.data} />
     <motion.div className="about" variants={fade} initial="hidden" exit="hidden" animate="show">
         <ReactMarkdown
             escapeHtml={false}
-            source={content}
+            source={parsed.content}
         />
     </motion.div>
+    </>
   );
 }
 

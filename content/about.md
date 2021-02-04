@@ -1,8 +1,13 @@
+---
+ title: About
+ description: My name is Josh and I'm an Australian engineer. You've stumbled across my blog which is my stomping ground of past and present projects, and a few articles I get around to working on when I'm at home.
+---
+
 <img src="https://josh-house.s3-ap-southeast-2.amazonaws.com/me.jpg" width="100%"/>
 
 ### What is this?
 
-My name is Josh and I'm an Australian engineer. You've stumbled across my blog (look at you!) which is my stomping ground of past and present projects and a few articles I get around to when I'm at home.
+My name is Josh and I'm an Australian engineer. You've stumbled across my blog (look at you!) which is my stomping ground of past and present projects and a few articles I get around to working on when I'm at home.
 
 ### What are you all about?
 
