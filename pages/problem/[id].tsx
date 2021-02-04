@@ -2,8 +2,8 @@ import react from "react";
 import matter from 'gray-matter';
 import Reader from "../../components/article/reader";
 import Link from "next/link";
-import Router from 'next/router'
-import Head from "next/head";
+import Router from 'next/router';
+import Head from '../../components/head';
 
 /**
  * Renders an article for a given slug (id)
@@ -19,7 +19,7 @@ const Article = ({ props }) => {
 
     let parsed = matter(props.problem)
     return (<>
-    <Head {...parsed.data as any} />
+    <Head metadata={parsed.data as any} />
     <Reader style={{height: 120}} article={{metadata: parsed.data, content: parsed.content} as Article} />
     </>)
     }
