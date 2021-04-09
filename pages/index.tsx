@@ -6,6 +6,8 @@ import Head from 'next/head';
 import ReactTooltip from 'react-tooltip';
 import { useRouter } from 'next/router';
 import { WSAENAMETOOLONG } from 'constants';
+import Link from 'next/link';
+import moment from 'moment';
 
 const extractMarkdownFiles = (path: string) => {
   const fs = require("fs");
@@ -65,10 +67,14 @@ const Home = ({ articles, problems }: any) => {
         <h3>
           Daily Coding Problem
         </h3>
+        <p className="caption">In the same way my grandparents do newspaper crosswords to keep their minds sharp, I do a coding problem when I can to keep mine sharp too. These are my humble solutions and ramblings of logic to get to them. </p>
       </div>
-      <Grid title="Problems">
-        {problems.map((reference) =>  <Thumbnail style={{height: 120}} metadata={matter(reference).data as ArticleMetadata} />)}
-      </Grid>
+        <ul className="daily-problems">
+        {problems.sort((a,b) => ((matter(a).data as ArticleMetadata).id) < (matter(b).data as ArticleMetadata).id).map((reference) => {
+          let metadata = matter(reference).data as ArticleMetadata;
+          return <li data-tip={moment(metadata.published).toLocaleString()} className="daily-problem-link clickable"><Link href={`/${metadata.type}/${metadata.id}`} ><span><b>{metadata.title}</b> solved {moment(metadata.published).fromNow()}</span></Link></li>
+        } )}
+        </ul>
       </>
   );
 }

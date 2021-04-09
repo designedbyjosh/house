@@ -33,6 +33,7 @@ function Reader({ article, style }: ReaderProps) {
                         className="article-image-container open"
                         style={{ ...style, backgroundColor: !metadata.image ? metadata.backgroundColor : 'black' }}
                         layoutId={`article-image-container-${metadata.id}`}>
+                        <div className="article-scrim-container" />
                         {/* eslint-disable-next-line*/}
                         <img
                             alt={metadata.image?.alt}
@@ -53,10 +54,10 @@ function Reader({ article, style }: ReaderProps) {
                     </motion.div>
                     <motion.div
                         style={style}
-                        className="article-metadata-container open"
+                        className="article-metadata-container"
                         layoutId={`article-metadata-container-${metadata.id}`}>
-                        <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}}>{moment(metadata.published).fromNow()}</motion.h3>
                         <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}}><i className={`fas fa-${metadata.category}`}/></motion.h3>
+                        <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}}>{moment(metadata.published).fromNow()}</motion.h3>
                     </motion.div>
                     <motion.div transition={{delay: 0.3}} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                         <div className="article-body tldr" >

@@ -15,12 +15,19 @@
     position: absolute;
 }
 
+$transition-speed: .2s;
+
 .clickable {
     cursor: pointer;
     position: relative;
+    opacity: 0.8;
+    transition: opacity $transition-speed ease-out;
 }
 
-$transition-speed: .2s;
+.clickable:hover {
+    opacity: 1;
+
+}
 
 .transition-opacity {
     transition: opacity $transition-speed ease-out;

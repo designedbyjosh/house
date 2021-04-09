@@ -2,6 +2,7 @@ import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { fade } from '../../../styles/animations/transitions';
 import Link from 'next/link';
+import moment from 'moment';
 
 type ThumbnailProps = {
     metadata: ArticleMetadata,
@@ -32,7 +33,9 @@ function Thumbnail({ metadata, style }: ThumbnailProps) {
                         <motion.div
                             className="article-image-container"
                             layoutId={`article-image-container-${metadata.id}`}
-                            style={{ ...style, backgroundColor: !metadata.image ? metadata.backgroundColor : 'black', left: -metadata.focusIndex! }}>
+                            //left: -metadata.focusIndex!
+                            style={{ ...style, backgroundColor: !metadata.image ? metadata.backgroundColor : 'black' }}>
+                            <div className="article-scrim-container" />
                             <img
                                 src={metadata.coverImage}
                                 style={{ opacity: metadata.brightness! }}
@@ -45,11 +48,12 @@ function Thumbnail({ metadata, style }: ThumbnailProps) {
                             <h2>{metadata.title}</h2>
                         </motion.div>
                         <motion.div
-                            style={style}
-                            className="article-metadata-container"
-                            layoutId={`article-metadata-container-${metadata.id}`}>
-                            <h2><i className={`fas fa-${metadata.category}`}></i></h2>
-                        </motion.div>
+                        style={style}
+                        className="article-metadata-container"
+                        layoutId={`article-metadata-container-${metadata.id}`}>
+                        <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}}><i className={`fas fa-${metadata.category}`}/></motion.h3>
+                        <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}}>{moment(metadata.published).format("DD/MM/YYYY")}</motion.h3>
+                    </motion.div>
                     </motion.div>
                 </motion.div>
                 </Link>

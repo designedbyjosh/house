@@ -2,7 +2,7 @@
 
 $thumbnail-height: 350px;
 $article-expanded-width: 700px;
-$thumbnail-width: 350px;
+$thumbnail-width: 450px;
 
 .article-container {
     height: $thumbnail-height;
@@ -81,38 +81,37 @@ $thumbnail-width: 350px;
     font-size: $larger-font;
     text-align: left;
     font-family: 'Bebas Neue';
-    z-index: 6;
+    z-index: 8;
     overflow: hidden;
-}
-
-.article-title-container.open {
-    z-index: 6;
-    padding: $medium-padding + 5px;
-    padding-left: $medium-padding + 10px;
 }
 
 .article-metadata-container {
     @extend .article-overlay-container;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: flex-end;
     pointer-events: none;
     text-align: right;
+    z-index: 8;
     width: 100%;
-    padding: $medium-padding;
-    
-    > h2, h1, h3 {
-        font-size: $x-small-font;
-        margin-left: $x-small-padding;
+    font-size: $x-small-font;
+    margin-left: $medium-padding;
+    padding-bottom: $medium-padding;
+
+    > h3:not(:first-child) {
+        margin-left: $small-padding;
     }
 }
 
-.article-metadata-container.open {
-    padding: $medium-padding $large-padding;
-
-    > h2, h1, h3 {
-        z-index: 6;
-    }
+.article-scrim-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%; /* Overlay half of the image */
+    width: 100%;
+    z-index: 7;
+    /* Create linear gradient */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
 }
 
 .article-image-container {
@@ -121,10 +120,9 @@ $thumbnail-width: 350px;
     background-color: black;
     overflow: hidden;
     height: $thumbnail-height;
-    position: absolute;
+    position: relative;
 
     > img {
-        opacity: 0.5;
         width: $max-page-width;
         height: auto;
     }
@@ -159,7 +157,12 @@ $thumbnail-width: 350px;
     }
 
     .article-metadata-container, .article-title-container {
-        padding: $small-padding !important;
+        padding: $medium-padding !important;
+    }
+
+    .article-metadata-container {
+        margin-left: 0px;
+        opacity: 0.5;
     }
 
     .article-metadata-container.open, .article-title-container.open {

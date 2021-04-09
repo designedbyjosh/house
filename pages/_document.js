@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import ReactTooltip from 'react-tooltip'
 
 class HouseDocument extends Document {
   static async getInitialProps(ctx) {
@@ -9,6 +10,7 @@ class HouseDocument extends Document {
   render() {
     return (
       <Html>
+        <ReactTooltip />
         <Head>
           <script async defer data-website-id="75cceb23-141b-4fa3-8ea9-cbc2b0a65eb2" src="https://analytics.josh.house/umami.js" data-domains="josh.house"></script>
           <link rel="preconnect" href="https://fonts.gstatic.com" /> 

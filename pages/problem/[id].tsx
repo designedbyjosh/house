@@ -21,7 +21,7 @@ const Article = ({ props }) => {
     
     return (<>
     <Head metadata={parsed.data as any} />
-    <Reader style={{height: 120}} article={{metadata: parsed.data, content: parsed.content} as Article} />
+    <Reader style={{height: 150}} article={{metadata: parsed.data, content: parsed.content} as Article} />
     </>)
     }
 };

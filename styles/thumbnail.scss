@@ -1,22 +1,10 @@
 li.thumbnail {
-  flex: 0 0 40%;
+  flex: 0 0 100%;
   box-sizing: border-box;
   position: relative;
   width: 100%;
   padding: 25px;
-}
-
-li.thumbnail:nth-child(4n + 1),
-li.thumbnail:nth-child(4n + 4) {
-  flex: 0 0 60%;
-  max-width: 60%;
-}
-
-li.thumbnail:nth-child(2n - 3) {
   padding-left: 0px;
-}
-
-li.thumbnail:nth-child(2n) {
   padding-right: 0px;
 }
 

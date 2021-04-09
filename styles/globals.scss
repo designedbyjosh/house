@@ -6,6 +6,7 @@ pre {
     border-left: 9px solid black;
     border-radius: 5px;
 }
+
 body {
     margin: 0;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -72,7 +73,6 @@ div.about {
   
   margin-top: 0px;
   margin-bottom: 0px;
-  font-weight: 900;
   font-family: 'Bebas Neue';
 }
 
@@ -96,7 +96,7 @@ hr {
 
 div.submodule {
   @extend .sub;
-  text-align: right;
+  text-align: left;
 
   > h3 {
     @extend .title;
@@ -108,6 +108,8 @@ div.submodule {
   > p {
     @extend .subtitle;
     font-size: $smaller-font;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 }
 
@@ -129,6 +131,14 @@ div.home {
         max-width: 75%;
       }
     }
+}
+
+.daily-problems {
+
+  > li {
+    color: white;
+    margin-bottom: 10px;
+  }
 }
 
 @media screen and (max-width: 950px) {
