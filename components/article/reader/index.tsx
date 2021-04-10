@@ -57,7 +57,7 @@ function Reader({ article, style }: ReaderProps) {
                         className="article-metadata-container"
                         layoutId={`article-metadata-container-${metadata.id}`}>
                         <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}}><i className={`fas fa-${metadata.category}`}/></motion.h3>
-                        <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}}>{moment(metadata.published).fromNow()}</motion.h3>
+                        <motion.h3 data-tip={metadata.published} initial={{opacity: 0, y: 10}} animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.3}}>{moment(metadata.published).format("DD/MM/YYYY")}</motion.h3>
                     </motion.div>
                     <motion.div transition={{delay: 0.3}} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                         <div className="article-body tldr" >

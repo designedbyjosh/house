@@ -94,9 +94,28 @@ hr {
   margin-right: $medium-padding;
 }
 
+div.footer {
+  text-align: center;
+  margin-top: $large-padding;
+  margin-bottom: $large-padding;
+  color: white;
+  opacity: 0.3;
+  transition: opacity ease-in-out 0.2s;
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  padding: 10px;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+div.footer:hover {
+  opacity: 1;
+}
+
 div.submodule {
   @extend .sub;
   text-align: left;
+  padding: 15px;
 
   > h3 {
     @extend .title;

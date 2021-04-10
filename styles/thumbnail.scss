@@ -8,6 +8,17 @@ li.thumbnail {
   padding-right: 0px;
 }
 
+.notification-badge {
+  background-color: red;
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  z-index: 9;
+  border-radius: 15px;
+  left: -10px;
+  top: 20px;
+}
+
 @media only screen and (max-width: 600px) {
   li.thumbnail {
     flex: 1 0 100% !important;

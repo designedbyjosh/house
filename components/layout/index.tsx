@@ -4,6 +4,7 @@ import Thumbnail from '../article/thumbnail';
 import Grid from '../grid';
 import Link from 'next/link';
 import ReactTooltip from 'react-tooltip';
+import {version} from '../../package.json';
 
 /**
  * The default layout is what will be retained across all pages renders, in this case, we want the home grid and header to stick 
@@ -33,7 +34,12 @@ const Layout = ({ children }: any) => {
         </div>
       </div>
       {children}
+      <div className="footer">
+        <p>Built from scratch by a 🍣 lover called <a href="mailto:hey@josh.house">Josh</a></p>
+        <p style={{opacity: 0.5}}><a href={`https://github.com/designedbyjosh/house/releases/tag/v${version}`}>v{version}</a></p>
+      </div>
     </div>
+    
   );
 }
 

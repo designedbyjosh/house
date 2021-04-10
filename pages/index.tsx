@@ -72,7 +72,7 @@ const Home = ({ articles, problems }: any) => {
         <ul className="daily-problems">
         {problems.sort((a,b) => ((matter(a).data as ArticleMetadata).id) < (matter(b).data as ArticleMetadata).id).map((reference) => {
           let metadata = matter(reference).data as ArticleMetadata;
-          return <li data-tip={moment(metadata.published).toLocaleString()} className="daily-problem-link clickable"><Link href={`/${metadata.type}/${metadata.id}`} ><span><b>{metadata.title}</b> solved {moment(metadata.published).fromNow()}</span></Link></li>
+          return <li key={metadata.id} data-tip={moment(metadata.published).toLocaleString()} className="daily-problem-link clickable"><Link href={`/${metadata.type}/${metadata.id}`} ><span><b>{metadata.title}</b> solved {moment(metadata.published).fromNow()}</span></Link></li>
         } )}
         </ul>
       </>
