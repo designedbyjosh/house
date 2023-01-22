@@ -36,7 +36,7 @@ export async function getStaticProps() {
  * 
  * @author Josh <code@josh.house>
  */
-const Home = ({ articles, problems }: any) => {
+const Home = ({ articles }: any) => {
 
   return (
     <>
