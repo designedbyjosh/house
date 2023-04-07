@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import { CMS_NAME,  } from '../lib/constants'
 
 export default function Meta() {
   return (
@@ -28,7 +27,7 @@ export default function Meta() {
         color="#000000"
       />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link href="https://fonts.googleapis.com/css2?family=Markazi+Text&display=swap" rel="stylesheet" />
       <link rel="shortcut icon" href="/favicon/favicon.ico" />
       <meta name="msapplication-TileColor" content="#000000" />
