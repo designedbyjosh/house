@@ -26,14 +26,37 @@ export default function Meta() {
         href="/favicon/safari-pinned-tab.svg"
         color="#000000"
       />
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link href="https://fonts.googleapis.com/css2?family=Markazi+Text&display=swap" rel="stylesheet" />
-      <link rel="shortcut icon" href="/favicon/favicon.ico" />
-      <meta name="msapplication-TileColor" content="#000000" />
-      <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
-      <meta name="theme-color" content="#000" />
-      <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+      <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com" />
+      <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin='anonymous' />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Markazi+Text&display=swap" 
+        rel="stylesheet" />
+      <link
+        rel="shortcut icon"
+        href="/favicon/favicon.ico" />
+      <meta
+        name="msapplication-TileColor"
+        content="#000000" />
+      <meta
+        name="msapplication-config"
+        content="/favicon/browserconfig.xml" />
+      <meta
+        name="theme-color"
+        content="#000" />
+      <link
+        rel="alternate"
+        type="application/rss+xml"
+        href="/feed.xml" />
+      <script
+        async
+        defer
+        data-website-id="0c2d1d76-f787-455b-8a1f-655057a2d1f3"
+        src="https://umami.josh.house/umami.js" />
       <meta
         name="description"
         content={`I'm a software engineer living in Australia, with personal interests in socially beneficial engineering, photography, and residential data analytics.`}

@@ -18,11 +18,14 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  font-family: serif;
   background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+h1 {
+  font-family: 'Bebas Neue', cursive;
 }
