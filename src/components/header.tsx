@@ -2,9 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartLine, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import Container from './container';
 import Link from 'next/link';
-import { motion } from "framer-motion"
 import NowPlaying from './now-playing';
-import { Tooltip } from 'react-tooltip';
 
 export default function Header({currentPage} : {currentPage: string}) {
   return (
