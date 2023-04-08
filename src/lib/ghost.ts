@@ -7,11 +7,22 @@ const api = new GhostContentAPI({
   version: "v5.0"
 });
 
-export async function getPosts() {
+export async function getPhotos() {
     return await api.posts
       .browse({
         limit: "all",
         filter: "tags:[photo]"
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
+  export async function getPosts() {
+    return await api.posts
+      .browse({
+        limit: "all",
+        filter: "tags:[blog]"
       })
       .catch(err => {
         console.error(err);
