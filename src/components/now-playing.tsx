@@ -11,13 +11,15 @@ export default function NowPlaying() {
 
     const [music, setMusic] = useState({} as any)
 
-    socket.on('refresh', (data) => {
+    useEffect(() => {socket.emit('immediate_refresh_request')}, [])
+
+    socket.on('update', (data) => {
         setMusic(data)
     })
 
-    const currentSong = music.item?.name
+    const currentSong = music?.item?.name
 
-    return music.now_playing ? <motion.div
+    return music?.now_playing ? <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
