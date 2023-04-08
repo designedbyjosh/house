@@ -5,6 +5,7 @@ import Link from 'next/link';
 import NowPlaying from './now-playing';
 
 export default function Header({currentPage} : {currentPage: string}) {
+
   return (
     <Container>
         <div className="flex pt-8 pb-4">
@@ -30,12 +31,12 @@ export default function Header({currentPage} : {currentPage: string}) {
         <div className="flex pb-4">
             <div className="flex-1 inline left-0">
                 <Link href="/">
-            <button className={`${currentPage == "/" && "bg-stone-600"} bg-stone-900 hover:bg-stone-800 text-white py-1 px-4 rounded`}>
+            <button className={`${currentPage == "/" && "bg-stone-500 !text-white"} hover:bg-stone-800 hover:text-white text-black dark:text-white py-1 px-4 rounded`}>
                 Photography
             </button>
             </Link>
             <Link href="/blog">
-            <button className={`${currentPage == "/blog" && "bg-stone-600"} ml-2 bg-stone-900 hover:bg-stone-800 text-white py-1 px-4 rounded`}>
+            <button className={`${currentPage == "/blog" && "bg-stone-500 !text-white"} ml-2  hover:bg-stone-800 hover:text-white text-black dark:text-white py-1 px-4 rounded`}>
                 Blog
             </button>
             </Link>
