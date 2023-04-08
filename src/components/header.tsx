@@ -31,7 +31,7 @@ export default function Header({currentPage} : {currentPage: string}) {
         <div className="flex pb-4">
             <div className="flex-1 inline left-0">
                 <Link href="/">
-            <button className={`${currentPage == "/" || currentPage == "" && "bg-stone-500 !text-white"} hover:bg-stone-800 hover:text-white text-black dark:text-white py-1 px-4 rounded`}>
+            <button className={`${(currentPage == "/" || currentPage == "") && "bg-stone-500 !text-white"} hover:bg-stone-800 hover:text-white text-black dark:text-white py-1 px-4 rounded`}>
                 Photography
             </button>
             </Link>
