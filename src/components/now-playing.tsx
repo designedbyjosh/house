@@ -15,7 +15,7 @@ export default function NowPlaying() {
         setMusic(data)
     })
 
-    const currentSong = music.item?.album?.name
+    const currentSong = music.item?.name
 
     return music.now_playing ? <motion.div
         initial={{ opacity: 0 }}

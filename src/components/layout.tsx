@@ -8,7 +8,7 @@ type Props = {
     children: ReactNode
   }
 
-export default function Layout({ currentPage, children } : Props) {
+export default function Layout({ currentPage="/", children } : Props) {
   return (
     <>
       <Meta />
