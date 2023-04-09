@@ -19,7 +19,7 @@ export default function Music({ music }: music) {
   return (
     <>
       <Head>
-        <title>{`Josh Lives Here`}</title>
+        <title>{`Josh's Top Tracks`}</title>
       </Head>
       <Container>
         <motion.div initial={{ opacity: 0 }}
