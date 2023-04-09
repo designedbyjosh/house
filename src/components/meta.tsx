@@ -52,11 +52,11 @@ export default function Meta() {
         rel="alternate"
         type="application/rss+xml"
         href="/feed.xml" />
-      <script
+      {process.env.NODE_ENV !== "development" && <script
         async
         defer
         data-website-id="0c2d1d76-f787-455b-8a1f-655057a2d1f3"
-        src="https://umami.josh.house/umami.js" />
+        src="https://umami.josh.house/umami.js" />}
       <meta
         name="description"
         content={`I'm a software engineer living in Australia, with personal interests in socially beneficial engineering, photography, and residential data analytics.`}

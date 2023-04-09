@@ -32,14 +32,13 @@ export default function Index({ photos }: index) {
         </motion.div>
         <motion.div initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }} className="grid grid-cols-1 gap-10 md:grid-cols-2">
+        exit={{ opacity: 0 }} className="grid grid-cols-1 gap-10 md:grid-cols-2 mb-16">
           {photos.slice(1).map(photo => (
             <div key={photo.uuid}>
             <Zoom><img alt={photo.feature_image_alt!} className="pt-2 md:pt-4" src={photo.feature_image!} /></Zoom>
             <p className="tracking-wider text-small py-4  text-gray-400/75">{moment(photo.created_at).format("MMMM Do, YYYY") + " // " + photo.feature_image_caption!}</p>
           </div>
           ))}
-          
           </motion.div>
       </Container>
     </>
