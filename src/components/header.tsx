@@ -8,11 +8,11 @@ import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 export default function Header({ currentPage }: { currentPage: string }) {
 
-    const pageButton = (pageRef: string, pageText?: string, tooltipText?: string) => {
+    const pageButton = (pageRef: string, pageText?: string, tooltipText?: string, main?: boolean) => {
         let page = "/" + pageRef.toLowerCase();
         return <Link href={page}>
                 <Tooltip content={tooltipText} rounded placement='right'>
-                <button className={`${currentPage == page && "bg-stone-500 !text-white"} mr-2  hover:bg-stone-800 hover:text-white text-black dark:text-white py-1 px-4 rounded`}>
+                <button className={`${(currentPage == page || (currentPage === null && main)) && "bg-stone-500 !text-white"} mr-2  hover:bg-stone-800 hover:text-white text-black dark:text-white py-1 px-4 rounded`}>
                     {pageText || pageRef}
                 </button>
         </Tooltip>
@@ -53,7 +53,7 @@ export default function Header({ currentPage }: { currentPage: string }) {
 
             <div className="flex pb-4">
                 <div className="flex-1 inline left-0">
-                    {pageButton("", "Photography")}
+                    {pageButton("", "Photography", undefined, true)}
                     {pageButton("Blog")}
                     {pageButton("Music", "", "My top tracks of all time, refreshed on page load.")}
                 </div>
