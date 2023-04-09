@@ -25,18 +25,18 @@ export default function Index({ photos }: index) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }} 
           className="max-w-screen-xl flex flex-col">
-            <Zoom>
+            <Zoom classDialog='custom-zoom'>
               <img alt={photos[0].feature_image_alt!} src={photos[0].feature_image!} />
               <p className="tracking-wider text-small py-4 text-gray-400/75">{moment(photos[0].created_at).format("MMMM Do, YYYY") + " // " + photos[0].feature_image_caption!}</p>
             </Zoom>
         </motion.div>
         <motion.div initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }} className="grid grid-cols-1 gap-10 md:grid-cols-2 mb-16">
+        exit={{ opacity: 0 }} className="grid grid-cols-1 gap-x-10 md:grid-cols-2">
           {photos.slice(1).map(photo => (
             <div key={photo.uuid}>
-            <Zoom><img alt={photo.feature_image_alt!} className="pt-2 md:pt-4" src={photo.feature_image!} /></Zoom>
-            <p className="tracking-wider text-small py-4  text-gray-400/75">{moment(photo.created_at).format("MMMM Do, YYYY") + " // " + photo.feature_image_caption!}</p>
+            <Zoom classDialog='custom-zoom'><img alt={photo.feature_image_alt!} className="pt-2 md:pt-4" src={photo.feature_image!} /></Zoom>
+            <p className="tracking-wider text-small py-5 mb-1 text-gray-400/75">{moment(photo.created_at).format("MMMM Do, YYYY") + " // " + photo.feature_image_caption!}</p>
           </div>
           ))}
           </motion.div>

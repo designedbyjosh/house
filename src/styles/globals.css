@@ -26,7 +26,10 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-
 h1 {
   font-family: 'Bebas Neue', cursive;
+}
+
+.custom-zoom [data-rmiz-modal-overlay="visible"] {
+  background-color: black;
 }
