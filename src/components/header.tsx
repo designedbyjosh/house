@@ -49,7 +49,7 @@ export default function Header({ currentPage }: { currentPage: string }) {
                 </div>
             </div>
 
-            <div className="flex pb-5 md:pb-4 flex-col md:flex-row">
+            <div className="flex pb-5 md:pb-7 flex-col md:flex-row">
                 <div className="flex-1 inline left-0 ">
                     {pageButton("", "Photography", undefined, true)}
                     {pageButton("Blog")}
