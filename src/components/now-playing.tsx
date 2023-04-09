@@ -32,7 +32,7 @@ export default function NowPlaying() {
         </Link>
     </motion.div>
 
-    if (Object.keys(music?.now_playing!).length === 0) return <div/>
+    if (Object.keys(music).length === 0 || Object.keys(music?.now_playing!).length === 0) return <div/>
 
     return music?.now_playing?.is_playing
         ? main("This is being updated live using my Spotapi service", "text-green-600", music.now_playing?.item?.name!, true)
