@@ -12,7 +12,7 @@ export default function Layout({ currentPage="/", children } : Props) {
   return (
     <>
       <Meta />
-        <div className="bg-stone-200 min-h-screen dark:bg-stone-900">
+        <div className="bg-stone-200 min-h-screen dark:bg-stone-900  pb-16">
           <Header currentPage={currentPage} />
           <main>{children}</main>
         </div>

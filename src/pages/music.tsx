@@ -24,13 +24,13 @@ export default function Music({ music }: music) {
       <Container>
         <motion.div initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }} className="grid grid-cols-2 gap-10 md:grid-cols-5">
+          exit={{ opacity: 0 }} className="grid grid-cols-2 gap-x-10 md:grid-cols-5">
           {music.top_tracks?.items.map((track, id) => (
             <motion.div initial={{ opacity: 0 }}
               animate={{ opacity: 1, transition: { delay: id * 0.05 } }}
               exit={{ opacity: 0 }} key={track.name}>
-              <Zoom><img alt={track.name} className="pt-2 md:pt-4" src={track.album.images[0].url} /></Zoom>
-              <Link href={track.external_urls.spotify}><p className="tracking-wider text-small py-4  text-gray-400/75">{id + 1}. {track.name}</p></Link>
+              <Zoom classDialog='custom-zoom'><img alt={track.name} className="md:pt-4" src={track.album.images[0].url} /></Zoom>
+              <Link href={track.external_urls.spotify}><p className="tracking-wider text-small pt-2 pb-4 text-gray-400/75">{id + 1}. {track.name} <br/><i className="opacity-50">{track.artists[0].name}</i></p></Link>
             </motion.div>
           ))}
 
