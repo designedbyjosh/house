@@ -8,10 +8,10 @@ import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 export default function Header({ currentPage }: { currentPage: string }) {
 
-    console.log(currentPage)
-
     const pageButton = (pageRef: string, pageText?: string, tooltipText?: string, main?: boolean) => {
         let page = "/" + pageRef.toLowerCase();
+        console.log(currentPage)
+        console.log(currentPage === "/")
         return <Link href={page}>
                 <Tooltip content={tooltipText} rounded placement='bottom'>
                 <button className={`${(currentPage == page || (currentPage === "/" && main)) && "bg-stone-500 !text-white"} mr-2  hover:bg-stone-800 hover:text-white text-black dark:text-white py-1 px-4 rounded`}>
