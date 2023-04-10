@@ -24,8 +24,8 @@ export default function NowPlaying() {
         exit={{ opacity: 0 }}
         layout
     >
-        <Link href="https://github.com/designedbyjosh/spotapi">
-            <Tooltip enterDelay={200} content={tooltip} rounded>
+        <Link rel="noopener noreferrer" target="_blank" href={music.now_playing?.item?.external_urls.spotify || ""}>
+            <Tooltip enterDelay={200} content={tooltip} rounded placement="bottom">
                 <FontAwesomeIcon icon={faSpotify} size="lg" className={`mr-2 ${color}`} beatFade={playing} />
                 <motion.span className={`${playing ? 'text-black dark:text-white' : color}`} layout >{currentSong}</motion.span>
             </Tooltip>
@@ -35,7 +35,7 @@ export default function NowPlaying() {
     if (Object.keys(music).length === 0 || Object.keys(music?.now_playing!).length === 0) return <div/>
 
     return music?.now_playing?.is_playing
-        ? main("This is being updated live using my Spotapi service", "text-green-600", music.now_playing?.item?.name!, true)
-        : main(`I stopped listening ${moment(music?.now_playing?.timestamp).fromNow()}`, "text-stone-600", music.now_playing?.item?.name!, false)
+        ? main("I'm listening to this right now!", "text-green-600", music.now_playing?.item?.name!, true)
+        : main(`I stopped listening to this ${moment(music?.now_playing?.timestamp).fromNow()}.`, "text-stone-600", music.now_playing?.item?.name!, false)
 
 }

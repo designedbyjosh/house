@@ -30,7 +30,7 @@ export default function Music({ music }: music) {
               animate={{ opacity: 1, transition: { delay: id * 0.05 } }}
               exit={{ opacity: 0 }} key={track.name}>
               <Zoom classDialog='custom-zoom'><img alt={track.name} src={track.album.images[0].url} /></Zoom>
-              <Link href={track.external_urls.spotify}><p className="tracking-wider text-small pt-2 pb-4 text-gray-400/75">{id + 1}. {track.name} <br/><i className="opacity-50">{track.artists[0].name}</i></p></Link>
+              <Link rel="noopener noreferrer" target="_blank" href={track.external_urls.spotify}><p className="tracking-wider text-small pt-2 pb-4 text-gray-400/75">{id + 1}. {track.name} <br/><i className="opacity-50">{track.artists[0].name}</i></p></Link>
             </motion.div>
           ))}
 

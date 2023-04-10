@@ -7,7 +7,7 @@ import Layout from '@/components/layout'
 config.autoAddCss = false
 
 export default function App({ Component, pageProps, router }: AppProps) {
-  return <Layout currentPage={router.asPath}>
+  return <Layout>
       <AnimatePresence initial={false} mode="wait">
         <Component {...pageProps} key={router.pathname}/>
       </AnimatePresence>
