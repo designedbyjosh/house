@@ -6,17 +6,23 @@ import NowPlaying from './now-playing';
 import { Tooltip } from '@nextui-org/react';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export default function Header() {
 
     const router = useRouter()
-    const path = router?.asPath
+    const [path, setPath] = useState("/")
+
+    useEffect(() => {
+        if(!router.isReady) return;
+        setPath(router?.asPath)
+    }, [router.isReady]);
 
     const pageButton = (pageRef: string, pageText?: string, tooltipText?: string, main?: boolean) => {
         let page = "/" + pageRef.toLowerCase();
         return <Link href={page}>
                 <Tooltip content={tooltipText} rounded placement='bottom'>
-                <button className={`${(path == page || (path === "/" && main)) && "bg-stone-500 !text-white"} mr-2 hover:bg-stone-800 hover:text-white text-black dark:text-white py-1 px-4 rounded`}>
+                <button className={`${(page == path || (page === "/" && main)) && "bg-stone-500 !text-white"} mr-2 hover:bg-stone-800 hover:text-white text-black dark:text-white py-1 px-4 rounded`}>
                     {pageText || pageRef}
                 </button>
         </Tooltip>
