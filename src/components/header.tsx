@@ -12,10 +12,10 @@ export default function Header({ currentPage }: { currentPage: string }) {
         let page = "/" + pageRef.toLowerCase();
         return <Link href={page}>
                 <Tooltip content={tooltipText} rounded placement='bottom'>
-                <button className={`${(currentPage == page || (currentPage === null && main)) && "bg-stone-500 !text-white"} mr-2  hover:bg-stone-800 hover:text-white text-black dark:text-white py-1 px-4 rounded`}>
+                <button className={`${(currentPage == page || (currentPage === "/" && main)) && "bg-stone-500 !text-white"} mr-2  hover:bg-stone-800 hover:text-white text-black dark:text-white py-1 px-4 rounded`}>
                     {pageText || pageRef}
                 </button>
-        </Tooltip>
+        </Tooltip>do
             </Link>
     }
 
