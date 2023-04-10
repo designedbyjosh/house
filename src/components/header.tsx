@@ -8,6 +8,8 @@ import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 export default function Header({ currentPage }: { currentPage: string }) {
 
+    console.log(currentPage)
+
     const pageButton = (pageRef: string, pageText?: string, tooltipText?: string, main?: boolean) => {
         let page = "/" + pageRef.toLowerCase();
         return <Link href={page}>
