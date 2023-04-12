@@ -16,6 +16,28 @@
   }
 }
 
+.blog-post > h2 {
+  margin-top: 20px;
+  font-weight: bolder;
+  margin-bottom: 10px;
+}
+
+.blog-post > ul {
+  list-style-type: circle;
+  margin-bottom: 20px;
+  margin-left: 40px;
+}
+
+.blog-post > p {
+  line-height: 175%;
+  margin-bottom: 20px;
+}
+
+.blog-post > figure {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(

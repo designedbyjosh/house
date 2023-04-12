@@ -56,8 +56,8 @@ export default function Header() {
 
             <div className="flex pb-5 md:pb-7 flex-col md:flex-row">
                 <div className="flex-1 inline left-0 ">
-                    {pageButton("", "Photography", undefined, true)}
                     {pageButton("Blog")}
+                    {pageButton("", "Photography", undefined, true)}
                     {pageButton("Music", "", "My top tracks of all time, refreshed on page load.")}
                 </div>
                 <div className="flex md:justify-end mt-4 ml-1 md:mt-1">
