@@ -14,13 +14,13 @@ export default function BlogPost({ post }: { post: PostOrPage}) {
   return (
     <>
       <Head>
-        <title>{post.title}</title>
+        <title>{post?.title}</title>
       </Head>
       <Container>
         <div className="h-8 bg-stone-500 w-full"></div>
-        <h1 className="text-2xl md:text-3xl pt-4 pb-4">{post.title}</h1>
-        <p className="opacity-50 mb-10">BLUF: {post.excerpt}</p>
-        <div className="blog-post" dangerouslySetInnerHTML={{"__html": post.html as string}} />
+        <h1 className="text-2xl md:text-3xl pt-4 pb-4">{post?.title}</h1>
+        <p className="opacity-50 mb-10">BLUF: {post?.excerpt}</p>
+        <div className="blog-post" dangerouslySetInnerHTML={{"__html": post?.html as string}} />
       </Container>
     </>
   )
