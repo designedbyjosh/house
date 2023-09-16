@@ -33,7 +33,7 @@ export default function Map({ latitude, longitude, style, rotation=1000, zoomLev
   const [lat, setLat] = useState(latitude);
   const [zoom, setZoom] = useState(zoomLevel);
 
-  function rotateCamera(timestamp) {
+  function rotateCamera(timestamp: number) {
     // clamp the rotation between 0 -360 degrees
     // Divide timestamp by 100 to slow rotation to ~10 degrees / sec
     map.current.rotateTo((timestamp / rotation) % 360, { duration: 0 });
