@@ -17,7 +17,7 @@ export default function Header() {
         let page = "/" + pageRef.toLowerCase();
         return <Link href={page}>
                 <Tooltip content={tooltipText} rounded placement='bottom'>
-                <button className={`${(page == router.pathname) && "bg-stone-500 !text-white"} mr-2 hover:bg-stone-800 hover:text-white text-black dark:text-white py-1 px-4 rounded`}>
+                <button className={`${(page == router.pathname) && "bg-stone-500 !text-white"} mr-2 hover:bg-stone-800 hover:text-white py-1 px-4 rounded`}>
                     {pageText || pageRef}
                 </button>
         </Tooltip>
@@ -25,7 +25,7 @@ export default function Header() {
     }
 
     return (
-        <Container>
+        <Container className={router.pathname == "/" ? "text-white" : ""}>
             <div className="flex pt-8 pb-4">
                 <div className="flex-1 left-0">
                     <h1 className="text-3xl md:text-6xl  md:pt-16">
@@ -33,6 +33,7 @@ export default function Header() {
                             Joshua Whitcombe
                         </Link>
                     </h1>
+
                 </div>
                 <div className="flex justify-end flex-col">
                     <div className="h-8 md:h-10">
@@ -56,8 +57,9 @@ export default function Header() {
 
             <div className="flex pb-5 md:pb-7 flex-col md:flex-row">
                 <div className="flex-1 inline left-0 ">
+                    {pageButton("", "Travel", undefined, true)}
                     {pageButton("Blog")}
-                    {pageButton("", "Photography", undefined, true)}
+                    {pageButton("Photography", undefined)}
                     {pageButton("Music", "", "My top tracks of all time, refreshed on page load.")}
                 </div>
                 <div className="flex md:justify-end mt-4 ml-1 md:mt-1">
