@@ -20,7 +20,7 @@ div.blurred {
 }
 
 div.overlay {
-  width: 500px;
+  max-width: 500px;
   height: auto;
   padding: 50px;
   border-radius: 30px;

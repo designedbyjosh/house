@@ -41,7 +41,7 @@ export default function Index({ }: index) {
     exit={{ opacity: 0 }} >
        <Map 
        time={'dusk'} 
-       style={{top: 0, left:0, right: 0, bottom: 0,position: 'absolute', zIndex: -99}} 
+       style={{top: 0, left:0, right: 0, bottom: 0,position: 'fixed', zIndex: -99}} 
        latitude={28.471637} 
        longitude={-81.471122}
        zoomLevel={2}  />
