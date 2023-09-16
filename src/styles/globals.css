@@ -2,20 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
 .blog-post > h2 {
   margin-top: 20px;
   font-weight: bolder;
@@ -28,6 +14,18 @@
   margin-left: 40px;
 }
 
+div.blurred {
+  backdrop-filter: blur(20px);
+  background-color: rgba(0,0,0,0.2);
+}
+
+div.overlay {
+  width: 500px;
+  height: auto;
+  padding: 50px;
+  border-radius: 30px;
+}
+
 .blog-post > p {
   line-height: 175%;
   margin-bottom: 20px;
@@ -36,16 +34,6 @@
 .blog-post > figure {
   margin-top: 20px;
   margin-bottom: 20px;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
 }
 
 h1 {

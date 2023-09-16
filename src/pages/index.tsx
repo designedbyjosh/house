@@ -1,67 +1,51 @@
-import Head from 'next/head'
-import { GetStaticProps } from 'next'
-import Container from '../components/container'
-import { getPhotos } from '../lib/ghost'
-import { PostsOrPages } from '@tryghost/content-api'
-import moment from 'moment';
-import Zoom from 'react-medium-image-zoom'
-import 'react-medium-image-zoom/dist/styles.css'
-import { motion } from "framer-motion"
-import { useState } from 'react'
 
+import Container from '@/components/container';
+import Map from '@/components/map'
+import { faCircle, faPlane } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { motion } from "framer-motion"
+import moment from 'moment';
+import Head from 'next/head';
+import { useEffect, useState } from 'react';
 export interface index {
-  photos: PostsOrPages
 }
 
-export default function Index({ photos }: index) {
+export default function Index({ }: index) {
 
-  let [hoveredImage, setHoveredImage] = useState('');
-
-  const featured = photos.find(photo => photo.featured);
 
   return (
     <>
-      <Head>
+    <Head>
         <title>{`Josh Lives Here`}</title>
       </Head>
       <Container>
-        {featured && <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{opacity: ((hoveredImage === '' || hoveredImage === featured!.id) ? 1 : 0.5)}}
-          exit={{ opacity: 0 }} 
-          className="max-w-screen-xl flex flex-col">
-            <Zoom classDialog='custom-zoom'>
-              <img onMouseEnter={() => setHoveredImage(featured!.id)} onMouseLeave={() => {setHoveredImage('')}} alt={featured!.feature_image_alt!} src={featured!.feature_image!} />
-              <p className="tracking-wider text-small py-4 text-gray-400/75">{moment(featured!.created_at).format("MMMM Do, YYYY") + " // " + featured!.feature_image_caption!}</p>
-            </Zoom>
-        </motion.div>}
-        <motion.div initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }} className="grid grid-cols-1 gap-x-10 md:grid-cols-2">
-          {photos.filter(photo => !photo.featured).map((photo) => (
-            <motion.div animate={{opacity: ((hoveredImage === '' || hoveredImage === photo.id) ? 1 : 0.5)}} style={{borderRadius: '5px'}} key={photo.uuid}>
-            <Zoom classDialog='custom-zoom'><img onMouseEnter={() => setHoveredImage(photo.id)} onMouseLeave={() => {setHoveredImage('')}} style={{ objectFit: "cover"}} alt={photo.feature_image_alt!} className="pt-2 md:pt-4" src={photo.feature_image!} /></Zoom>
-            <p className="tracking-wider text-small py-5 mb-1 text-gray-400/75">{moment(photo.published_at).format("MMMM Do, YYYY") + " // " + photo.feature_image_caption!}</p>
-          </motion.div>
-          ))}
-          </motion.div>
+        <div className="overlay blurred">
+          <div className="text-2xl font-semibold">
+          {new Date().toLocaleDateString('en-au',
+            {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </div>
+          <div className="py-3">
+          I'm currently in transit to the United States from Australia, arriving {moment("2023-09-17T22:50:00Z").fromNow()}.
+          </div>
+          <div className="text-xs opacity-50 font-semibold">
+          <FontAwesomeIcon beatFade className='text-green-500 pr-2' size="sm" icon={faCircle} /> Updated {moment("2023-09-16T14:50:00Z").fromNow()}
+          </div>
+        </div>
       </Container>
+    <motion.div  initial={{ opacity: 0 }}
+    animate={{opacity: 1 }}
+    exit={{ opacity: 0 }} >
+       <Map 
+       time={'dusk'} 
+       style={{top: 0, left:0, right: 0, bottom: 0,position: 'absolute', zIndex: -99}} 
+       latitude={28.471637} 
+       longitude={-81.471122}
+       zoomLevel={2}  />
+    </motion.div>
     </>
   )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-
-  const photos = await getPhotos()
-
-  if (!getPhotos) {
-    return {
-      notFound: true
-    }
-  }
-
-  return {
-    props: { photos },
-    revalidate: 30,
-  }
 }

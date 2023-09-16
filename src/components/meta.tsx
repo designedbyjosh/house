@@ -3,6 +3,8 @@ import Head from 'next/head'
 export default function Meta() {
   return (
     <Head>
+      <script src='https://api.mapbox.com/mapbox-gl-js/v3.0.0-beta.1/mapbox-gl.js'></script>
+      <link href='https://api.mapbox.com/mapbox-gl-js/v3.0.0-beta.1/mapbox-gl.css' rel='stylesheet' />
       <link
         rel="apple-touch-icon"
         sizes="152x152"
@@ -45,9 +47,6 @@ export default function Meta() {
       <meta
         name="msapplication-config"
         content="/favicon/browserconfig.xml" />
-      <meta
-        name="theme-color"
-        content="#E7E5E4" />
       <link
         rel="alternate"
         type="application/rss+xml"
