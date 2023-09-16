@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { GetStaticProps } from 'next'
-import Container from '../components/container'
+import Container from './container'
 import { getPhotos } from '../lib/ghost'
 import { PostsOrPages } from '@tryghost/content-api'
 import moment from 'moment';
@@ -12,18 +12,18 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 
 
-type Props = {
-    latitude: number,
-    longitude: number,
-    style: CSSProperties,
-    rotation?: number,
-    zoomLevel?: number,
-    pitch?: number,
-    bearing?: number,
-    time?: string
-  }
+// type Props = {
+//     latitude: number,
+//     longitude: number,
+//     style: CSSProperties,
+//     rotation?: number,
+//     zoomLevel?: number,
+//     pitch?: number,
+//     bearing?: number,
+//     time?: string
+//   }
 
-export default function Map({ latitude, longitude, style, rotation=1000, zoomLevel=18, pitch=60, bearing=-60, time="night" } : Props) {
+export default function Map({ latitude, longitude, style, rotation=1000, zoomLevel=18, pitch=60, bearing=-60, time="night" }) {
 
   mapboxgl.accessToken = 'pk.eyJ1IjoiamJ3aGl0Y29tYmUiLCJhIjoiY2o1b2s2N3RhMDB6NjMzcHFwZTJmbDJsdCJ9.KgiXUqT9bHXVulRlN7Ch6Q';
 
@@ -33,7 +33,7 @@ export default function Map({ latitude, longitude, style, rotation=1000, zoomLev
   const [lat, setLat] = useState(latitude);
   const [zoom, setZoom] = useState(zoomLevel);
 
-  function rotateCamera(timestamp: number) {
+  function rotateCamera(timestamp) {
     // clamp the rotation between 0 -360 degrees
     // Divide timestamp by 100 to slow rotation to ~10 degrees / sec
     map.current.rotateTo((timestamp / rotation) % 360, { duration: 0 });
