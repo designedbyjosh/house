@@ -29,7 +29,7 @@ export default function Index({ }: index) {
             })}
           </div>
           <div className="py-3">
-          I'm currently in transit to the United States from Australia, arriving {moment("2023-09-17T22:50:00Z").fromNow()}.
+          I am currently in transit to the United States from Australia, arriving {moment("2023-09-17T22:50:00Z").fromNow()}.
           </div>
           <div className="text-xs opacity-50 font-semibold">
           <FontAwesomeIcon beatFade className='text-green-500 pr-2' size="sm" icon={faCircle} /> Updated {moment("2023-09-16T14:50:00Z").fromNow()}
