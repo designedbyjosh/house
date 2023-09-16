@@ -19,7 +19,7 @@ export default function Index({ }: index) {
         <title>{`Josh Lives Here`}</title>
       </Head>
       <Container>
-        <div className="overlay blurred">
+        <div className="text-white overlay blurred">
           <div className="text-2xl font-semibold">
           {new Date().toLocaleDateString('en-au',
             {
