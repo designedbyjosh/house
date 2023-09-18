@@ -1,6 +1,5 @@
-
+'use client'
 import Container from '@/components/container';
-import Map from '@/components/map'
 import { motion } from "framer-motion"
 import moment from 'moment';
 import Head from 'next/head';
@@ -9,6 +8,8 @@ import { GetStaticProps } from 'next'
 import { getTravelPosts } from '@/lib/ghost';
 import Overlay from '@/components/explorer/overlay';
 import { PostOrPage } from '@tryghost/content-api';
+import Map from '@/components/map';
+
 export interface PostOrPageWithLocation extends PostOrPage {
   lat?: string,
   long?: string,
@@ -53,7 +54,7 @@ export default function Index({ travel }: index) {
         bottom: 0,
         position: 'fixed',
         zIndex: -99,
-      }} 
+      }}
        latitude={current.lat} 
        longitude={current.long}
        zoom={parseInt(current.zoom!)}  />
