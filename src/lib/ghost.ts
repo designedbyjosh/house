@@ -26,6 +26,17 @@ export async function getPhotos() {
     });
 }
 
+export async function getTravelPosts() {
+  return await api.posts
+    .browse({
+      limit: "all",
+      filter: "tags:[travel]"
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+
 export async function getPosts() {
   return await api.posts
     .browse({

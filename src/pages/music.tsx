@@ -1,9 +1,6 @@
 import Head from 'next/head'
 import { GetStaticProps } from 'next'
 import Container from '../components/container'
-import { getPhotos } from '../lib/ghost'
-import { PostsOrPages } from '@tryghost/content-api'
-import moment from 'moment';
 import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 import { motion } from "framer-motion"

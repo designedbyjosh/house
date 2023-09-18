@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import { GetStaticProps, GetStaticPropsContext } from 'next'
 import Container from '../../components/container'
 import { ReadPost, getPosts } from '../../lib/ghost'
 import { PostOrPage, PostsOrPages } from '@tryghost/content-api'

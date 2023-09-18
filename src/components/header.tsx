@@ -7,12 +7,9 @@ import NowPlaying from './now-playing';
 import { Tooltip } from '@nextui-org/react';
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 
 export default function Header() {
-
     const router = useRouter()
-
     const pageButton = (pageRef: string, pageText?: string, tooltipText?: string, main?: boolean) => {
         let page = "/" + pageRef.toLowerCase();
         return <Link href={page}>
@@ -23,7 +20,6 @@ export default function Header() {
         </Tooltip>
             </Link>
     }
-
     return (
         <Container className={router.pathname == "/" ? "text-white" : ""}>
             <div className="flex pt-8 pb-4">
@@ -33,7 +29,6 @@ export default function Header() {
                             Joshua Whitcombe
                         </Link>
                     </h1>
-
                 </div>
                 <div className="flex justify-end flex-col">
                     <div className="h-8 md:h-10">
@@ -54,7 +49,6 @@ export default function Header() {
                     </div>
                 </div>
             </div>
-
             <div className="flex pb-5 md:pb-7 flex-col md:flex-row">
                 <div className="flex-1 inline left-0 ">
                     {pageButton("", "Travel", undefined, true)}

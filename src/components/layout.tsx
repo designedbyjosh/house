@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react'
+import { ReactNode } from 'react'
 import Footer from './footer'
 import Meta from './meta'
 import Header from './header'
@@ -6,9 +6,7 @@ import Header from './header'
 type Props = {
     children: ReactNode
   }
-
 export default function Layout({ children } : Props) {
-
   return (
     <>
       <Meta />
