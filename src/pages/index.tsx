@@ -38,6 +38,8 @@ export default function Index({ travel }: index) {
           previousIndex={() => {setCurrentPage(currentPage-1)}}
           nextIndex={() => {setCurrentPage(currentPage+1)}}
           text={current.title!}
+          image={current.feature_image}
+          image_alt={current.feature_image_alt}
           date={new Date(current.published_at!)} 
           updated={new Date(current.updated_at!)} />
       </Container>
