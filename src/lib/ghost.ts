@@ -18,6 +18,7 @@ export async function ReadPost(id: { id: Nullable<string>; } | { slug: Nullable<
 export async function getPhotos() {
   return await api.posts
     .browse({
+      include: 'tags',
       limit: "all",
       filter: "tags:[photo]"
     })

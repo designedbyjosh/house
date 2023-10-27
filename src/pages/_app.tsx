@@ -4,12 +4,15 @@ import { config } from '@fortawesome/fontawesome-svg-core'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { AnimatePresence } from 'framer-motion'
 import Layout from '@/components/layout'
+import { ThemeProvider } from "next-themes"
 config.autoAddCss = false
 
 export default function App({ Component, pageProps, router }: AppProps) {
-  return <Layout>
+  return <ThemeProvider attribute="class">
+    <Layout>
       <AnimatePresence initial={false} mode="wait">
-        <Component {...pageProps} key={router.pathname}/>
+        <Component {...pageProps} key={router.pathname} />
       </AnimatePresence>
-  </Layout>
+    </Layout>
+  </ThemeProvider>
 }
