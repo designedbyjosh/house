@@ -42,11 +42,6 @@ export default function Index({ travel }: index) {
 
   const { systemTheme, theme, setTheme } = useTheme();
 
-  useEffect(() => {
-    console.log(theme)
-  }, [theme])
-
-  
   return (
     <>
     <Head>

@@ -7,6 +7,7 @@ import { motion } from "framer-motion"
 import { Nullable } from "@tryghost/content-api"
 import Zoom from 'react-medium-image-zoom'
 import Link from "next/link"
+import Image from "next/image"
 
 type Props = {
   type?: string,
@@ -50,7 +51,7 @@ export default function Overlay({ image, slug, body, title, image_alt, type = "t
         <div className="text-xl font-bold">
           {title}
         </div>
-        {image && <img className="mt-2" src={image!} />}
+        {image && <Image alt={image_alt!} className="mt-2" src={image!} />}
         <div className={`py-3 mb-5`}>
           <motion.span className={`opacity-50`}>{text}</motion.span>
         </div>
