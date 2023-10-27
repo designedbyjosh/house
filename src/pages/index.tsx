@@ -25,7 +25,7 @@ export default function Index({ }) {
         </div>
         <div style={{flex: 4}} className="md:px-6 flex-auto">
           <p className="about text-2xl">
-            G'day,
+            G&apos;day,
             <br /> <br />
             I’m Josh. I’m an Aussie who lives in Sydney, Australia. 
             <br/> <br/>
