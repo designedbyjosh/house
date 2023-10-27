@@ -41,6 +41,7 @@ export default function Index({ travel }: index) {
   const current = travel![currentPage];
 
   const { systemTheme, theme, setTheme } = useTheme();
+  let currentTheme = theme === 'system' ? systemTheme : theme;
 
   return (
     <>
@@ -67,7 +68,7 @@ export default function Index({ travel }: index) {
       animate={{opacity: 1 }}
       exit={{ opacity: 0 }} >
        <Map 
-       time={theme == 'dark' ? 'night' : 'day'} 
+       time={systemTheme == 'dark' ? 'night' : 'day'} 
        style={{
         top: 0,
         left:0,
