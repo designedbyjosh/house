@@ -37,21 +37,21 @@ export default function Header() {
                 <div className="flex justify-end flex-col">
                     <div className="h-8 md:h-10">
                         <span className="hover:opacity-50" onClick={() => theme == "dark" ? setTheme('light'): setTheme("dark")}>
-                            <FontAwesomeIcon className='pr-2' size='lg' icon={theme == "dark" ? faSun : faMoon} />
+                            <FontAwesomeIcon className='pr-2' size='sm' icon={theme == "dark" ? faSun : faMoon} />
                         </span>
                         <a className="hover:opacity-50" href="mailto:hello@whitcombe.me">
-                            <FontAwesomeIcon className='pr-2 pl-2' size='lg' icon={faEnvelope} />
+                            <FontAwesomeIcon className='pr-2 pl-2' size='sm' icon={faEnvelope} />
                         </a>
                         <a className="hover:opacity-50" href="https://www.linkedin.com/in/anengineercalledjosh/">
-                            <FontAwesomeIcon className='pr-2 pl-2' size='lg' icon={faLinkedin} />
+                            <FontAwesomeIcon className='pr-2 pl-2' size='sm' icon={faLinkedin} />
                         </a>
                         <a className="hover:opacity-50" href="https://github.com/designedbyjosh/house">
                             <Tooltip enterDelay={300} content={"Source code lives here"} rounded placement='left'>
-                                <FontAwesomeIcon className='pr-2 pl-2' size='lg' icon={faGithub} />
+                                <FontAwesomeIcon className='pr-2 pl-2' size='sm' icon={faGithub} />
                             </Tooltip>
                         </a>
                         <a className="hover:opacity-50" href="https://umami.josh.house/share/Vru7iEaq/Josh's%20Blog">
-                            <FontAwesomeIcon className='pl-2' size='lg' icon={faChartLine} />
+                            <FontAwesomeIcon className='pl-2' size='sm' icon={faChartLine} />
                         </a>
                     </div>
                 </div>
