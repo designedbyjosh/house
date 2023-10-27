@@ -16,14 +16,20 @@
 
 div.blurred {
   backdrop-filter: blur(20px);
-  background-color: rgba(0,0,0,0.2);
+  fill-opacity: 0.5;
 }
 
 div.overlay {
-  max-width: 500px;
-  height: auto;
   padding: 50px 50px 20px 50px;
-  border-radius: 30px;
+  border-radius: 20px;
+  overflow-y: scroll;
+  max-height: 100%;
+}
+
+@media screen and (min-width: 700px) {
+  div.overlay {
+     max-width: 600px;
+  }
 }
 
 .blog-post > p {
@@ -42,4 +48,14 @@ h1 {
 
 .custom-zoom [data-rmiz-modal-overlay="visible"] {
   background-color: black;
+}
+
+p.about > a {
+  font-weight: bold;
+}
+
+p.about > a:hover {
+  text-decoration: underline;
+  text-underline-offset: 5px;
+  color: rgb(81, 83, 146)
 }

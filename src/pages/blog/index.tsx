@@ -17,11 +17,11 @@ export default function Index({ posts }: index) {
     return <div key={post.id} className="mb-10">
       <Link href={`/blog/${post.slug}`}>
         <div className="font-bold">
-        {post.title} <span className="opacity-30">- {moment(post.created_at).fromNow()}</span>
+        {post.title} <span className=" text-xs opacity-30">- {moment(post.published_at).fromNow()}</span>
           </div>
       </Link>
       <div>
-        <i className="opacity-50 text-sm">BLUF: {post.excerpt}</i>
+        <i className="opacity-50 text-xs">{post.excerpt}</i>
       </div>
     </div>
   }

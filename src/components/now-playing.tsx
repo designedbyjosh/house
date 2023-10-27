@@ -26,8 +26,8 @@ export default function NowPlaying() {
     >
         <Link rel="noopener noreferrer" target="_blank" href={music.now_playing?.item?.external_urls.spotify || ""}>
             <Tooltip enterDelay={200} content={tooltip} rounded placement="bottom">
-                <FontAwesomeIcon icon={faSpotify} size="lg" className={`mr-2 ${color}`} beatFade={playing} />
-                <motion.span className={`${playing ? 'text-black dark:text-white' : color}`} layout >{currentSong}</motion.span>
+                <FontAwesomeIcon icon={faSpotify} size="sm" className={`mr-2 ${color}`} beatFade={playing} />
+                <motion.span layout >{currentSong}</motion.span>
             </Tooltip>
         </Link>
     </motion.div>

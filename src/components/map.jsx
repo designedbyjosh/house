@@ -1,7 +1,9 @@
 import 'react-medium-image-zoom/dist/styles.css'
 import {useRef, useEffect,  useState } from 'react'
 import 'mapbox-gl/dist/mapbox-gl.css';
+import {isMobile} from 'react-device-detect';
 import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import * as rdd from 'react-device-detect';
 
 export default function Map({ latitude, longitude, style, rotation=1000, zoom=18, pitch=60, bearing=-60, time="night" }) {
   
@@ -10,13 +12,14 @@ export default function Map({ latitude, longitude, style, rotation=1000, zoom=18
   const mapContainer = useRef(null);
   const map = useRef(null);
 
-  let flying = false;
+  const [flying, setFlying] = useState(false)
+  let frames = []
 
-  // function rotateCamera(timestamp) {
-  //   console.log(flying)
-  //   !flying && map.current.rotateTo((timestamp / rotation) % 360, { duration: 0 });
-  //   !flying && requestAnimationFrame(rotateCamera);
-  // }
+  function rotateCamera(timestamp) {
+    !flying && map.current.rotateTo((timestamp / rotation) % 360, { duration: 0 });
+    let currentFrame = requestAnimationFrame(rotateCamera);
+    frames.push(currentFrame)
+  }
   
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -26,26 +29,30 @@ export default function Map({ latitude, longitude, style, rotation=1000, zoom=18
     map.current.on('style.load', () => {
       map.current.setConfigProperty('basemap', 'lightPreset', time);
     });
-    // map.current.on('load', () => {
-    //   // Start the animation.
-    //   rotateCamera(0);
-    // });
   }, []);
+
+  useEffect(() => {
+    if (!map.current.style._loaded) return;
+    map.current.setConfigProperty('basemap', 'lightPreset', time);
+  }, [time]);
 
   useEffect(() => {
 
     const target = {
       center: [longitude, latitude],
+      offset: isMobile ? [0, -100] : [300,0],
       zoom,
       bearing,
       pitch
       };
+  
 
     map.current.flyTo({
       ...target, // Fly to the selected target
       duration: 5000, // Animate over 12 seconds
       essential: true // This animation is considered essential with
-      });
+      })
+
   }, [latitude, longitude, zoom])
 
   return (
