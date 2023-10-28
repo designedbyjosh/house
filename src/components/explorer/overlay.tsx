@@ -37,8 +37,8 @@ export default function Overlay({ image, slug, body, title, image_alt, type = "t
       className={`dark:text-white text-black overlay bg-white dark:bg-black flex flex-col`}>
       <div className="flex-1 overflow-y-auto">
         <div className="text-xs font-semibold  mb-5 flex-row flex">
-          <FontAwesomeIcon onClick={() => { index! > 0 && totalIndex! > 1 && previousIndex!() }} className='cursor-pointer pr-5' style={{opacity: index! > 0 && totalIndex! > 1 ? 1 : 0.1}} size="lg" icon={faArrowLeft} />
-          <FontAwesomeIcon onClick={() => { index! < totalIndex! - 1 && nextIndex!() }} className='cursor-pointer' style={{opacity: index! < totalIndex! - 1 ? 1 : 0.1}} size="lg" icon={faArrowRight} />
+          <FontAwesomeIcon onClick={() => { index! < totalIndex! - 1 && nextIndex!() }} className='cursor-pointer pr-5' style={{opacity: index! < totalIndex! - 1 ? 1 : 0.1}} size="lg" icon={faArrowLeft} />
+          <FontAwesomeIcon onClick={() => { index! > 0 && totalIndex! > 1 && previousIndex!() }} className='cursor-pointer' style={{opacity: index! > 0 && totalIndex! > 1 ? 1 : 0.1}} size="lg" icon={faArrowRight} />
           <div className="pl-5 font-bold">
           {date.toLocaleDateString('en-au',
             {
@@ -51,7 +51,7 @@ export default function Overlay({ image, slug, body, title, image_alt, type = "t
         <div className="text-xl font-bold">
           {title}
         </div>
-        {image && <Image alt={image_alt!} className="mt-2" src={image!} />}
+        {image && <img alt={image_alt!} className="mt-2" src={image!} />}
         <div className={`py-3 mb-5`}>
           <motion.span className={`opacity-50`}>{text}</motion.span>
         </div>
