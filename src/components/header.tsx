@@ -38,7 +38,7 @@ export default function Header() {
                             Joshua Whitcombe
                         </Link>
                     </h1>
-                    <NowPlaying count={expanded ? 10 : 30} className="text-md"/>
+                    <NowPlaying count={(expanded && isMobile) ? 10 : 30} className="text-md"/>
                 </div>
                 <div className="flex justify-center align-center flex-col">
                     <div className="h-8 mt-3 md:mt-0 md:h-10">
