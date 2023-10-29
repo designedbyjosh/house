@@ -5,6 +5,8 @@ import { PostOrPage, PostsOrPages } from '@tryghost/content-api'
 import 'react-medium-image-zoom/dist/styles.css'
 import Link from 'next/link'
 import { useRouter } from 'next/router';
+import { faGlobe } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export interface index {
   posts: PostsOrPages
@@ -22,8 +24,8 @@ export default function BlogPost({ post }: { post: PostOrPage}) {
         <h1 className="text-2xl md:text-3xl pt-4 pb-4">{post?.title}</h1>
         <p className="opacity-50 mb-6">{post?.excerpt}</p>
         <div>
-          <Link href={`https://josh.house/travel?slug=${post.slug}`} className={`text-sm mr-1 bg-green-700 hover:bg-green-900 text-white hover:text-white py-1 px-3 rounded`}>
-            Open in World Explorer
+          <Link href={`https://josh.house/travel?slug=${post.slug}`} className={`text-sm mr-1 bg-green-700 hover:bg-green-900 text-white hover:text-white py-2 px-3 rounded`}>
+           <FontAwesomeIcon className='mx-1' size='sm' icon={faGlobe} /> Read in World Explorer
           </Link>
         </div>
         <div className="blog-post mt-5" dangerouslySetInnerHTML={{"__html": post?.html as string}} />

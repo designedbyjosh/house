@@ -7,11 +7,13 @@ import { Tooltip } from '@nextui-org/react';
 import moment from "moment"
 import Link from "next/link"
 
-export default function NowPlaying() {
+export default function NowPlaying({count=30, className=""}) {
 
     const [music, setMusic] = useState({now_playing: {}, top_tracks: {}, top_artists: {}} as SpotapiObject)
 
     useEffect(() => {socket.emit('immediate_refresh_request', (data: any) => setMusic(data))}, []);
+
+
 
     // Handles any incoming request for music updates
     socket.on('update', (data) => {
@@ -22,12 +24,12 @@ export default function NowPlaying() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        layout
+        className={className}
     >
-        <Link rel="noopener noreferrer" target="_blank" href={music.now_playing?.item?.external_urls.spotify || ""}>
+        <Link href={"/music"}>
             <Tooltip enterDelay={200} content={tooltip} rounded placement="bottom">
                 <FontAwesomeIcon icon={faSpotify} size="sm" className={`mr-2 ${color}`} beatFade={playing} />
-                <motion.span layout >{currentSong}</motion.span>
+                <span>{currentSong.slice(0, count) + (currentSong.length > count ? "..." : "")}</span>
             </Tooltip>
         </Link>
     </motion.div>

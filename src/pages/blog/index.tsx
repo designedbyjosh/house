@@ -29,7 +29,7 @@ export default function Index({ posts }: index) {
   return (
     <>
       <Head>
-        <title>{`Josh Lives Here - Blog`}</title>
+        <title>{`Josh Writes Here`}</title>
       </Head>
       <Container>
         {posts.map(post => renderPost(post))}

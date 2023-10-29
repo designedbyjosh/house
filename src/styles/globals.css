@@ -50,6 +50,13 @@ h1 {
   background-color: black;
 }
 
+.not-active {
+  user-select: none;
+}
+
+.active {
+  user-select:auto
+}
 p.about > a {
   font-weight: bold;
 }
