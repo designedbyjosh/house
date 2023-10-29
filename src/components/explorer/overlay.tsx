@@ -1,4 +1,4 @@
-import { faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faCircle } from "@fortawesome/free-solid-svg-icons"
+import { faArrowDown, faArrowLeft, faArrowRight, faArrowUp, faBook, faBookReader, faCircle, faShare, faShareFromSquare, faSpinner } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Tooltip } from "@nextui-org/react"
 import moment from "moment"
@@ -23,9 +23,10 @@ type Props = {
   body?: string,
   title?: string,
   slug?: string,
+  mapLoading?: boolean
 }
 
-export default function Overlay({ image, slug, body, title, image_alt, type = "text", text, date, updated, index, totalIndex, nextIndex, previousIndex }: Props) {
+export default function Overlay({ mapLoading, image, slug, body, title, image_alt, type = "text", text, date, updated, index, totalIndex, nextIndex, previousIndex }: Props) {
 
   const recent = moment().diff(moment(updated), 'hours') < 8
 
@@ -47,6 +48,7 @@ export default function Overlay({ image, slug, body, title, image_alt, type = "t
               day: 'numeric'
             })}
             </div>
+            {mapLoading && <FontAwesomeIcon className="ml-5" size="lg" icon={faSpinner} spin />}
         </div>
         <div className="text-xl font-bold">
           {title}
@@ -55,10 +57,11 @@ export default function Overlay({ image, slug, body, title, image_alt, type = "t
         <div className={`py-3 mb-5`}>
           <motion.span className={`opacity-50`}>{text}</motion.span>
         </div>
-        {(body) && <><Link href={`/blog/${slug}`} className={`text-med mr-1 bg-stone-800 hover:bg-stone-900 text-white hover:text-white py-1 px-3 rounded`}>
-            Fullscreen Reader
+        {(body) && <><Link href={`/blog/${slug}`} className={`text-med mr-1 bg-stone-800 hover:bg-stone-900 text-white hover:text-white py-2 px-3 rounded`}>
+        <FontAwesomeIcon className='mx-1' size='sm' icon={faBook} /> Fullscreen Reader
           </Link>
-          <motion.div className="blog-post mt-8" layout dangerouslySetInnerHTML={{ "__html": body }} /> </>}
+
+          <motion.div className="blog-post mt-8 active" layout dangerouslySetInnerHTML={{ "__html": body }} /> </>}
       </div>
       <div className="flex justify-center items-center">
 

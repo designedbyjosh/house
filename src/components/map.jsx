@@ -5,7 +5,7 @@ import {isMobile} from 'react-device-detect';
 import mapboxgl from 'mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import * as rdd from 'react-device-detect';
 
-export default function Map({ latitude, longitude, style, rotation=1000, zoom=18, pitch=60, bearing=-60, time="night" }) {
+export default function Map({ latitude, longitude, style, rotation=1000, zoom=18, pitch=60, bearing=-60, time="night", setLoading}) {
   
   mapboxgl.accessToken = 'pk.eyJ1IjoiamJ3aGl0Y29tYmUiLCJhIjoiY2o1b2s2N3RhMDB6NjMzcHFwZTJmbDJsdCJ9.KgiXUqT9bHXVulRlN7Ch6Q';
   
@@ -36,6 +36,26 @@ export default function Map({ latitude, longitude, style, rotation=1000, zoom=18
     map.current.setConfigProperty('basemap', 'lightPreset', time);
   }, [time]);
 
+  const animateToPlace = async (target) => {
+
+    setLoading(true)
+
+    map.current.flyTo({
+      ...target, // Fly to the selected target
+      preloadOnly: true, // Animate over 12 seconds
+      })
+
+    await map.current.once('idle');
+
+    setLoading(false)
+
+    map.current.flyTo({
+      ...target, // Fly to the selected target
+      duration: 5000, // Animate over 12 seconds
+      essential: true // This animation is considered essential with
+      })
+  }
+
   useEffect(() => {
 
     const target = {
@@ -46,12 +66,8 @@ export default function Map({ latitude, longitude, style, rotation=1000, zoom=18
       pitch
       };
   
-
-    map.current.flyTo({
-      ...target, // Fly to the selected target
-      duration: 5000, // Animate over 12 seconds
-      essential: true // This animation is considered essential with
-      })
+    animateToPlace(target)
+    
 
   }, [latitude, longitude, zoom])
 

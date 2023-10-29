@@ -6,6 +6,7 @@ import 'react-medium-image-zoom/dist/styles.css'
 import { motion } from "framer-motion"
 import { SpotapiObject, socket } from '@/lib/spotapi'
 import Link from 'next/link'
+import NowPlaying from '@/components/now-playing'
 
 export interface music {
   music: SpotapiObject

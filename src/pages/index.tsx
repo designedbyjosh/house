@@ -24,7 +24,7 @@ export default function Index({ }) {
         <img style={{maxWidth: '100px'}} className='inline' src={"https://blog.josh.house/content/images/2023/10/Aaron-Josh-Betty-Bravo-40.jpg"}></img>
         </div>
         <div style={{flex: 4}} className="md:px-6 flex-auto">
-          <p className="about text-2xl">
+          <p className="about text-xl md:text-2xl">
             G&apos;day,
             <br /> <br />
             I’m Josh. I’m an Aussie who lives in Sydney, Australia. 

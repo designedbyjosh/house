@@ -43,12 +43,14 @@ export default function Index({ travel }: index) {
   const { systemTheme, theme, setTheme } = useTheme();
   let currentTheme = theme === 'system' ? systemTheme : theme;
 
+  const [mapLoading, setMapLoading] = useState(false);
+
   return (
     <>
     <Head>
         <title>{`Josh Travels Here`}</title>
       </Head>
-      <Container className="mt-72 md:mt-0">
+      <Container className="mt-24 md:mt-0">
         <Overlay 
           index={currentPage}
           totalIndex={travel?.length}
@@ -56,6 +58,7 @@ export default function Index({ travel }: index) {
           nextIndex={() => {setCurrentPage(currentPage+1)}}
           text={current.excerpt!}
           body={current.html!}
+          mapLoading={mapLoading}
           slug={current.slug!}
           title={current.title}
           image={current.feature_image}
@@ -77,6 +80,7 @@ export default function Index({ travel }: index) {
         position: 'fixed',
         zIndex: -99,
       }}
+       setLoading={(status: any) => setMapLoading(status)}
        latitude={current.lat} 
        longitude={current.long}
        zoom={parseInt(current.zoom!)}  />
