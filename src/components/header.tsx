@@ -26,7 +26,7 @@ export default function Header() {
         </Link>
 
     }
-    const [expanded, setExpanded] = useState(pathname == "/" ? true : false);
+    const [expanded, setExpanded] = useState(pathname == "/" && !isMobile ? true : false);
 
 
     return (
