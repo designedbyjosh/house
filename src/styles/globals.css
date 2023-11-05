@@ -8,6 +8,13 @@
   margin-bottom: 10px;
 }
 
+.blog-post > h3 {
+  margin-top: 20px;
+  font-weight: bolder;
+  margin-bottom: 10px;
+  font-size: x-large;
+}
+
 .blog-post > ul {
   list-style-type: circle;
   margin-bottom: 20px;
@@ -33,8 +40,10 @@ div.overlay {
 }
 
 .blog-post > p {
-  line-height: 175%;
+  line-height: 200%;
   margin-bottom: 20px;
+  font-size: large;
+  font-family:Georgia, 'Times New Roman', Times, serif;
 }
 
 .blog-post > figure {
