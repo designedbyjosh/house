@@ -9,6 +9,7 @@ import { faGlobe } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Zoom from 'react-medium-image-zoom'
 import moment from 'moment'
+import readingTime from 'reading-time'
 
 export interface index {
   posts: PostsOrPages
@@ -34,7 +35,7 @@ export default function BlogPost({ post }: { post: PostOrPage}) {
       <Container>
         <div className="h-2 bg-stone-500 w-full"></div>
         <h1 className="text-2xl md:text-3xl pt-4">{post?.title}</h1>
-        <p className="opacity-80 my-1 text-xs">{moment(post?.published_at).fromNow()} by Joshua Whitcombe</p>
+        <p className="opacity-80 my-1 text-xs">{moment(post?.published_at).fromNow()} by Joshua Whitcombe | {Math.floor(readingTime(post?.html).minutes)} minute read</p>
         {/* <p className="opacity-50 my-3">{post?.excerpt}</p> */}
         <Zoom classDialog='custom-zoom'><img alt={post?.feature_image_alt!} className="my-4" src={post?.feature_image!} /></Zoom>
         {/* <div>
