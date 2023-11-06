@@ -20,6 +20,16 @@ export default function BlogPost({ post }: { post: PostOrPage}) {
     <>
       <Head>
         <title>{post?.title}</title>
+        <meta property="og:title" content={post?.title} />
+        <meta
+          property="og:image"
+          content={post?.feature_image!}
+        />
+        <meta
+          name="description"
+          content={post?.excerpt}
+          key="desc"
+        />
       </Head>
       <Container>
         <div className="h-2 bg-stone-500 w-full"></div>
