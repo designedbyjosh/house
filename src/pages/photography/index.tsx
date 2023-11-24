@@ -34,7 +34,7 @@ export default function Index({ photos }: index) {
               return (
                 <motion.div style={{ position: 'relative' }} layout onMouseEnter={(() => setHover(photo.uuid!))} onMouseLeave={(() => setHover(""))} animate={{ opacity: 1 }} key={photo.uuid}>
                   {photo.tags?.map((a) => a.name).includes('blog' as any) && <div style={{ top: 4, left: -10, position: 'absolute', zIndex: 999 }}>
-                    <Link href={`/travel?slug=${photo.slug}`} className={`text-med mr-1 bg-green-800 hover:bg-green-900 text-white hover:text-white py-1 px-3 rounded`}>
+                    <Link href={`/blog/${photo.slug}`} className={`text-med mr-1 bg-green-800 hover:bg-green-900 text-white hover:text-white py-1 px-3 rounded`}>
                       Read the Backstory
                     </Link>
                   </div>}
