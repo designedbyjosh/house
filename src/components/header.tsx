@@ -32,7 +32,7 @@ export default function Header() {
     return (
         <Container >
             <div className="flex pt-8 pb-4 not-active">
-                <div className="flex-1 left-0">
+                <div className="items-center flex flex-1 left-0">
                     <h1 className="text-2xl md:text-6xl">
                         <Link href="/">
                             Joshua Whitcombe
