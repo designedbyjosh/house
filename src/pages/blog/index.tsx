@@ -23,7 +23,7 @@ export default function Index({ posts }: index) {
         {post.title} 
           </div>
       </Link>
-      <span className=" text-xs opacity-30">{moment(post.published_at).fromNow()} - <span style={{opacity: '25%'}}></span>{Math.floor(readingTime(post?.html!).minutes)} minute read</span>
+      <span className=" text-xs opacity-30">{moment(post.published_at).fromNow()} - <span style={{opacity: '25%'}}></span>{post.reading_time} minute read</span>
       <div>
         <span className="opacity-50 text-xs">{post.excerpt}</span>
       </div>

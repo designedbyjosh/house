@@ -22,12 +22,12 @@
   margin-bottom: 20px;
   margin-left: 40px;
   font-size: large;
-  font-family:Georgia, 'Times New Roman', Times, serif;
+  /* font-family:Georgia, 'Times New Roman', Times, serif; */
 }
 
 .blog-post > figure > figcaption {
   text-align: center;
-  font-family:Georgia, 'Times New Roman', Times, serif;
+  /* font-family:Georgia, 'Times New Roman', Times, serif; */
   font-size: small;
   margin-top: 10px;
   opacity: 50%;
@@ -39,7 +39,7 @@
   margin-bottom: 30px;
   margin-left: 40px;
   font-size: large;
-  font-family:Georgia, 'Times New Roman', Times, serif;
+  /* font-family:Georgia, 'Times New Roman', Times, serif; */
 }
 
 div.blurred {
@@ -64,7 +64,7 @@ div.overlay {
   line-height: 200%;
   margin-bottom: 20px;
   font-size: large;
-  font-family:Georgia, 'Times New Roman', Times, serif;
+  /* font-family:Georgia, 'Times New Roman', Times, serif; */
 }
 
 .blog-post > figure {

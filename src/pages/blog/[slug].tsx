@@ -33,16 +33,16 @@ export default function BlogPost({ post }: { post: PostOrPage}) {
         />
       </Head>
       <Container>
-        <div className="h-2 bg-stone-500 w-full"></div>
-        <h1 className="text-2xl md:text-3xl pt-4">{post?.title}</h1>
-        <p className="opacity-80 my-1 text-xs">{moment(post?.published_at).fromNow()} by Joshua Whitcombe | {Math.floor(readingTime(post?.html!).minutes)} minute read</p>
         {/* <p className="opacity-50 my-3">{post?.excerpt}</p> */}
-        <Zoom classDialog='custom-zoom'><img alt={post?.feature_image_alt!} className="my-4" src={post?.feature_image!} /></Zoom>
+        <Zoom classDialog='custom-zoom'><img alt={post?.feature_image_alt!} className="" src={post?.feature_image!} /></Zoom>
         {/* <div>
           <Link href={`https://josh.house/travel?slug=${post.slug}`} className={`text-sm mr-1 bg-green-700 hover:bg-green-900 text-white hover:text-white py-2 px-3 rounded`}>
            <FontAwesomeIcon className='mx-1' size='sm' icon={faGlobe} /> Read in World Explorer
           </Link>
         </div> */}
+        <h1 className="text-2xl md:text-3xl pt-4">{post?.title}</h1>
+        <p className="opacity-80 my-1 text-xs">{moment(post?.published_at).fromNow()} by Joshua Whitcombe | {post?.reading_time} minute read</p>
+        <hr className="mt-5" />
         <div className="blog-post mt-5" dangerouslySetInnerHTML={{"__html": post?.html as string}} />
         
       </Container>
