@@ -3,22 +3,43 @@
 @tailwind utilities;
 
 .blog-post > h2 {
-  margin-top: 20px;
+  margin-top: 40px;
   font-weight: bolder;
   margin-bottom: 10px;
+  font-size: xx-large;
 }
 
 .blog-post > h3 {
-  margin-top: 20px;
+  margin-top: 40px;
   font-weight: bolder;
   margin-bottom: 10px;
-  font-size: x-large;
+  font-size: xx-large;
 }
 
 .blog-post > ul {
+  line-height: 200%;
   list-style-type: circle;
   margin-bottom: 20px;
   margin-left: 40px;
+  font-size: large;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.blog-post > figure > figcaption {
+  text-align: center;
+  font-family:Georgia, 'Times New Roman', Times, serif;
+  font-size: small;
+  margin-top: 10px;
+  opacity: 50%;
+}
+
+.blog-post > ol {
+  line-height: 200%;
+  list-style-type:decimal;
+  margin-bottom: 30px;
+  margin-left: 40px;
+  font-size: large;
+  font-family:Georgia, 'Times New Roman', Times, serif;
 }
 
 div.blurred {
