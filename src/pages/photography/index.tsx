@@ -20,7 +20,6 @@ export default function Index({ photos }: index) {
 
   const [hover, setHover] = useState("");
   // const featured = photos.find(photo => photo.featured);
-
   return (
     <>
       <Head>
@@ -31,8 +30,7 @@ export default function Index({ photos }: index) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }} className="grid grid-cols-1 gap-x-10 md:grid-cols-2">
           <>
-            {photos.map((photo) => {
-              console.log(photo)
+            {photos.sort((a,b) => (new Date(b.published_at!).getTime()) - (new Date(a.published_at!).getTime())).map((photo) => {
               return (
                 <motion.div style={{ position: 'relative' }} layout onMouseEnter={(() => setHover(photo.uuid!))} onMouseLeave={(() => setHover(""))} animate={{ opacity: 1 }} key={photo.uuid}>
                   {photo.tags?.map((a) => a.name).includes('blog' as any) && <div style={{ top: 4, left: -10, position: 'absolute', zIndex: 999 }}>

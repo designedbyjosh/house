@@ -5,7 +5,7 @@ import Container from './container';
 import Link from 'next/link';
 import NowPlaying from './now-playing';
 import { Tooltip } from '@nextui-org/react';
-import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faGithub, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
@@ -42,8 +42,8 @@ export default function Header() {
                 </div>
                 <div className="flex justify-center align-center flex-col">
                     <div className="h-8 mt-3 md:mt-0 md:h-10">
-                        {expanded && <><a className="hover:opacity-50" href="mailto:hello@whitcombe.me">
-                            <FontAwesomeIcon className='mr-2 ml-2' size='lg' icon={faEnvelope} />
+                        {expanded && <><a className="hover:opacity-50" href="https://www.instagram.com/jbwhitcombe/">
+                            <FontAwesomeIcon className='mr-2 ml-2' size='lg' icon={faInstagram} />
                         </a>
                             <a className="hover:opacity-50" href="https://www.linkedin.com/in/anengineercalledjosh/">
                                 <FontAwesomeIcon className='mr-2 ml-2' size='lg' icon={faLinkedin} />
