@@ -46,12 +46,6 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const posts = await getPosts()
 
-  if (!posts) {
-    return {
-      notFound: true
-    }
-  }
-
   return {
     props: { posts },
     revalidate: 60,
