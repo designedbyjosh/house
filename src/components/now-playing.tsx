@@ -13,8 +13,6 @@ export default function NowPlaying({count=30, className=""}) {
 
     useEffect(() => {socket.emit('immediate_refresh_request', (data: any) => setMusic(data))}, []);
 
-
-
     // Handles any incoming request for music updates
     socket.on('update', (data) => {
         setMusic(data)
@@ -29,7 +27,7 @@ export default function NowPlaying({count=30, className=""}) {
         <Link href={"/music"}>
             <Tooltip enterDelay={200} content={tooltip} rounded placement="bottom">
                 <FontAwesomeIcon icon={faSpotify} size="sm" className={`mr-2 ${color}`} beatFade={playing} />
-                <span>{currentSong.slice(0, count) + (currentSong.length > count ? "..." : "")}</span>
+                <span>{currentSong && currentSong.slice(0, count) + (currentSong.length > count ? "..." : "")}</span>
             </Tooltip>
         </Link>
     </motion.div>
