@@ -25,11 +25,12 @@
   /* font-family:Georgia, 'Times New Roman', Times, serif; */
 }
 
-.blog-post > figure > figcaption {
+figcaption {
   text-align: center;
   /* font-family:Georgia, 'Times New Roman', Times, serif; */
   font-size: small;
   margin-top: 10px;
+  margin-bottom: 20px;
   opacity: 50%;
 }
 

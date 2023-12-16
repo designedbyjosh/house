@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 export default function Meta() {
   return (
-    <Head>
+    <head>
       <script src='https://api.mapbox.com/mapbox-gl-js/v3.0.0-beta.1/mapbox-gl.js'></script>
       <link href='https://api.mapbox.com/mapbox-gl-js/v3.0.0-beta.1/mapbox-gl.css' rel='stylesheet' />
       <link
@@ -60,6 +60,6 @@ export default function Meta() {
         name="description"
         content={`I'm a software engineer living in Australia. Here I document my adventures overseas, my thoughts on navigating grief and images of our beautiful world.`}
       />
-    </Head>
+    </head>
   )
 }

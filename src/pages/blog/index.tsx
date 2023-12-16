@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { GetStaticProps } from 'next'
 import Container from '../../components/container'
-import { getPosts } from '../../lib/ghost'
+import { SubscribeToNewsletter, getPosts } from '../../lib/ghost'
 import { PostOrPage, PostsOrPages } from '@tryghost/content-api'
 import 'react-medium-image-zoom/dist/styles.css'
 import Link from 'next/link'
@@ -9,6 +9,7 @@ import moment from 'moment'
 import readingTime from 'reading-time'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock, faEye } from '@fortawesome/free-solid-svg-icons'
+import { useState } from 'react'
 
 export interface index {
   posts: PostsOrPages

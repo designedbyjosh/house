@@ -9,7 +9,6 @@ type Props = {
 export default function Layout({ children } : Props) {
   return (
     <>
-      <Meta />
         <div className="min-h-screen  pb-16">
           <Header />
           <main>{children}</main>

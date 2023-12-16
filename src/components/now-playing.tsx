@@ -18,6 +18,8 @@ export default function NowPlaying({count=30, className=""}) {
         setMusic(data)
     })
 
+    console.log(music)
+
     const main = (tooltip: string, color: string, currentSong: string, playing: boolean) => <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -35,7 +37,7 @@ export default function NowPlaying({count=30, className=""}) {
     if (Object.keys(music).length === 0 || Object.keys(music?.now_playing!).length === 0) return <div/>
 
     return music?.now_playing?.is_playing
-        ? main("I'm listening to this right now!", "text-green-600", music.now_playing?.item?.name!, true)
+        ? main(`I'm currently listening to ${music.now_playing?.item?.name!} by ${(music as any).now_playing?.item?.album?.artists[0]?.name}`, "text-green-600", music.now_playing?.item?.name!, true)
         : main(`I stopped listening to this ${moment(music?.now_playing?.timestamp).fromNow()}.`, "text-stone-600", music.now_playing?.item?.name!, false)
 
 }

@@ -3,19 +3,30 @@ import Container from '../../components/container'
 import { ReadPost, getPosts } from '../../lib/ghost'
 import { PostOrPage, PostsOrPages } from '@tryghost/content-api'
 import 'react-medium-image-zoom/dist/styles.css'
-import Link from 'next/link'
-import { useRouter } from 'next/router';
-import { faGlobe } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Zoom from 'react-medium-image-zoom'
 import moment from 'moment'
-import readingTime from 'reading-time'
+import parse from "html-react-parser";
 
 export interface index {
   posts: PostsOrPages
 }
 
+const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
+  if(!elements) return elements;
+  return elements.map((element) => {
+    if (element.type != 'figure') return element
+    return <>
+    <Zoom classDialog='custom-zoom'>
+      <img alt={element.props.children[0].props.alt} className="" src={element.props.children[0].props.src} />
+    </Zoom>
+    {element.props.children[1]}
+    </>
+  })
+};
+
 export default function BlogPost({ post }: { post: PostOrPage}) {
+
+  const html = replaceFiguresWithImageZoom(parse(post?.html as string) as any)
 
   return (
     <>
@@ -35,15 +46,12 @@ export default function BlogPost({ post }: { post: PostOrPage}) {
       <Container>
         {/* <p className="opacity-50 my-3">{post?.excerpt}</p> */}
         <Zoom classDialog='custom-zoom'><img alt={post?.feature_image_alt!} className="" src={post?.feature_image!} /></Zoom>
-        {/* <div>
-          <Link href={`https://josh.house/travel?slug=${post.slug}`} className={`text-sm mr-1 bg-green-700 hover:bg-green-900 text-white hover:text-white py-2 px-3 rounded`}>
-           <FontAwesomeIcon className='mx-1' size='sm' icon={faGlobe} /> Read in World Explorer
-          </Link>
-        </div> */}
         <h1 className="text-2xl md:text-3xl pt-4">{post?.title}</h1>
-        <p className="opacity-80 my-1 text-xs">{moment(post?.published_at).fromNow()} by Joshua Whitcombe | {post?.reading_time} minute read</p>
+        <p className="opacity-80 my-1 text-xs">A {post?.reading_time} minute read I posted {moment(post?.published_at).fromNow()}</p>
         <hr className="mt-5" />
-        <div className="blog-post mt-5" dangerouslySetInnerHTML={{"__html": post?.html as string}} />
+        <div className="blog-post mt-5">
+          {html}
+        </div>
         
       </Container>
     </>

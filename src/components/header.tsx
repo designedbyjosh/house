@@ -1,6 +1,6 @@
 'use client';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faChartLine, faEnvelope, faHamburger, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import Container from './container';
 import Link from 'next/link';
 import NowPlaying from './now-playing';
@@ -11,6 +11,7 @@ import { useTheme } from 'next-themes';
 import { useState } from 'react';
 import { motion } from "framer-motion"
 import {isMobile} from 'react-device-detect';
+import EmailSignup from './emailSignup';
 
 export default function Header() {
 
@@ -19,7 +20,7 @@ export default function Header() {
         let page = "/" + pageRef.toLowerCase();
         return <Link href={page}>
             <Tooltip content={tooltipText} rounded placement='bottom'>
-                <button className={`${(page == pathname) && "!bg-stone-800 !text-white"} w-full my-1 md:w-auto mr-2 bg-stone-300 dark:bg-stone-900 hover:bg-stone-800 hover:text-white py-1 px-4 rounded`}>
+                <button className={`${(page == pathname) && "!bg-stone-800 !text-white"} w-full my-1 text-sm md:w-auto mr-2 bg-gray-300 dark:bg-gray-900 hover:bg-stone-800 hover:text-white py-1 px-4 rounded`}>
                     {pageText || pageRef}
                 </button>
             </Tooltip>
@@ -76,6 +77,7 @@ export default function Header() {
                     {pageButton("Music", "", "My top tracks of all time, refreshed on page load.")}
                 </motion.div>}
             </motion.div>
+            <EmailSignup />
         </Container>
     )
 }
