@@ -58,7 +58,7 @@ export default function Meta() {
         src="https://umami.josh.house/umami.js" />}
       <meta
         name="description"
-        content={`I'm a software engineer living in Australia. Here I document my adventures overseas, my thoughts on navigating grief and images of our beautiful world.`}
+        content={`I'm a software engineer living in Australia. Here I document my projects, adventures overseas, and photographs of our beautiful world.`}
       />
     </head>
   )

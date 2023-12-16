@@ -39,7 +39,7 @@ export default function Index({ }) {
               <br /> <br />
               During the day, I work as a data engineer for <a href="https://palantir.com">Palantir</a>.
               <br /> <br />
-              The rest of the time, I get amongst <a href="/photography">photography</a>, <a href="/travel">overseas travel</a> and <a href="/blog">writing about navigating grief</a>.
+              The rest of the time, I get amongst <a href="/photography">photography</a>, <a href="/travel">overseas travel</a> and <a href="/blog/after-the-wards-navigating-lifes-turbulent-currents-as-a-gay-widower">ways to navigate adversity</a>.
               <br /> <br />
               <i>- Josh</i>
             </p>
