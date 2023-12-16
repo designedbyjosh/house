@@ -15,18 +15,24 @@ const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
   if(!elements) return elements;
   return elements.map((element) => {
     if (element.type != 'figure') return element
+
+    let image = Array.isArray(element.props.children) ? 
+    <img alt={element.props.children[0].props.alt} className="" src={element.props.children[0].props.src} />
+    :
+    <img alt={element.props.children.props.alt} className="" src={element.props.children.props.src} />
+
     return <>
     <Zoom classDialog='custom-zoom'>
-      <img alt={element.props.children[0].props.alt} className="" src={element.props.children[0].props.src} />
+      {image}
     </Zoom>
-    {element.props.children[1]}
+    {Array.isArray(element.props.children) && element.props.children[1]}
     </>
   })
 };
 
 export default function BlogPost({ post }: { post: PostOrPage}) {
 
-  const html = replaceFiguresWithImageZoom(parse(post?.html as string) as any)
+  const html = replaceFiguresWithImageZoom(parse(post?.html || "" as string) as any)
 
   return (
     <>
@@ -61,7 +67,6 @@ export default function BlogPost({ post }: { post: PostOrPage}) {
 export async function getStaticPaths() {
 
   const posts = await getPosts() as PostsOrPages;
-
 
   let paths = {};
   paths = await posts.map(post => { return { params: { slug: post.slug } } });

@@ -18,8 +18,6 @@ export default function NowPlaying({count=30, className=""}) {
         setMusic(data)
     })
 
-    console.log(music)
-
     const main = (tooltip: string, color: string, currentSong: string, playing: boolean) => <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
