@@ -11,9 +11,11 @@ import { PostOrPage } from '@tryghost/content-api';
 import Map from '@/components/map';
 import { CornerDialog, toaster } from 'evergreen-ui';
 import isValidEmail from 'is-valid-email';
+import Image from 'next/image';
 
 
 export default function Index({ }) {
+  const profileURL = "https://blog.josh.house/content/images/2023/11/DALL-E-2023-11-06-16.56.47---extend-the-background.png"
 
   return (
     <>
@@ -21,7 +23,14 @@ export default function Index({ }) {
         <title>{`Josh Posts Here`}</title>
       </Head>
       <Container>
-          <img style={{width: '100%'}} src={"https://blog.josh.house/content/images/2023/11/DALL-E-2023-11-06-16.56.47---extend-the-background.png"}></img>
+          <Image 
+            alt={"Joshua Whitcombe standing in a field"}
+            src={profileURL}
+            width="0"
+            height="0"
+            priority
+            sizes="100vw"
+            className="w-full h-auto"></Image>
           <div style={{ flex: 4 }} className="md:px-6 flex-auto">
             <p className="about text-l md:text-2xl mt-10">
               G&apos;day,

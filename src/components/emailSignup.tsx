@@ -6,14 +6,16 @@ import isValidEmail from 'is-valid-email';
 
 export default function EmailSignup() {
     
-    const [showSignupPrompt, setShowSignupPrompt] = useState(() => {
-        // Try to get the boolean value from local storage, default to false if not present
+    const [showSignupPrompt, setShowSignupPrompt] = useState(false);
+
+    useEffect(() => {
         if (typeof window !== 'undefined') {
             const storedValue = localStorage.getItem('hasSubscribed');
-            return storedValue ? !JSON.parse(storedValue) : true;
+            if (!storedValue) {
+                setTimeout(() => {setShowSignupPrompt(true)}, 5000)
+            }
         }
-        return true
-      });
+    }, [])
 
     const [emailText, setEmailText] = useState("")
     const [emailLoading, setEmailLoading] = useState(false)

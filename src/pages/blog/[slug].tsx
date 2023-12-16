@@ -6,6 +6,7 @@ import 'react-medium-image-zoom/dist/styles.css'
 import Zoom from 'react-medium-image-zoom'
 import moment from 'moment'
 import parse from "html-react-parser";
+import Image from 'next/image'
 
 export interface index {
   posts: PostsOrPages
@@ -13,17 +14,20 @@ export interface index {
 
 const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
   if(!elements) return elements;
-  return elements.map((element) => {
+  return elements.map( (element) => {
     if (element.type != 'figure') return element
 
-    let image = Array.isArray(element.props.children) ? 
-    <img alt={element.props.children[0].props.alt} className="" src={element.props.children[0].props.src} />
-    :
-    <img alt={element.props.children.props.alt} className="" src={element.props.children.props.src} />
+    let image = Array.isArray(element.props.children) ? element.props.children[0].props : element.props.children.props
 
     return <>
     <Zoom classDialog='custom-zoom'>
-      {image}
+    <img 
+      width="0"
+      height="0"
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      className="w-full h-auto" 
+      alt={image.alt} 
+      src={image.src} />
     </Zoom>
     {Array.isArray(element.props.children) && element.props.children[1]}
     </>
@@ -51,7 +55,13 @@ export default function BlogPost({ post }: { post: PostOrPage}) {
       </Head>
       <Container>
         {/* <p className="opacity-50 my-3">{post?.excerpt}</p> */}
-        <Zoom classDialog='custom-zoom'><img alt={post?.feature_image_alt!} className="" src={post?.feature_image!} /></Zoom>
+        <Zoom classDialog='custom-zoom'><Image 
+        priority
+        width="0"
+        height="0"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        className="w-full h-auto" 
+        alt={post?.feature_image_alt!} src={post?.feature_image!} /></Zoom>
         <h1 className="text-2xl md:text-3xl pt-4">{post?.title}</h1>
         <p className="opacity-80 my-1 text-xs">A {post?.reading_time} minute read I posted {moment(post?.published_at).fromNow()}</p>
         <hr className="mt-5" />
