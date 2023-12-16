@@ -29,7 +29,7 @@ const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
       alt={image.alt} 
       src={image.src} />
     </Zoom>
-    {Array.isArray(element.props.children) && element.props.children[1]}
+    {Array.isArray(element.props.children) ? element.props.children[1] : <div className="w-full mt-5"/>}
     </>
   })
 };
