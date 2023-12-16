@@ -32,7 +32,7 @@ export default function EmailSignup() {
         onChange={(event) => setEmailText(event.target.value)}
       />
       <button disabled={!valid} onClick={() => {
-        setEmailLoading(true); SubscribeToNewsletter(emailText, "", "")
+        setEmailLoading(true); SubscribeToNewsletter(emailText)
           .then(() => { 
             setEmailLoading(false);
             setEmailText("");

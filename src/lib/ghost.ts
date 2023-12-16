@@ -55,7 +55,7 @@ export async function getPosts() {
     });
 }
 
-export async function SubscribeToNewsletter(email: string, newsletter: string, first) {
+export async function SubscribeToNewsletter(email: string) {
 
   return new Promise(async (resolve, reject) => {
     // Your request body
