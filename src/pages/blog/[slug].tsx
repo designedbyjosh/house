@@ -21,7 +21,7 @@ const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
 
     return <>
     <Zoom classDialog='custom-zoom'>
-    <img 
+    <Image 
       width="0"
       height="0"
       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -29,10 +29,11 @@ const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
       alt={image.alt} 
       src={image.src} />
     </Zoom>
-    {Array.isArray(element.props.children) ? element.props.children[1] : <div className="w-full mt-5"/>}
+    {Array.isArray(element.props.children) && element.props.children[1]}
     </>
   })
 };
+
 
 export default function BlogPost({ post }: { post: PostOrPage}) {
 
@@ -55,13 +56,15 @@ export default function BlogPost({ post }: { post: PostOrPage}) {
       </Head>
       <Container>
         {/* <p className="opacity-50 my-3">{post?.excerpt}</p> */}
-        <Zoom classDialog='custom-zoom'><Image 
-        priority
-        width="0"
-        height="0"
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        className="w-full h-auto" 
-        alt={post?.feature_image_alt!} src={post?.feature_image!} /></Zoom>
+        {post?.feature_image && <Zoom classDialog='custom-zoom'>
+          <Image 
+            width="0"
+            height="0"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="w-full h-auto" 
+            alt={post?.feature_image_alt!} 
+            src={post?.feature_image!} />
+        </Zoom>}
         <h1 className="text-2xl md:text-3xl pt-4">{post?.title}</h1>
         <p className="opacity-80 my-1 text-xs">A {post?.reading_time} minute read I posted {moment(post?.published_at).fromNow()}</p>
         <hr className="mt-5" />
