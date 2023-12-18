@@ -20,7 +20,7 @@ export default function EmailSignup() {
         }
     }, [])
 
-    return <CornerDialog width={300} hasClose={false} containerProps={{ style: { border: "3px gray solid", boxShadow: 'none' } }} hasFooter={false} isShown={showSignupPrompt}>
+    return <CornerDialog width={300} hasClose={false} containerProps={{ className:"dark:bg-neutral-900", style: { border: "3px gray solid", boxShadow: 'none' } }} hasFooter={false} isShown={showSignupPrompt}>
         <h1 
             className="text-2xl">
             Stay in Touch
@@ -50,7 +50,7 @@ export default function EmailSignup() {
                     .catch(() => toaster.danger("Sorry, it looks like signing you up didn't work out"))
             }}
             style={{ opacity: !valid || emailLoading ? 0.3 : 1 }}
-            className="text-sm w-full bg-emerald-100 dark:bg-emerald-100 hover:bg-emerald-900 hover:text-white py-1 px-4 rounded">
+            className="text-sm w-full bg-emerald-100 dark:bg-emerald-700 hover:bg-emerald-900 hover:text-white py-1 px-4 rounded">
             {emailLoading ? "Signing Up" : "Sign Up"}
         </button>
         <button 
@@ -58,7 +58,7 @@ export default function EmailSignup() {
                 setShowSignupPrompt(false); 
                 localStorage.setItem('hasSubscribed', JSON.stringify(true));
                 }} 
-            className="text-sm w-full bg-gray-100 dark:bg-gray-100 hover:bg-gray-900 mt-1 hover:text-white py-1 px-4 rounded">
+            className="text-sm w-full bg-gray-100 dark:bg-neutral-500 hover:bg-gray-900 mt-1 hover:text-white py-1 px-4 rounded">
             No Thanks
         </button>
 
