@@ -28,7 +28,7 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     };
 
     // Split the key into ID and SECRET
-    const [id, secret] = adminToken.split(':');
+    const [id, secret] = adminToken!.split(':');
 
     // Create the token (including decoding secret)
     const token = jwt.sign({}, Buffer.from(secret, 'hex'), {
