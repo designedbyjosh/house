@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { SubscribeToNewsletter } from '@/lib/ghost';
 import { CornerDialog, toaster } from 'evergreen-ui';
 import isValidEmail from 'is-valid-email';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 export default function EmailSignup() {
 
@@ -47,11 +49,11 @@ export default function EmailSignup() {
                         localStorage.setItem('hasSubscribed', JSON.stringify(true));
                         toaster.success(`Thanks so much. I've subscribed ${emailText} to receive updates on my writing.`);
                     })
-                    .catch(() => toaster.danger("Sorry, it looks like signing you up didn't work out"))
+                    .catch(() => {setEmailLoading(false); toaster.danger("Sorry, it looks like signing you up didn't work out")})
             }}
             style={{ opacity: !valid || emailLoading ? 0.3 : 1 }}
             className="text-sm w-full bg-emerald-100 dark:bg-emerald-700 hover:bg-emerald-900 hover:text-white py-1 px-4 rounded">
-            {emailLoading ? "Signing Up" : "Sign Up"}
+            {emailLoading && <FontAwesomeIcon spin icon={faSpinner} size="sm" />} {emailLoading ? "Signing Up" : "Sign Up"}
         </button>
         <button 
             onClick={() => { 
