@@ -38,7 +38,17 @@ export default function Index({ photos }: index) {
                       Read the Backstory
                     </Link>
                   </div>}
-                  <Zoom classDialog='custom-zoom'><img alt={photo.feature_image_alt!} className="pt-2 md:pt-4" src={photo.feature_image!} /></Zoom>
+                  <Zoom classDialog='custom-zoom'>
+                    <Image 
+                      width="0"
+                      height="0"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="w-full h-auto"
+                      placeholder="empty"
+                      alt={photo.feature_image_alt!} 
+                      src={photo.feature_image!} 
+                    />
+                  </Zoom>
                   <motion.p layout className="text-xs py-2 mb-1 text-gray-400/75"><motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} exit={{ scaleX: 0 }}>{moment(photo.published_at).format("MMMM Do, YYYY") + " // "}</motion.span> {photo.feature_image_caption!}</motion.p>
                 </motion.div>)
             })}
