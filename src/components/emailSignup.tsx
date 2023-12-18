@@ -45,7 +45,7 @@ export default function EmailSignup() {
           .catch(() => {
             toaster.danger("Sorry, it looks like signing you up didn't work out")
           })
-      }} style={{opacity: valid ? 1 : 0.3}} className="text-sm w-full bg-emerald-100 dark:bg-emerald-100 hover:bg-emerald-900 hover:text-white py-1 px-4 rounded">Sign Up</button>
+      }} style={{opacity: !valid || emailLoading ? 0.3 : 1}} className="text-sm w-full bg-emerald-100 dark:bg-emerald-100 hover:bg-emerald-900 hover:text-white py-1 px-4 rounded">{emailLoading ? "Signing Up" : "Sign Up"}</button>
       <button onClick={() => {setShowSignupPrompt(false); localStorage.setItem('hasSubscribed', JSON.stringify(true));}} className="text-sm w-full bg-gray-100 dark:bg-gray-100 hover:bg-gray-900 mt-1 hover:text-white py-1 px-4 rounded">No Thanks</button>
     
     </CornerDialog>
