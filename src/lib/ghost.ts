@@ -58,7 +58,7 @@ export async function SubscribeToNewsletter(email: string) {
   return new Promise(async (resolve, reject) => {
     
       try {
-        await fetch(`/api/newsletter?email=${email}`);
+        await fetch(`/api/newsletter/subscribe?email=${email}`);
         resolve("Successfully signed up user")
       } catch (error) {
         console.error('Error fetching data:', error);
