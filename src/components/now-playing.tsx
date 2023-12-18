@@ -26,8 +26,8 @@ export default function NowPlaying({count=30, className=""}) {
     >
         <Link href={"/music"}>
             <Tooltip enterDelay={200} content={tooltip} rounded placement="bottom">
-                <FontAwesomeIcon icon={faSpotify} size="sm" className={`mr-2 ${color}`} beatFade={playing} />
-                <span>{currentSong && currentSong.slice(0, count) + (currentSong.length > count ? "..." : "")}</span>
+                <FontAwesomeIcon icon={faSpotify} size="sm" className={`mr-2 ${color}`} fade={playing} />
+                <a href="/music">{currentSong && currentSong.slice(0, count) + (currentSong.length > count ? "..." : "")}</a>
             </Tooltip>
         </Link>
     </motion.div>
