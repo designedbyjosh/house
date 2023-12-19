@@ -8,11 +8,12 @@ import { Tooltip } from '@nextui-org/react';
 import { faGithub, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from "framer-motion"
 import {isMobile} from 'react-device-detect';
 import EmailSignup from './emailSignup';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { CornerDialog } from 'evergreen-ui';
 
 export default function Header() {
 
@@ -26,8 +27,16 @@ export default function Header() {
                 </motion.button>
             </Tooltip>
         </Link>
-
     }
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const storedValue = localStorage.getItem('hasSubscribed')
+            if (!storedValue) {
+                setTimeout(() => { setShowSignupPrompt(true) }, 5000)
+            }
+        }
+    }, [])
 
     const iconLink = (link: string, icon: IconProp) => <motion.a 
     initial={{opacity: 0}}
@@ -39,6 +48,7 @@ export default function Header() {
     </motion.a>
 
     const [expanded, setExpanded] = useState(false);
+    const [showSignupPrompt, setShowSignupPrompt] = useState(false);
 
 
     return (
@@ -78,7 +88,9 @@ export default function Header() {
                     {pageButton("Music", "", "My top tracks of all time, refreshed on page load.")}
                 </motion.div>}
             </motion.div>
-            <EmailSignup />
+            <CornerDialog width={300} hasClose={false} containerProps={{ className:"dark:bg-neutral-900", style: { zIndex: 999, border: "1px gray solid", boxShadow: 'none' } }} hasFooter={false} isShown={showSignupPrompt}>
+                <EmailSignup setShowSignupPrompt={(targetState) => setShowSignupPrompt(targetState)} />
+            </CornerDialog>
         </Container>
     )
 }
