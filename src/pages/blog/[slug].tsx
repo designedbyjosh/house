@@ -1,16 +1,14 @@
 import Head from 'next/head'
 import Container from '../../components/container'
-import { ReadPost, getPosts } from '../../lib/ghost'
+import { ReadPost, getLatestPost, getPosts } from '../../lib/ghost'
 import { PostOrPage, PostsOrPages } from '@tryghost/content-api'
 import 'react-medium-image-zoom/dist/styles.css'
 import Zoom from 'react-medium-image-zoom'
 import moment from 'moment'
 import parse from "html-react-parser";
 import Image from 'next/image'
-
-export interface index {
-  posts: PostsOrPages
-}
+import EmailSignup from '@/components/emailSignup'
+import { StatusIndicator } from 'evergreen-ui'
 
 const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
   if(!elements) return elements;
@@ -35,7 +33,7 @@ const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
 };
 
 
-export default function BlogPost({ post }: { post: PostOrPage}) {
+export default function BlogPost({ post, latestPost }: { post: PostOrPage, latestPost: PostOrPage}) {
 
   const html = replaceFiguresWithImageZoom(parse(post?.html || "" as string) as any)
 
@@ -71,7 +69,17 @@ export default function BlogPost({ post }: { post: PostOrPage}) {
         <div className="blog-post mt-5">
           {html}
         </div>
-        
+        <hr className="my-10" />
+        <div style={{ flex: 4 }} className="grid grid-cols-1 gap-x-5 md:grid-cols-2 md:mb-5">
+          <a href={`/blog/${latestPost.slug}`} className="bg-neutral-100 mb-5 md:mb-0 p-7 hover:bg-neutral-200 cursor-pointer rounded">
+            <span><StatusIndicator color="red" /><span className="text-xs opacity-50">Latest Article<span className="font-semibold ml-1">{moment(latestPost.published_at).fromNow()}</span></span></span>
+            <h2 className="text-sm py-1">{latestPost.title}</h2>
+            <span className="text-xs opacity-30">{latestPost.reading_time} minute read</span>
+          </a>
+          <div className="bg-neutral-100 mb-5 md:mb-0 p-7 rounded">
+            <EmailSignup showCancel={false} header="Mailing List" message="" signupText='Subscribe to Future Articles' />
+          </div>
+        </div>
       </Container>
     </>
   )
@@ -93,10 +101,12 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }: any) {
 
   const post = await ReadPost({ slug: params.slug })
+  const latestPost = await getLatestPost()
 
   return {
     props: {
-      post
+      post,
+      latestPost,
     },
     revalidate: 10
   };

@@ -81,6 +81,20 @@ export async function getTravelPosts() {
     });
 }
 
+export async function getLatestPhoto() {
+  let posts = await api.posts
+  .browse({
+    include: 'tags',
+    limit: "1",
+    filter: "tags:[photo]"
+  })
+  .catch(err => {
+    console.error(err);
+  });
+
+  return (posts as any)[0]
+}
+
 export async function getLatestPost() {
   let posts = await api.posts
     .browse({

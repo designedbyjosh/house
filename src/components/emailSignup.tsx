@@ -6,29 +6,19 @@ import isValidEmail from 'is-valid-email';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-export default function EmailSignup() {
+export default function EmailSignup({ showCancel=true, signupText="Sign Up", header="Stay in Touch", message="Would you like to have my writing occasionally sent to your inbox, with absolutely no spam?", setShowSignupPrompt = () => {} } : { signupText? : string, showCancel? : boolean, header? : string, message? : string, setShowSignupPrompt?: (targetState: boolean) => void}) {
 
-    const [showSignupPrompt, setShowSignupPrompt] = useState(false);
     const [emailText, setEmailText] = useState("")
     const [emailLoading, setEmailLoading] = useState(false)
     const valid = isValidEmail(emailText)
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const storedValue = localStorage.getItem('hasSubscribed')
-            if (!storedValue) {
-                setTimeout(() => { setShowSignupPrompt(true) }, 5000)
-            }
-        }
-    }, [])
-
-    return <CornerDialog width={300} hasClose={false} containerProps={{ className:"dark:bg-neutral-900", style: { border: "1px gray solid", boxShadow: 'none' } }} hasFooter={false} isShown={showSignupPrompt}>
+    return <div>
         <h1 
             className="text-2xl">
-            Stay in Touch
+            {header}
         </h1>
-        <p>
-            Would you like to have my writing occasionally sent to your inbox, with absolutely no spam?
+        <p className="text-sm">
+            {message}
         </p>
         <input
             type="text"
@@ -53,16 +43,16 @@ export default function EmailSignup() {
             }}
             style={{ opacity: !valid || emailLoading ? 0.3 : 1 }}
             className="text-sm w-full bg-emerald-400 hover:bg-emerald-600 hover:text-white py-1 px-4 rounded">
-            {emailLoading && <FontAwesomeIcon spin icon={faSpinner} size="sm" />} {emailLoading ? "Signing Up" : "Sign Up"}
+            {emailLoading && <FontAwesomeIcon spin icon={faSpinner} size="sm" />} {signupText}
         </button>
-        <button 
+       {showCancel && <button 
             onClick={() => { 
                 setShowSignupPrompt(false); 
                 localStorage.setItem('hasSubscribed', JSON.stringify(true));
                 }} 
             className="text-sm w-full bg-neutral-100 hover:bg-neutral-600 mt-2 hover:text-white py-1 px-4 rounded">
             No Thanks
-        </button>
+        </button>}
 
-    </CornerDialog>
+    </div>
 }
