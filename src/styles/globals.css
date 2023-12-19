@@ -73,6 +73,10 @@ div.overlay {
   margin-bottom: 20px;
 }
 
+.mapbox-ctrl-logo {
+  display: none !important;
+}
+
 h1 {
   font-family: 'Bebas Neue', cursive;
 }

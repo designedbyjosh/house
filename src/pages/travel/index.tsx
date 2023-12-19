@@ -5,18 +5,12 @@ import moment from 'moment';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import { GetStaticPaths, GetStaticProps } from 'next'
-import { getTravelPosts } from '@/lib/ghost';
+import { PostOrPageWithLocation, getTravelPosts } from '@/lib/ghost';
 import Overlay from '@/components/explorer/overlay';
 import { PostOrPage } from '@tryghost/content-api';
 import Map from '@/components/map';
 import { useRouter } from 'next/router'
 import { useTheme } from 'next-themes';
-
-export interface PostOrPageWithLocation extends PostOrPage {
-  lat?: string,
-  long?: string,
-  zoom?: string
-}
 export interface index {
   travel?: PostOrPageWithLocation[]
 }
@@ -41,7 +35,6 @@ export default function Index({ travel }: index) {
   const current = travel![currentPage];
 
   const { systemTheme, theme, setTheme } = useTheme();
-  let currentTheme = theme === 'system' ? systemTheme : theme;
 
   const [mapLoading, setMapLoading] = useState(false);
 
