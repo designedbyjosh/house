@@ -88,7 +88,7 @@ export default function Header() {
                     {pageButton("Music", "", "My top tracks of all time, refreshed on page load.")}
                 </motion.div>}
             </motion.div>
-            <CornerDialog width={300} hasClose={false} containerProps={{ className:"dark:bg-neutral-900", style: { border: "1px gray solid", boxShadow: 'none' } }} hasFooter={false} isShown={showSignupPrompt}>
+            <CornerDialog width={300} hasClose={false} containerProps={{ className:"dark:bg-neutral-900", style: { zIndex: 999, border: "1px gray solid", boxShadow: 'none' } }} hasFooter={false} isShown={showSignupPrompt}>
                 <EmailSignup setShowSignupPrompt={(targetState) => setShowSignupPrompt(targetState)} />
             </CornerDialog>
         </Container>
