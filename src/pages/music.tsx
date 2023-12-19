@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCompactDisc, faRecordVinyl } from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from '@nextui-org/react'
+import Image from 'next/image'
 
 export interface music {
   music: SpotapiObject
@@ -22,7 +23,7 @@ export default function Music({ music }: music) {
     animate={{ opacity: 1, transition: { delay: id * 0.05 } }}
     exit={{ opacity: 0 }} key={track.name}>
     <a href={track.external_urls.spotify}>
-      <img alt={track.name} src={track.album.images[0].url} />
+      <Image width={300} height={300} placeholder='empty' alt={track.name} src={track.album.images[0].url} />
     </a>
     <Link rel="noopener noreferrer" target="_blank" href={track.external_urls.spotify}>
       <p className="tracking-wider text-small pt-2 pb-4">
@@ -56,7 +57,6 @@ export default function Music({ music }: music) {
           exit={{ opacity: 0 }} className="grid grid-cols-2 gap-x-10 md:grid-cols-4">
           {nowPlaying && renderAlbum(nowPlaying, 0, true)}
           {music.top_tracks?.items.map((track, id) => renderAlbum(track, id))}
-
         </motion.div>
       </Container>
     </>

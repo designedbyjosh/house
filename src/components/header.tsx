@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { motion } from "framer-motion"
 import {isMobile} from 'react-device-detect';
 import EmailSignup from './emailSignup';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 export default function Header() {
 
@@ -20,18 +21,28 @@ export default function Header() {
         let page = "/" + pageRef.toLowerCase();
         return <Link href={page}>
             <Tooltip content={tooltipText} rounded placement='bottom'>
-                <button className={`${(page == pathname) && "!bg-stone-800 !text-white"} w-full my-1 text-sm md:w-auto mr-2 bg-gray-300 dark:bg-gray-900 hover:bg-stone-800 hover:text-white py-1 px-4 rounded`}>
+                <motion.button layout className={`${(page == pathname) && "!bg-neutral-800 !text-white"} w-full my-1 text-sm md:w-auto mr-2 bg-slate-50 hover:bg-slate-200 hover:text-white py-2 px-4 rounded`}>
                     {pageText || pageRef}
-                </button>
+                </motion.button>
             </Tooltip>
         </Link>
 
     }
-    const [expanded, setExpanded] = useState(pathname == "/" && !isMobile ? true : false);
+
+    const iconLink = (link: string, icon: IconProp) => <motion.a 
+    initial={{opacity: 0}}
+    animate={{opacity: 1}}
+    exit={{opacity: 0}}
+    layout
+    className="hover:opacity-50" href={link}>
+        <FontAwesomeIcon className='ml-2 mr-2' size='lg' icon={icon} />
+    </motion.a>
+
+    const [expanded, setExpanded] = useState(false);
 
 
     return (
-        <Container >
+        <Container>
             <div className="flex pt-8 pb-4 not-active">
                 <div className="flex-1 left-0">
                     <h1 className="text-2xl md:text-6xl">
@@ -43,32 +54,22 @@ export default function Header() {
                 </div>
                 <div className="flex justify-center align-center flex-col">
                     <div className="h-8 mt-3 md:mt-0 md:h-10">
-                        {expanded && <><a className="hover:opacity-50" href="https://www.instagram.com/jbwhitcombe/">
-                            <FontAwesomeIcon className='mr-2 ml-2' size='lg' icon={faInstagram} />
-                        </a>
-                            <a className="hover:opacity-50" href="https://www.linkedin.com/in/anengineercalledjosh/">
-                                <FontAwesomeIcon className='mr-2 ml-2' size='lg' icon={faLinkedin} />
-                            </a>
-                            <a className="hover:opacity-50" href="https://github.com/designedbyjosh/house">
-                                <Tooltip enterDelay={300} content={"Source code lives here"} rounded placement='left'>
-                                    <FontAwesomeIcon className='mr-2 ml-2' size='lg' icon={faGithub} />
-                                </Tooltip>
-                            </a>
-                            <a className="hover:opacity-50" href="https://umami.josh.house/share/Vru7iEaq/Josh's%20Blog">
-                                <FontAwesomeIcon className='ml-2 mr-2' size='lg' icon={faChartLine} />
-                            </a>
+                        {expanded && <>
+                        {iconLink("https://umami.josh.house/share/Vru7iEaq/Josh's%20Blog", faChartLine)}
+                        {iconLink("https://www.linkedin.com/in/anengineercalledjosh/", faLinkedin)}
+                        {iconLink("https://github.com/designedbyjosh/house", faGithub)}
                         </>}
+                        {iconLink("https://www.instagram.com/jbwhitcombe/", faInstagram)}
                         <FontAwesomeIcon onClick={() => setExpanded(!expanded)} className='text-2xl ml-2 hover:cursor-pointer hover:opacity-50' size='lg' icon={faBars} />
                     </div>
                 </div>
             </div>
-            <motion.div layout className="flex pb-5 md:pb-7 flex-col">
+            <motion.div layout className="flex pb-5 md:pb-5 flex-col">
                 {expanded && <motion.div
-                    initial={{ opacity: 0 }}
-                    exit={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-
                     layout
+                    initial={{ opacity: 0, y: -20 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     className="flex-1 inline left-0 ">
                     {pageButton("", "Home", undefined, true)}
                     {pageButton("Travel")}
