@@ -24,7 +24,7 @@ const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
     <Image 
       width="0"
       height="0"
-      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      sizes="100vw"
       className="w-full h-auto" 
       alt={image.alt} 
       src={image.src} />

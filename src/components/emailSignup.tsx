@@ -22,7 +22,7 @@ export default function EmailSignup() {
         }
     }, [])
 
-    return <CornerDialog width={300} hasClose={false} containerProps={{ className:"dark:bg-neutral-900", style: { border: "3px gray solid", boxShadow: 'none' } }} hasFooter={false} isShown={showSignupPrompt}>
+    return <CornerDialog width={300} hasClose={false} containerProps={{ className:"dark:bg-neutral-900", style: { border: "1px gray solid", boxShadow: 'none' } }} hasFooter={false} isShown={showSignupPrompt}>
         <h1 
             className="text-2xl">
             Stay in Touch
@@ -32,7 +32,7 @@ export default function EmailSignup() {
         </p>
         <input
             type="text"
-            className="outline-none border-2 p-2 mb-2 text-center w-full rounded mt-3"
+            className="outline-none text-sm p-2 mb-2 text-center w-full rounded mt-2"
             placeholder="Your Email Address"
             value={emailText}
             onChange={(event) => setEmailText(event.target.value)}
@@ -52,7 +52,7 @@ export default function EmailSignup() {
                     .catch(() => {setEmailLoading(false); toaster.danger("Sorry, it looks like signing you up didn't work out")})
             }}
             style={{ opacity: !valid || emailLoading ? 0.3 : 1 }}
-            className="text-sm w-full bg-emerald-100 dark:bg-emerald-700 hover:bg-emerald-900 hover:text-white py-1 px-4 rounded">
+            className="text-sm w-full bg-emerald-400 hover:bg-emerald-600 hover:text-white py-1 px-4 rounded">
             {emailLoading && <FontAwesomeIcon spin icon={faSpinner} size="sm" />} {emailLoading ? "Signing Up" : "Sign Up"}
         </button>
         <button 
@@ -60,7 +60,7 @@ export default function EmailSignup() {
                 setShowSignupPrompt(false); 
                 localStorage.setItem('hasSubscribed', JSON.stringify(true));
                 }} 
-            className="text-sm w-full bg-gray-100 dark:bg-neutral-500 hover:bg-gray-900 mt-1 hover:text-white py-1 px-4 rounded">
+            className="text-sm w-full bg-neutral-100 hover:bg-neutral-600 mt-2 hover:text-white py-1 px-4 rounded">
             No Thanks
         </button>
 
