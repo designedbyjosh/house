@@ -41,7 +41,7 @@ export async function getStaticPaths() {
   const posts = await getPhotos() as PostsOrPages;
 
   let paths = {};
-  paths = await posts.map(post => { return { params: { slug: post.slug } } });
+  paths = await posts.filter(post => { return post.feature_image !== null}).map(post => { return { params: { slug: post.slug } } });
 
   return {
     paths,
