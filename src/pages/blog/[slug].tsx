@@ -37,7 +37,7 @@ const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
 };
 
 export const renderArticleButton = (article: PostOrPage, caption: ReactNode) => <a style={{ position: 'relative', overflow: 'hidden' }} href={`/blog/${article.slug}`} className="bg-neutral-100 mb-5 md:mb-0 cursor-pointer rounded">
-    <div className="p-7 hover:text-gray-800" style={{ zIndex: 999, position: 'relative' }}>
+    <div className="p-7 hover:opacity-60" style={{ zIndex: 999, position: 'relative' }}>
         <span className="text-xs dark:text-neutral-400"> 
           {caption}
         </span>

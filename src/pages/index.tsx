@@ -16,7 +16,7 @@ import { useTheme } from 'next-themes';
 import Zoom from 'react-medium-image-zoom'
 import EmailSignup from '@/components/emailSignup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocation, faLocationPin } from '@fortawesome/free-solid-svg-icons';
+import { faLocation, faLocationPin, faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
 import { renderArticleButton } from './blog/[slug]';
 
 
@@ -32,9 +32,9 @@ export default function Index({ latestPost, latestTravelUpdate, latestPhoto } : 
         <div style={{ flex: 4 }} className="grid grid-cols-1 gap-x-5 md:grid-cols-2 md:mb-5">
           {renderArticleButton(latestPost, <><StatusIndicator color="red" />Latest Article</>)}
           <a href={`/travel?slug=${latestTravelUpdate.slug}`} className="bg-neutral-100 mb-5 md:mb-0 p-7 hover:bg-neutral-200 cursor-pointer rounded">
-          <span><StatusIndicator color="blue" /><span className="text-xs opacity-50">Travel Update<span className="font-semibold ml-1">{moment(latestTravelUpdate.published_at).fromNow()}</span></span></span>
-            <h2 className="text-sm py-1">{latestTravelUpdate.excerpt}</h2>
-            <span className="text-xs opacity-30">{latestTravelUpdate.title}</span>
+          <span><FontAwesomeIcon size="sm" color="orange" icon={faQuoteLeft} className="mr-2" /><span className="text-xs">Travel Update</span></span>
+            <h2 className="text-lg py-1 font-semibold">{latestTravelUpdate.excerpt}</h2>
+            <span className="text-xs">{latestTravelUpdate.title} - {moment(latestTravelUpdate.published_at).fromNow()}</span>
           </a>
         </div>
         <div className="bg-neutral-100 rounded">
