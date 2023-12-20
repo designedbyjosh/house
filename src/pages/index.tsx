@@ -17,6 +17,7 @@ import Zoom from 'react-medium-image-zoom'
 import EmailSignup from '@/components/emailSignup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocation, faLocationPin } from '@fortawesome/free-solid-svg-icons';
+import { renderArticleButton } from './blog/[slug]';
 
 
 export default function Index({ latestPost, latestTravelUpdate, latestPhoto } : { latestPhoto: PostOrPage, latestPost: PostOrPage, latestTravelUpdate: PostOrPageWithLocation}) {
@@ -29,11 +30,7 @@ export default function Index({ latestPost, latestTravelUpdate, latestPhoto } : 
       </Head>
       <Container>
         <div style={{ flex: 4 }} className="grid grid-cols-1 gap-x-5 md:grid-cols-2 md:mb-5">
-          <a href={`/blog/${latestPost.slug}`} className="bg-neutral-100 mb-5 md:mb-0 p-7 hover:bg-neutral-200 cursor-pointer rounded">
-            <span><StatusIndicator color="red" /><span className="text-xs opacity-50">Latest Article<span className="font-semibold ml-1">{moment(latestPost.published_at).fromNow()}</span></span></span>
-            <h2 className="text-sm py-1">{latestPost.title}</h2>
-            <span className="text-xs opacity-30">{latestPost.reading_time} minute read</span>
-          </a>
+          {renderArticleButton(latestPost, <><StatusIndicator color="red" />Latest Article</>)}
           <a href={`/travel?slug=${latestTravelUpdate.slug}`} className="bg-neutral-100 mb-5 md:mb-0 p-7 hover:bg-neutral-200 cursor-pointer rounded">
           <span><StatusIndicator color="blue" /><span className="text-xs opacity-50">Travel Update<span className="font-semibold ml-1">{moment(latestTravelUpdate.published_at).fromNow()}</span></span></span>
             <h2 className="text-sm py-1">{latestTravelUpdate.excerpt}</h2>
@@ -64,10 +61,10 @@ export default function Index({ latestPost, latestTravelUpdate, latestPhoto } : 
           </div>
         </div>
         <div style={{ flex: 4 }} className="grid grid-cols-1 gap-x-5 md:grid-cols-2 my-5 md:">
-          <a href={`/blog/${latestPhoto.slug}`} style={{position: 'relative'}} className="bg-neutral-100 mb-5 md:mb-0 hover:bg-neutral-200 cursor-pointer rounded">
+          <a href={`/blog/${latestPhoto.slug}`} style={{position: 'relative'}} className="bg-neutral-100 mb-5 md:mb-0 hover:opacity-90 cursor-pointer rounded">
             {/* <Zoom classDialog='custom-zoom'> */}
-            <span style={{position: 'absolute', bottom: 10, left: 10, zIndex: 10}} ><span className="text-xs text-white"><FontAwesomeIcon size="sm" className="mr-1" icon={faLocationPin} /> {latestPhoto.feature_image_caption}</span></span>
-            <div className="rounded" style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, zIndex: 9, background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 66%, rgba(0, 0, 0, 1) 100%)'}} />
+            <span style={{position: 'absolute', bottom: 20, left: 20, zIndex: 10}} ><span className="text-xs text-white"><FontAwesomeIcon size="sm" className="mr-1" icon={faLocationPin} /> {latestPhoto.feature_image_caption}</span></span>
+            <div className="rounded" style={{position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, zIndex: 9, background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 1) 100%)'}} />
               <Image 
                 width="1200"
                 height="800"

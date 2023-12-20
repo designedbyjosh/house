@@ -1,4 +1,5 @@
-import GhostContentAPI, { Nullable, PostOrPage } from "@tryghost/content-api";
+import GhostContentAPI, { Nullable, PostOrPage, PostsOrPages } from "@tryghost/content-api";
+import moment from "moment";
 const jwt = require('jsonwebtoken');
 
 const url = 'https://blog.josh.house'
@@ -67,7 +68,33 @@ export async function getLatestTravelPost() : Promise<PostOrPageWithLocation> {
       console.error(err);
     })
 
-    return ExtractTravelMetadata((posts as any)[0])
+    return ExtractTravelMetadata((posts as PostsOrPages)[0])
+}
+
+export async function getNextPost(post: PostOrPage) {
+  let posts = await api.posts
+    .browse({
+      limit: "1",
+      filter: `published_at:>=${moment(post.published_at).format("YYYY-MM-DD")}+tags:[blog]+slug:-${post.slug}`,
+      order: "published_at DESC"
+    })
+    .catch(err => {
+      console.error(err);
+    });
+  return (posts as PostsOrPages)[0]
+}
+
+export async function getPreviousPost(post: PostOrPage) {
+  let posts = await api.posts
+    .browse({
+      limit: "1",
+      filter: `published_at:<=${moment(post.published_at).format("YYYY-MM-DD")}+tags:[blog]+slug:-${post.slug}`,
+      order: "published_at DESC"
+    })
+    .catch(err => {
+      console.error(err);
+    });
+  return (posts as PostsOrPages)[0]
 }
 
 export async function getTravelPosts() {
@@ -92,7 +119,7 @@ export async function getLatestPhoto() {
     console.error(err);
   });
 
-  return (posts as any)[0]
+  return (posts as PostsOrPages)[0]
 }
 
 export async function getLatestPost() {
@@ -105,7 +132,7 @@ export async function getLatestPost() {
       console.error(err);
     });
 
-  return (posts as any)[0]
+  return (posts as PostsOrPages)[0]
 }
 
 export async function getPosts() {
