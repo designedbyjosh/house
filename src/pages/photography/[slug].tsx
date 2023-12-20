@@ -25,7 +25,7 @@ export default function PhotoFullSize({ post }: { post: PostOrPage }) {
       </Head>
       <Container>
       <Zoom classDialog='custom-zoom'>
-      <img style={{width: '100%'}} src={post.feature_image!} />
+      <img alt={post.feature_image_alt!} style={{width: '100%'}} src={post.feature_image!}/>
       </Zoom>
       <h2 className="text-2xl mt-8">{post.feature_image_caption}</h2>
       <span className="text-lg mt-8 opacity-50">{moment(post.published_at).fromNow()}</span>
@@ -41,11 +41,11 @@ export async function getStaticPaths() {
   const posts = await getPhotos() as PostsOrPages;
 
   let paths = {};
-  paths = await posts.filter(post => { return post.feature_image !== null}).map(post => { return { params: { slug: post.slug } } });
+  paths = await posts.map(post => { return { params: { slug: post.slug } } });
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
   };
 }
 
