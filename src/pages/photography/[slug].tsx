@@ -8,55 +8,57 @@ import moment from 'moment'
 
 export default function PhotoFullSize({ post }: { post: PostOrPage }) {
 
-  return (
-    <>
-      <Head>
-        <title>{post?.title}</title>
-        <meta property="og:title" content={post?.title} />
-        <meta
-          property="og:image"
-          content={post?.feature_image!}
-        />
-        <meta
-          name="description"
-          content={post?.excerpt}
-          key="desc"
-        />
-      </Head>
-      <Container>
-      <Zoom classDialog='custom-zoom'>
-      <img alt={post.feature_image_alt!} style={{width: '100%'}} src={post.feature_image!}/>
-      </Zoom>
-      <h2 className="text-2xl mt-8">{post.feature_image_caption}</h2>
-      <span className="text-lg mt-8 opacity-50">{moment(post.published_at).fromNow()}</span>
+    if (!post?.feature_image) return <div />
 
-      <span className="text-sm mt-8 opacity-20">{post.feature_image_alt}</span>
-      </Container>
-    </>
-  )
+    return (
+        <>
+            <Head>
+                <title>{post?.title}</title>
+                <meta property="og:title" content={post?.title} />
+                <meta
+                    property="og:image"
+                    content={post?.feature_image!}
+                />
+                <meta
+                    name="description"
+                    content={post?.excerpt}
+                    key="desc"
+                />
+            </Head>
+            <Container>
+                <Zoom classDialog='custom-zoom'>
+                    <img alt={post.feature_image_alt!} style={{ width: '100%' }} src={post.feature_image!} />
+                </Zoom>
+                <h2 className="text-2xl mt-8">{post.feature_image_caption}</h2>
+                <span className="text-lg mt-8 opacity-50">{moment(post.published_at).fromNow()}</span>
+
+                <span className="text-sm mt-8 opacity-20">{post.feature_image_alt}</span>
+            </Container>
+        </>
+    )
 }
 
 export async function getStaticPaths() {
 
-  const posts = await getPhotos() as PostsOrPages;
+    const posts = await getPhotos() as PostsOrPages;
 
-  let paths = {};
-  paths = await posts.map(post => { return { params: { slug: post.slug } } });
+    let paths = {};
+    paths = await posts.map(post => { return { params: { slug: post.slug } } });
 
-  return {
-    paths,
-    fallback: false,
-  };
+    return {
+        paths,
+        fallback: true,
+    };
 }
 
 export async function getStaticProps({ params }: any) {
 
-  const post = await ReadPost({ slug: params.slug })
+    const post = await ReadPost({ slug: params.slug })
 
-  return {
-    props: {
-      post,
-    },
-    revalidate: 10
-  };
+    return {
+        props: {
+            post,
+        },
+        revalidate: 10
+    };
 }

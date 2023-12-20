@@ -8,10 +8,6 @@ import moment from 'moment'
 import parse from "html-react-parser";
 import Image from 'next/image'
 import EmailSignup from '@/components/emailSignup'
-import { StatusIndicator } from 'evergreen-ui'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import { JsxElement } from 'typescript'
 import { ReactNode } from 'react'
 
 const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
@@ -37,24 +33,24 @@ const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
 };
 
 export const renderArticleButton = (article: PostOrPage, caption: ReactNode) => <a style={{ position: 'relative', overflow: 'hidden' }} href={`/blog/${article.slug}`} className="bg-neutral-100 mb-5 md:mb-0 cursor-pointer rounded">
-    <div className="p-7 hover:opacity-60" style={{ zIndex: 999, position: 'relative' }}>
-        <span className="text-xs dark:text-neutral-400"> 
-          {caption}
-        </span>
-      <h2 className="font-semibold text-lg py-1">{article.title}</h2>
-      <span className="text-xs dark:text-neutral-400">{article.reading_time} minute read - {moment(article.published_at).fromNow()}</span>
-    </div>
-    {article.feature_image && <Image
-      width="1200"
-      height="800"
-      sizes="33vw"
-      className="blur-sm rounded opacity-30 dark:opacity-20 bg-black"
-      style={{ position: 'absolute', top: -10, left: -10, height: '110%', maxWidth:'110%', zIndex: 0 }}
-      placeholder="empty"
-      alt={article.feature_image_alt!}
-      src={article.feature_image!}
-    />}
-  </a>
+  <div className="p-7 hover:opacity-60" style={{ zIndex: 999, position: 'relative' }}>
+    <span className="text-xs dark:text-neutral-400">
+      {caption}
+    </span>
+    <h2 className="font-semibold text-lg py-1">{article.title}</h2>
+    <span className="text-xs dark:text-neutral-400">{article.reading_time} minute read - {moment(article.published_at).fromNow()}</span>
+  </div>
+  {article.feature_image && <Image
+    width="1200"
+    height="800"
+    sizes="33vw"
+    className="blur-sm rounded opacity-30 dark:opacity-20 bg-black"
+    style={{ position: 'absolute', top: -10, left: -10, height: '110%', maxWidth: '110%', zIndex: 0 }}
+    placeholder="empty"
+    alt={article.feature_image_alt!}
+    src={article.feature_image!}
+  />}
+</a>
 
 
 export default function BlogPost({ post, latestPost, nextPost, previousPost }: { post: PostOrPage, latestPost: PostOrPage, nextPost: PostOrPage, previousPost: PostOrPage }) {
@@ -115,7 +111,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false
+    fallback: true,
   };
 }
 
