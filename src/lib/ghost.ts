@@ -113,7 +113,8 @@ export async function getLatestPhoto() {
   .browse({
     include: 'tags',
     limit: "1",
-    filter: "tags:[photo]"
+    filter: "tags:[photo]",
+    order: "published_at DESC"
   })
   .catch(err => {
     console.error(err);

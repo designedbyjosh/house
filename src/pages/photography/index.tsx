@@ -49,7 +49,7 @@ export default function Index({ photos }: index) {
                       src={photo.feature_image!} 
                     />
                   </Zoom>
-                  <motion.p layout className="text-xs py-2 mb-3 text-gray-400/75"><motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} exit={{ scaleX: 0 }}>{moment(photo.published_at).format("MMMM Do, YYYY") + " // "}</motion.span> {photo.feature_image_caption!}</motion.p>
+                  <a href={`/photography/${photo.slug}`} ><motion.p layout className="text-xs py-2 mb-3 text-gray-400/75"><motion.span initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} exit={{ scaleX: 0 }}>{moment(photo.published_at).format("MMMM Do, YYYY") + " // "}</motion.span> {photo.feature_image_caption!}</motion.p></a>
                 </motion.div>)
             })}
           </>
