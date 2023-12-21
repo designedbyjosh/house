@@ -84,7 +84,7 @@ export default function BlogPost({ post, latestPost, nextPost, previousPost }: {
             src={post?.feature_image!} />
         </Zoom>}
         <h1 className="text-2xl md:text-3xl pt-4">{post?.title}</h1>
-        <p className="opacity-80 my-1 text-xs">{post?.reading_time} minute read - {moment(post?.published_at).fromNow()}</p>
+        <p className="opacity-80 my-1 text-xs">{post?.reading_time} minute read - {moment(post?.published_at).fromNow()} - <a className="font-semibold hover:opacity-70 cursor-pointer" href={`/photography/${post?.slug}`}>Full Size Images</a></p>
         <hr className="mt-5" />
         <div className="blog-post mt-5">
           {html}

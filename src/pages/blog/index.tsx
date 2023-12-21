@@ -34,7 +34,7 @@ export default function Index({ posts }: index) {
   return (
     <>
       <Head>
-        <title>{`Josh Writes Here`}</title>
+        <title>{`Joshua Whitcombe - Blog`}</title>
       </Head>
       <Container>
         {posts.map(post => renderPost(post))}

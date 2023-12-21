@@ -26,7 +26,16 @@ export default function Index({ latestPost, latestTravelUpdate, latestPhoto } : 
   return (
     <>
       <Head>
-        <title>{`Josh Posts Here`}</title>
+        <title>{`Joshua Whitcombe`}</title>
+        <meta
+          property="og:image"
+          content={profileURL}
+        />
+        <meta
+          name="description"
+          content={"I'm a software engineer living in Australia. Here I document my projects, adventures overseas, and photographs of our beautiful world."}
+          key="desc"
+        />
       </Head>
       <Container>
         <div style={{ flex: 4 }} className="grid grid-cols-1 gap-x-5 md:grid-cols-2 md:mb-5">

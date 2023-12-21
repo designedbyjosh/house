@@ -24,7 +24,7 @@ export default function Index({ photos }: index) {
   return (
     <>
       <Head>
-        <title>{`Josh Lives Here`}</title>
+        <title>{`Joshua Whitcombe - Photography`}</title>
       </Head>
       <Container>
         <motion.div initial={{ opacity: 0 }}

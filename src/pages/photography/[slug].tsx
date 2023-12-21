@@ -8,6 +8,7 @@ import moment from 'moment'
 import parse from "html-react-parser";
 import { renderArticleButton, replaceFiguresWithImageZoom } from '../blog/[slug]'
 import { motion } from "framer-motion"
+import Image from 'next/image'
 
 export const ExtractImageUrls = (html: string) => {
     if (!html) return []
@@ -22,7 +23,6 @@ export const ExtractImageUrls = (html: string) => {
 export default function PhotoFullSize({ post }: { post: PostOrPage }) {
 
     const parsed = parse(post?.html || "" as string)
-    const html = replaceFiguresWithImageZoom(parsed as any, true)
     const urls = ExtractImageUrls(post?.html!)
 
     if (!post?.feature_image) return <div />
@@ -54,13 +54,23 @@ export default function PhotoFullSize({ post }: { post: PostOrPage }) {
                 </motion.div>
 
                 {post?.tags && post?.tags.map((a) => a.name).includes("blog") && <div className="grid mt-10">
-                     {renderArticleButton(post, "Read the Full Article")}
+                    {renderArticleButton(post, "Read the Full Article")}
                 </div>}
 
                 <motion.div initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }} className="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2 mt-10 !text-left">
-                    {html}
+                    {Array.isArray(parsed) ? parsed.flatMap((element) => {
+                        if (element.type != 'figure') return []
+                        let image = Array.isArray(element.props.children) ? element.props.children[0].props : element.props.children.props
+                        return <Image
+                        width="0"
+                        height="0"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="w-full h-auto"
+                        alt={image.alt}
+                        src={image.src} />
+                    }) : parsed}
                 </motion.div>
             </Container>
         </>

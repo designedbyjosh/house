@@ -41,7 +41,7 @@ export default function Index({ travel }: index) {
   return (
     <>
     <Head>
-        <title>{`Josh Travels Here`}</title>
+        <title>{`Joshua Whitcombe - Travel`}</title>
       </Head>
       <Container className="mt-24 md:mt-0">
         <Overlay 
