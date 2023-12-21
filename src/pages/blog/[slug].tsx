@@ -10,14 +10,14 @@ import Image from 'next/image'
 import EmailSignup from '@/components/emailSignup'
 import { ReactNode } from 'react'
 
-const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
+export const replaceFiguresWithImageZoom = (elements: JSX.Element[], filterImages=false) => {
   if (!elements) return elements;
-  return elements.map((element) => {
-    if (element.type != 'figure') return element
+  return Array.isArray(elements) ? elements.flatMap((element) => {
+    if (element.type != 'figure') return (filterImages ? [] : element)
 
     let image = Array.isArray(element.props.children) ? element.props.children[0].props : element.props.children.props
 
-    return <>
+    return <div>
       <Zoom classDialog='custom-zoom'>
         <Image
           width="0"
@@ -28,11 +28,11 @@ const replaceFiguresWithImageZoom = (elements: JSX.Element[]) => {
           src={image.src} />
       </Zoom>
       {Array.isArray(element.props.children) && element.props.children[1]}
-    </>
-  })
+    </div>
+  }) : elements
 };
 
-export const renderArticleButton = (article: PostOrPage, caption: ReactNode) => <a style={{ position: 'relative', overflow: 'hidden' }} href={`/blog/${article.slug}`} className="bg-neutral-100 mb-5 md:mb-0 cursor-pointer rounded">
+export const renderArticleButton = (article: PostOrPage, caption: ReactNode) => <a style={{ position: 'relative', overflow: 'hidden', width: '100%' }} href={`/blog/${article.slug}`} className="dark:bg-black bg-white mb-5 md:mb-0 cursor-pointer rounded">
   <div className="p-7 hover:opacity-60" style={{ zIndex: 999, position: 'relative' }}>
     <span className="text-xs dark:text-neutral-400">
       {caption}
@@ -44,7 +44,7 @@ export const renderArticleButton = (article: PostOrPage, caption: ReactNode) => 
     width="1200"
     height="800"
     sizes="33vw"
-    className="blur-sm rounded opacity-30 dark:opacity-20 bg-black"
+    className="blur-sm rounded opacity-40 "
     style={{ position: 'absolute', top: -10, left: -10, height: '110%', maxWidth: '110%', zIndex: 0 }}
     placeholder="empty"
     alt={article.feature_image_alt!}

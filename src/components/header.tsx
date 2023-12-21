@@ -22,7 +22,7 @@ export default function Header() {
         let page = "/" + pageRef.toLowerCase();
         return <Link href={page}>
             <Tooltip content={tooltipText} rounded placement='bottom'>
-                <motion.button layout className={`${(page == pathname) && "!bg-neutral-800 !text-white"} w-full my-1 text-sm md:w-auto mr-2 bg-slate-50 hover:bg-slate-200 hover:text-white py-2 px-4 rounded`}>
+                <motion.button layout className={`${(page == pathname) && "!bg-neutral-800 !text-white"} w-full my-1 text-sm md:w-auto mr-2 bg-slate-50 hover:bg-slate-200 dark:bg-neutral-900 dark:hover:opacity-70 hover:text-white py-2 px-4 rounded`}>
                     {pageText || pageRef}
                 </motion.button>
             </Tooltip>

@@ -21,7 +21,9 @@ const api = new GhostContentAPI({
 
 export async function ReadPost(id: { id: Nullable<string>; } | { slug: Nullable<string>; }) {
   return await api.posts
-    .read(id)
+    .read(id, { 
+      include: 'tags'
+    })
     .catch(err => {
       console.error(err);
     });
