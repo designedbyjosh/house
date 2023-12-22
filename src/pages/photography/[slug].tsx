@@ -61,8 +61,8 @@ export default function PhotoFullSize({ post }: { post: PostOrPage }) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }} className="grid grid-cols-1 items-start gap-x-10 md:grid-cols-2 !text-left">
                    <div>
-                   {Array.isArray(parsed) ? parsed.flatMap((element, index) => {
-                        if (element.type != 'figure' || index % 2 == 0) return []
+                   {Array.isArray(parsed) ? parsed.flatMap((element) => element.type != 'figure' ? [] : element).flatMap((element, index) => {
+                        if (index % 2 == 0) return []
                         let image = Array.isArray(element.props.children) ? element.props.children[0].props : element.props.children.props
                         return <Zoom classDialog='custom-zoom'><Image
                         width="0"
@@ -74,8 +74,8 @@ export default function PhotoFullSize({ post }: { post: PostOrPage }) {
                     }) : parsed}
                    </div>
                    <div>
-                   {Array.isArray(parsed) ? parsed.flatMap((element, index) => {
-                        if (element.type != 'figure'  || index % 2 != 0) return []
+                   {Array.isArray(parsed) ? parsed.flatMap((element) => element.type != 'figure' ? [] : element).flatMap((element, index) => {
+                        if (index % 2 == 1) return []
                         let image = Array.isArray(element.props.children) ? element.props.children[0].props : element.props.children.props
                         return <Zoom classDialog='custom-zoom'>
                             <Image
