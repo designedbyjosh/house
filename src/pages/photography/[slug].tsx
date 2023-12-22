@@ -49,9 +49,9 @@ export default function PhotoFullSize({ post }: { post: PostOrPage }) {
                 <h2 className="text-2xl mt-8">{post.feature_image_caption}</h2>
                 <span className="text-lg mt-8 opacity-50">{moment(post.published_at).fromNow()}</span>
 
-                <motion.div className="text-md mt-5">
+                {post.excerpt && <motion.div className="text-md mt-5">
                     {post.excerpt}
-                </motion.div>
+                </motion.div>}
 
                 {post?.tags && post?.tags.map((a) => a.name).includes("blog") && <div className="grid mt-10">
                     {renderArticleButton(post, "Read the Full Article")}
@@ -59,18 +59,34 @@ export default function PhotoFullSize({ post }: { post: PostOrPage }) {
 
                 <motion.div initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }} className="grid grid-cols-1 gap-x-10 gap-y-10 md:grid-cols-2 mt-10 !text-left">
-                    {Array.isArray(parsed) ? parsed.flatMap((element) => {
-                        if (element.type != 'figure') return []
+                    exit={{ opacity: 0 }} className="grid grid-cols-1 items-start gap-x-10 md:grid-cols-2 !text-left">
+                   <div>
+                   {Array.isArray(parsed) ? parsed.flatMap((element, index) => {
+                        if (element.type != 'figure' || index % 2 == 0) return []
                         let image = Array.isArray(element.props.children) ? element.props.children[0].props : element.props.children.props
-                        return <Image
+                        return <Zoom classDialog='custom-zoom'><Image
                         width="0"
                         height="0"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        className="w-full h-auto"
+                        sizes="100vw"
+                        className={`w-full h-auto mt-10`}
                         alt={image.alt}
-                        src={image.src} />
+                        src={image.src} /></Zoom>
                     }) : parsed}
+                   </div>
+                   <div>
+                   {Array.isArray(parsed) ? parsed.flatMap((element, index) => {
+                        if (element.type != 'figure'  || index % 2 != 0) return []
+                        let image = Array.isArray(element.props.children) ? element.props.children[0].props : element.props.children.props
+                        return <Zoom classDialog='custom-zoom'>
+                            <Image
+                        width="0"
+                        height="0"
+                        sizes="100vw"
+                        className={`w-full h-auto mt-10`}
+                        alt={image.alt}
+                        src={image.src} /></Zoom>
+                    }) : parsed}
+                   </div>
                 </motion.div>
             </Container>
         </>
