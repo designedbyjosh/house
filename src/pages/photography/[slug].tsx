@@ -31,7 +31,7 @@ export default function PhotoFullSize({ post }: { post: PostOrPage }) {
         <>
             <Head>
                 <title>{post?.title}</title>
-                <meta property="og:title" content={post?.title} />
+                <meta property="og:title" content={post?.feature_image_caption!} />
                 <meta
                     property="og:image"
                     content={post?.feature_image!}
