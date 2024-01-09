@@ -41,6 +41,11 @@ export default function PhotoFullSize({ post }: { post: PostOrPage }) {
                     content={post?.excerpt}
                     key="desc"
                 />
+                <meta
+                    name="og:type"
+                    content={"article"}
+                    key="desc"
+                />
             </Head>
             <Container>
                 <Zoom classDialog='custom-zoom'>
