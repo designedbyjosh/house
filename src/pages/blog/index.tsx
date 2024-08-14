@@ -29,7 +29,7 @@ export default function Index({ posts }: index) {
 
   const renderPost = (post: PostOrPage, index: number) => {
     return <div className="mb-7" style={{height: 150, position: 'relative'}}>
-      {!hasArticleBeenRead(readArticles, post) && isArticleNewSinceFirstLogin(post, firstVisitDate) && <div style={{ top: -5, right: -5, opacity: 0.9, position: 'absolute', zIndex: 999, backgroundColor: 'red', width: 15, height: 15, borderRadius: 7.5 }} />}
+      {readArticles && !hasArticleBeenRead(readArticles, post) && isArticleNewSinceFirstLogin(post, firstVisitDate) && <div style={{ top: -5, right: -5, opacity: 0.9, position: 'absolute', zIndex: 999, backgroundColor: 'red', width: 15, height: 15, borderRadius: 7.5 }} />}
       {renderArticleButton(post, null)}
     </div>
   }

@@ -105,8 +105,7 @@ export default function BlogPost({ post, latestPost, nextPost, previousPost }: {
           };
           localStorage.setItem('readArticles', JSON.stringify(readArticles));
         }
-        else if (hasArticleBeenRead(readArticles, post) !== true) {
-          console.log("UH OH")
+        else {
           readArticles[post.slug] = true
           localStorage.setItem('readArticles', JSON.stringify(readArticles));
         }
