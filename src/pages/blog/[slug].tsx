@@ -4,13 +4,15 @@ import { ReadPost, getLatestPost, getNextPost, getPosts, getPreviousPost } from 
 import { PostOrPage, PostsOrPages } from '@tryghost/content-api'
 import 'react-medium-image-zoom/dist/styles.css'
 import Zoom from 'react-medium-image-zoom'
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 import parse from "html-react-parser";
 import Image from 'next/image'
 import EmailSignup from '@/components/emailSignup'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
+import Link from 'next/link'
 
 export const replaceFiguresWithImageZoom = (elements: JSX.Element[], filterImages=false) => {
+
   if (!elements) return elements;
   return Array.isArray(elements) ? elements.flatMap((element) => {
     if (element.type != 'figure') return (filterImages ? [] : element)
@@ -32,30 +34,84 @@ export const replaceFiguresWithImageZoom = (elements: JSX.Element[], filterImage
   }) : elements
 };
 
-export const renderArticleButton = (article: PostOrPage, caption: ReactNode) => <a style={{ position: 'relative', overflow: 'hidden', width: '100%' }} href={`/blog/${article.slug}`} className="dark:bg-black bg-white mb-5 md:mb-0 cursor-pointer rounded">
+export const renderArticleButton = (article: PostOrPage, caption: ReactNode) => <Link style={{ position: 'relative', overflow: 'hidden', width: '100%' }} href={`/blog/${article.slug}`} className="dark:bg-black bg-white mb-5 md:mb-0 cursor-pointer rounded flex flex-col justify-center h-full">
   <div className="p-7 hover:opacity-60" style={{ zIndex: 999, position: 'relative' }}>
     <span className="text-xs dark:text-neutral-400">
       {caption}
     </span>
-    <h2 className="font-semibold text-lg py-1">{article.title}</h2>
+    <h2 className="font-semibold text-lg pt-1">{article.title}</h2>
     <span className="text-xs dark:text-neutral-400">{article.reading_time} minute read - {moment(article.published_at).fromNow()}</span>
   </div>
-  {article.feature_image && <Image
-    width="1200"
-    height="800"
-    sizes="33vw"
-    className="blur-sm rounded opacity-40 "
-    style={{ position: 'absolute', top: -10, left: -10, height: '110%', maxWidth: '110%', zIndex: 0 }}
-    placeholder="empty"
-    alt={article.feature_image_alt!}
-    src={article.feature_image!}
-  />}
-</a>
+  {article.feature_image && (
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          overflow: 'hidden',
+          zIndex: 0,
+          transform: 'scale(1.1)',
+          filter: 'blur(3px)', // Apply blur effect
+        }}
+      >
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            paddingBottom: '75%', // This maintains a 4:3 aspect ratio. Adjust as needed.
+          }}
+        >
+          <Image
+            src={article.feature_image}
+            alt={article.feature_image_alt!}
+            layout="fill"
+            objectFit="cover" // Maintains aspect ratio and covers the container
+            placeholder="empty"
+            className="opacity-30"
+          />
+        </div>
+      </div>
+    )}
+</Link>
 
+export type ArticleReadStatus = {
+  [slug: string]: boolean; // Key is the article slug, value is a boolean
+};
+
+// Determines if a post is new based on if the user has read it before on this device, and if the article has been posted since
+// first visited the page
+export function hasArticleBeenRead(articleReadStatus: ArticleReadStatus, post: PostOrPage): boolean {
+  return (articleReadStatus[post.slug] || false); // Defaults to false if slug is not found
+}
+
+export function isArticleNewSinceFirstLogin(post: PostOrPage, firstVisitDate: number): boolean {
+  return (moment(post.published_at).isAfter(moment(firstVisitDate)));
+}
 
 export default function BlogPost({ post, latestPost, nextPost, previousPost }: { post: PostOrPage, latestPost: PostOrPage, nextPost: PostOrPage, previousPost: PostOrPage }) {
 
   const html = replaceFiguresWithImageZoom(parse(post?.html || "" as string) as any)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+        var readArticles = JSON.parse(localStorage.getItem('readArticles') as any)
+        var firstVisitDate = JSON.parse(localStorage.getItem('firstVisitDate') as any)
+
+        if (!readArticles) {
+          readArticles = {
+            [post.slug]: true
+          };
+          localStorage.setItem('readArticles', JSON.stringify(readArticles));
+        }
+        else if (hasArticleBeenRead(readArticles, post) !== true) {
+          console.log("UH OH")
+          readArticles[post.slug] = true
+          localStorage.setItem('readArticles', JSON.stringify(readArticles));
+        }
+    }
+}, [])
 
   return (
     <>

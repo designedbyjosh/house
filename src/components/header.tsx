@@ -82,7 +82,7 @@ export default function Header() {
                     animate={{ opacity: 1, y: 0 }}
                     className="flex-1 inline left-0 ">
                     {pageButton("", "Home", undefined, true)}
-                    {pageButton("Travel")}
+                    {/* {pageButton("Travel")} */}
                     {pageButton("Blog")}
                     {pageButton("Photography")}
                     {pageButton("Music", "", "My top tracks of all time, refreshed on page load.")}

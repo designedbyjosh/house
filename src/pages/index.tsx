@@ -40,21 +40,21 @@ export default function Index({ latestPost, latestTravelUpdate, latestPhoto } : 
       <Container>
         <div style={{ flex: 4 }} className="grid grid-cols-1 gap-x-5 md:grid-cols-2 md:mb-5">
           {renderArticleButton(latestPost, <><StatusIndicator color="red" />Latest Article</>)}
-          <a href={`/travel?slug=${latestTravelUpdate.slug}`} className="bg-neutral-100 mb-5 md:mb-0 p-7 hover:bg-neutral-200 dark:hover:opacity-70 dark:bg-neutral-900 cursor-pointer rounded">
+          <a href={`/travel?slug=${latestTravelUpdate.slug}`} className="bg-neutral-100 mt-5 md:mt-0 mb-5 md:mb-0 p-7 hover:bg-neutral-200 dark:hover:opacity-70 dark:bg-neutral-900 cursor-pointer rounded">
           <span><FontAwesomeIcon size="sm" color="orange" icon={faQuoteLeft} className="mr-2" /><span className="text-xs">Travel Update</span></span>
             <h2 className="text-lg py-1 font-semibold">{latestTravelUpdate.excerpt}</h2>
             <span className="text-xs">{latestTravelUpdate.title} - {moment(latestTravelUpdate.published_at).fromNow()}</span>
           </a>
         </div>
         <div className="bg-neutral-100 dark:bg-neutral-900 rounded">
-        <Image
+        {/* <Image
           alt={"Joshua Whitcombe standing in a field"}
           src={profileURL}
           width="0"
           height="0"
           priority
           sizes="100vw"
-          className="w-full h-auto rounded"></Image>
+          className="w-full h-auto rounded"></Image> */}
           <div className="md:p-10 p-6 flex-auto">
             <p className="about text-l md:text-2xl">
               G&apos;day,
