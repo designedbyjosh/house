@@ -68,7 +68,7 @@ def switch_release(release, config, outputs):
 def verify_live(release, config, outputs):
     articles = json.loads((ROOT / 'content/articles.json').read_text())
     origins = dict.fromkeys([outputs['SiteUrl'], *config['public_site_urls']])
-    routes = ['/build-info.json', '/', '/articles/', '/photography/', '/sitemap.xml', '/feed.xml', *['/articles/' + a['slug'] + '/' for a in articles]]
+    routes = ['/build-info.json', '/', '/diving/', '/articles/', '/photography/', '/sitemap.xml', '/feed.xml', *['/articles/' + a['slug'] + '/' for a in articles]]
     for origin in origins:
         for route in routes:
             url = origin + route + '?release=' + release

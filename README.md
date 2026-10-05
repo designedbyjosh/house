@@ -31,7 +31,7 @@ npm run verify
 
 `infra/site.json` manages the `house-static` CloudFormation stack in Sydney. It provisions encrypted, private, versioned S3 storage; CloudFront with signed origin access; HTTPS redirects; security response headers; and a small edge router for deep links and old blog URLs. S3 data survives stack deletion and replacement.
 
-The AWS archive is `https://archive.josh.house` (CloudFront origin `https://d1bw5pfrth43jy.cloudfront.net`). Existing custom domains remain on their current Vercel entry point, with an explicit external route to AWS in `vercel.json`. This bridge preserves the current domain configuration while AWS serves the website. Moving the DNS itself to CloudFront later requires an ACM certificate in us-east-1 and access to the authoritative DNS for josh.engineer. The template has optional custom-domain parameters for that cutover.
+The AWS archive is `https://archive.josh.house` (CloudFront origin `https://d1bw5pfrth43jy.cloudfront.net`). Existing custom domains remain on their current Vercel entry point, with a host-scoped external route to AWS in `vercel.json`. This bridge preserves the current domain configuration while AWS serves the website. Moving the DNS itself to CloudFront later requires an ACM certificate in us-east-1 and access to the authoritative DNS for josh.engineer. The template has optional custom-domain parameters for that cutover.
 
 CloudFront pay-as-you-go includes ongoing monthly free allowances for 1 TB of transfer, 10 million requests and 2 million function invocations. S3 storage/requests, traffic above allowances, and any domain/DNS costs may still be billable on this existing account. This architecture has no always-on server, load balancer, NAT gateway or database. See [AWS’s current CloudFront pricing](https://aws.amazon.com/cloudfront/pricing/pay-as-you-go/).
 
@@ -54,3 +54,13 @@ Ghost newsletter signup, the live Spotify feed and Umami analytics were removed 
 ## Security
 
 See [SECURITY.md](SECURITY.md). The site’s HTML escapes content; it does not execute cached HTML, code injection, remote scripts or arbitrary URL schemes. Private S3 access is restricted to the one CloudFront distribution, and insecure S3 transport is denied.
+
+## Above & below homepage
+
+The homepage and `/diving/` use an original Canvas 2D scene with a perspective-projected seabed, cursor-driven camera and torch, bubbles and ambient light. It uses no dependencies, remote assets or network requests. The animation is limited to 30 fps and a 1.5 device-pixel ratio, pauses outside the viewport and in hidden tabs, respects reduced motion, and has an explicit pause control. A first-party SVG provides the no-JavaScript/no-canvas fallback; navigation and content are static HTML.
+
+The Diving page links to the existing Chowder Bay briefing at https://chowder-bay-briefing.vercel.app/. That project currently has Vercel Authentication enabled; the link is labelled accordingly. No credentials or access bypasses are embedded.
+
+Vercel preview hosts now serve the branch build, with security headers and legacy blog redirects. The existing josh.house / josh.engineer custom domains still proxy to AWS. No production domain changes are needed to review a PR. The AWS deployment continues to publish the static `dist/` output on merge.
+
+Use `PORT=4175 npm run dev` when another local preview occupies the default port.

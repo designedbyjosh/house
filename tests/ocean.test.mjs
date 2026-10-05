@@ -1,0 +1,38 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import vm from 'node:vm';
+const source = await readFile(new URL('../web/ocean.js', import.meta.url), 'utf8');
+function scene(reduced = false, contextAvailable = true) {
+  const events = {}, heroEvents = {}, frames = new Map(); let nextFrame = 0, renders = 0, observer;
+  const preference = {matches:reduced, addEventListener:(_,fn)=>{events.preference=fn;}};
+  const gradient = {addColorStop(){}};
+  const context = new Proxy({}, {get:(_,key)=>key==='clearRect'?()=>{renders++;}:key.startsWith('create')?()=>gradient:()=>{},set:()=>true});
+  const button = {hidden:true, setAttribute(name,value){this[name]=value;},addEventListener:(_,fn)=>{events.click=fn;}};
+  const hero = {querySelector:()=>button,getBoundingClientRect:()=>({width:1200,height:780,top:0,left:0}),addEventListener:(name,fn)=>{heroEvents[name]=fn;}};
+  const canvas = {getContext:()=>contextAvailable?context:null,closest:()=>hero};
+  const document = {hidden:false,querySelector:selector=>selector==='#ocean-canvas'?canvas:null,addEventListener:(name,fn)=>{events[name]=fn;}};
+  vm.runInNewContext(source, {document,matchMedia:()=>preference,devicePixelRatio:2,requestAnimationFrame:fn=>{const id=++nextFrame;frames.set(id,fn);return id;},cancelAnimationFrame:id=>frames.delete(id),ResizeObserver:class{observe(){}},IntersectionObserver:class{constructor(fn){observer=fn;}observe(){}},window:{addEventListener(){}}});
+  return {button,frames,events,document,heroEvents,get renders(){return renders;},setVisible(value){observer([{isIntersecting:value}]);}};
+}
+test('reduced motion renders a static scene with no animation loop',()=>{
+  const s=scene(true);assert.equal(s.frames.size,0);assert(s.renders>0);assert.equal(s.button['aria-pressed'],'true');assert.equal(s.button.hidden,false);
+});
+test('pause, hidden tab and offscreen scene stop animation; resume starts only one loop',()=>{
+  const s=scene();assert.equal(s.frames.size,1);s.events.click();assert.equal(s.frames.size,0);s.events.click();assert.equal(s.frames.size,1);
+  s.document.hidden=true;s.events.visibilitychange();assert.equal(s.frames.size,0);s.document.hidden=false;s.events.visibilitychange();assert.equal(s.frames.size,1);
+  s.setVisible(false);assert.equal(s.frames.size,0);s.setVisible(true);assert.equal(s.frames.size,1);s.setVisible(true);assert.equal(s.frames.size,1);
+  s.events.preference({matches:true});assert.equal(s.frames.size,0);
+});
+test('unavailable canvas leaves the static illustration and hides inert controls',()=>{
+  const s=scene(false,false);assert.equal(s.frames.size,0);assert.equal(s.button.hidden,true);
+});
+test('Vercel previews serve their own build; only existing public domains use AWS',async()=>{
+  const config=JSON.parse(await readFile(new URL('../vercel.json',import.meta.url),'utf8'));
+  const bridge=config.routes[0];const host=new RegExp(`^${bridge.has[0].value}$`);
+  for(const domain of ['josh.house','josh.engineer','www.josh.house','www.josh.engineer'])assert(host.test(domain));
+  for(const domain of ['house-preview.vercel.app','josh.house.evil.test','archive.josh.house'])assert(!host.test(domain));
+  const deep=config.routes.find(r=>r.check);const route=new RegExp(`^${deep.src}$`);
+  assert.equal('/diving/'.replace(route,deep.dest),'/diving/index.html');assert.equal('/articles/after-aaron'.replace(route,deep.dest),'/articles/after-aaron/index.html');
+  assert.equal(config.routes.at(-1).status,404);
+});

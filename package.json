@@ -10,7 +10,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check scripts/build.mjs && node --check web/site.js && node --check infra/router.js",
+    "check": "node --check scripts/build.mjs && node --check scripts/ocean-pages.mjs && node --check web/ocean.js && node --check web/site.js && node --check infra/router.js",
     "verify": "node scripts/verify.mjs",
     "dev": "node scripts/serve.mjs"
   }
