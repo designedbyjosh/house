@@ -3,7 +3,7 @@ import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {root, build} from './build.mjs';
 await build();
-const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json','.xml':'application/xml','.txt':'text/plain','.png':'image/png','.svg':'image/svg+xml'};
+const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json','.xml':'application/xml','.txt':'text/plain','.png':'image/png','.svg':'image/svg+xml','.jpg':'image/jpeg'};
 http.createServer(async(req,res)=>{
   try {
     const route=decodeURIComponent(new URL(req.url,'http://localhost').pathname);

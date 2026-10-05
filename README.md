@@ -55,12 +55,14 @@ Ghost newsletter signup, the live Spotify feed and Umami analytics were removed 
 
 See [SECURITY.md](SECURITY.md). The site’s HTML escapes content; it does not execute cached HTML, code injection, remote scripts or arbitrary URL schemes. Private S3 access is restricted to the one CloudFront distribution, and insecure S3 transport is denied.
 
-## Above & below homepage
+## Cinematic homepage and Diving page
 
-The homepage and `/diving/` use an original Canvas 2D scene with a perspective-projected seabed, cursor-driven camera and torch, bubbles and ambient light. It uses no dependencies, remote assets or network requests. The animation is limited to 30 fps and a 1.5 device-pixel ratio, pauses outside the viewport and in hidden tabs, respects reduced motion, and has an explicit pause control. A first-party SVG provides the no-JavaScript/no-canvas fallback; navigation and content are static HTML.
+The homepage uses direct biographical copy and an original, generated underwater cavern image. It is an illustrative environment, not a photograph of Josh or a named dive location. The optimised first-party JPEG is approximately 340 KB. A dependency-free WebGL layer adds subtle refraction, damped cursor parallax, light and suspended particles. This is image-based depth, not a fully modelled 3D environment.
+
+The effect caps animation at 30 fps, a 1.5 device-pixel ratio and 2200 pixels wide. It stops outside the viewport and in hidden tabs, respects reduced motion, and has a pause control. The image remains visible until the texture is ready, and on WebGL failure or context loss. Navigation and content are static HTML. No runtime dependencies, remote assets or analytics are required.
 
 The Diving page links to the existing Chowder Bay briefing at https://chowder-bay-briefing.vercel.app/. That project currently has Vercel Authentication enabled; the link is labelled accordingly. No credentials or access bypasses are embedded.
 
-Vercel preview hosts now serve the branch build, with security headers and legacy blog redirects. The existing josh.house / josh.engineer custom domains still proxy to AWS. No production domain changes are needed to review a PR. The AWS deployment continues to publish the static `dist/` output on merge.
+Vercel preview hosts serve the branch build, with security headers and legacy blog redirects. The existing josh.house / josh.engineer custom domains still proxy to AWS. The AWS deployment continues to publish the static `dist/` output on merge.
 
-Use `PORT=4175 npm run dev` when another local preview occupies the default port.
+Use `PORT=4185 npm run dev` when another local preview occupies the default port.
