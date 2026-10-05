@@ -18,7 +18,7 @@
     const rx = x * Math.cos(yaw) - z * Math.sin(yaw);
     const rz = z * Math.cos(yaw) + x * Math.sin(yaw) + 7;
     const focal = Math.min(width * 0.7, 790);
-    return [width * 0.72 + rx * focal / rz, height * (0.43 - scroll * 0.07) + (y + pointer.y * 0.24) * focal / rz, rz];
+    return [width * (width < 600 ? 0.62 : 0.72) + rx * focal / rz, height * (0.43 - scroll * 0.07) + (y + pointer.y * 0.24) * focal / rz, rz];
   }
   function poly(points, fill, stroke) {
     ctx.beginPath(); points.forEach(([x,y], i) => i ? ctx.lineTo(x,y) : ctx.moveTo(x,y));
@@ -42,7 +42,7 @@
   }
   function diver() {
     const [x,y] = project(0.35 + Math.sin(time * 0.22) * 0.14, -0.05 + Math.sin(time * 0.6) * 0.06, 0);
-    const scale = Math.min(width / 1100, 1.2);
+    const scale = Math.max(0.6, Math.min(width / 1100, 1.2));
     ctx.save(); ctx.translate(x,y); ctx.scale(scale,scale); ctx.rotate(-0.18 + pointer.y * 0.04);
     // A soft torch cone sweeps towards the cursor.
     ctx.save(); ctx.translate(89,25); ctx.rotate(pointer.y * 0.32);
