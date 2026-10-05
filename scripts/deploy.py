@@ -66,20 +66,24 @@ def switch_release(release, config, outputs):
 
 def verify_live(release, config, outputs):
     articles = json.loads((ROOT / 'content/articles.json').read_text())
-    for route in ['/build-info.json', '/articles/', '/feed.xml', *['/articles/' + a['slug'] + '/' for a in articles]]:
-        request = urllib.request.Request(outputs['SiteUrl'] + route, headers={'User-Agent': 'house-deployment-check'})
-        with urllib.request.urlopen(request, timeout=30) as response:
-            data = response.read()
-            if response.status != 200:
-                raise ValueError('Deployment did not return HTTP 200 for ' + route)
-            for header in ['content-security-policy', 'strict-transport-security', 'x-content-type-options']:
-                if not response.headers.get(header):
-                    raise ValueError('Missing security header: ' + header)
-        if route == '/build-info.json' and json.loads(data)['commit'] != release:
-            raise ValueError('The deployed release is not the expected commit.')
-        if route.startswith('/articles/') and route != '/articles/' and b'<div class="prose">' not in data:
-            raise ValueError('Live article is incomplete.')
-    print('Live release and article verified.')
+    origins = dict.fromkeys([outputs['SiteUrl'], *config['public_site_urls']])
+    routes = ['/build-info.json', '/articles/', '/feed.xml', *['/articles/' + a['slug'] + '/' for a in articles]]
+    for origin in origins:
+        for route in routes:
+            url = origin + route + '?release=' + release
+            request = urllib.request.Request(url, headers={'User-Agent': 'house-deployment-check'})
+            with urllib.request.urlopen(request, timeout=30) as response:
+                data = response.read()
+                if response.status != 200:
+                    raise ValueError('Deployment did not return HTTP 200 for ' + url)
+                for header in ['content-security-policy', 'strict-transport-security', 'x-content-type-options']:
+                    if not response.headers.get(header):
+                        raise ValueError('Missing security header at ' + url + ': ' + header)
+            if route == '/build-info.json' and json.loads(data)['commit'] != release:
+                raise ValueError('The deployed release is not the expected commit at ' + origin)
+            if route.startswith('/articles/') and route != '/articles/' and b'<div class="prose">' not in data:
+                raise ValueError('Live article is incomplete at ' + url)
+        print('Live release, all six articles and security headers verified at ' + origin)
 
 def deploy(release, rollback=False):
     if len(release) != 40 or any(c not in '0123456789abcdef' for c in release):
