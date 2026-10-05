@@ -10,6 +10,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import urllib.request
+from urllib.error import HTTPError
 import sys
 import time
 
@@ -67,7 +68,7 @@ def switch_release(release, config, outputs):
 def verify_live(release, config, outputs):
     articles = json.loads((ROOT / 'content/articles.json').read_text())
     origins = dict.fromkeys([outputs['SiteUrl'], *config['public_site_urls']])
-    routes = ['/build-info.json', '/articles/', '/feed.xml', *['/articles/' + a['slug'] + '/' for a in articles]]
+    routes = ['/build-info.json', '/', '/articles/', '/photography/', '/sitemap.xml', '/feed.xml', *['/articles/' + a['slug'] + '/' for a in articles]]
     for origin in origins:
         for route in routes:
             url = origin + route + '?release=' + release
@@ -83,7 +84,21 @@ def verify_live(release, config, outputs):
                 raise ValueError('The deployed release is not the expected commit at ' + origin)
             if route.startswith('/articles/') and route != '/articles/' and b'<div class="prose">' not in data:
                 raise ValueError('Live article is incomplete at ' + url)
+            if route.endswith('/') and (b'Stories, photographs & a life outside.' in data or b'href="/travel/"' in data):
+                raise ValueError('Removed header content is still published at ' + url)
+            if route == '/sitemap.xml' and b'/travel/' in data:
+                raise ValueError('Travel is still present in the live sitemap at ' + origin)
+        for route in ['/travel', '/travel/', '/travel/index.html']:
+            url = origin + route + '?release=' + release
+            request = urllib.request.Request(url, headers={'User-Agent': 'house-deployment-check'})
+            try:
+                with urllib.request.urlopen(request, timeout=30):
+                    raise ValueError('Removed Travel page is still served at ' + url)
+            except HTTPError as error:
+                if error.code != 404:
+                    raise ValueError('Expected HTTP 404 for the removed Travel page at ' + url) from error
         print('Live release, all six articles and security headers verified at ' + origin)
+        print('Photography retained; tagline, Travel navigation, sitemap entry and page removed at ' + origin)
 
 def deploy(release, rollback=False):
     if len(release) != 40 or any(c not in '0123456789abcdef' for c in release):
