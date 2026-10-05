@@ -1,63 +1,56 @@
-<!-- PROJECT LOGO -->
-<br />
-<p align="center">
-  <a href="https://josh.house">
-    <img src="https://josh.house/favicon.png" alt="Logo" width="80" height="80">
-  </a>
+# Joshua Whitcombe’s journal
 
-  <h3 align="center">Josh's House</h3>
+The website is a static journal built from recovered article text. It does not need Ghost, a database, Spotify websockets, Mapbox, server-side rendering, or third-party analytics to load or build.
 
-  <p align="center">
-    A 🔥🗑️ that is my personal website that definitely hasn't been me trying and failing seven times to showcase what I have and haven't done.
-    <br />
-    <a href="https://josh.house"><strong>View the website »</strong></a>
-    <br />
-    <br />
-    <a href="https://incubator.josh.house">Incubator Deployment</a>
-    ·
-    <a href="https://github.com/designedbyjosh">My GitHub</a>
-    ·
-    <a href="https://google.com">My inspiration</a>
-  </p>
-</p>
+## Recovered writing
 
+Six complete article texts were recovered on 5 October 2026 from cached public web pages linked in the original sitemap and article navigation. The raw extracted cache is preserved in `content/snapshot.json`; editable article bodies, their provenance, and SHA-256 checksums are under `content/`.
 
+The journal lives at `/articles/`. Old `/blog/` addresses permanently redirect on AWS, including the previous incorrect widower slug. RSS, a sitemap, the travel note, photography captions, and all 41 photography addresses from the original sitemap are retained.
 
-<!-- TABLE OF CONTENTS -->
-## Table of Contents
+The cache did not yield the original image bytes or exact publication dates. Missing images are labelled; dates have not been invented. `blog/cliftons` was a source placeholder and is directed to the journal. This is the set of articles recovered from the available cache, not a claim that every historical post has been found.
 
-- [About The Project](#about-the-project)
-  - [Why a House?](#why-a-house)
-  - [Why won't it fail this time?](#why-wont-it-fail-this-time)
-- [Contributing](#contributing)
-- [License](#license)
+The old application and its configuration remain recoverable in Git history before this migration.
 
+## Build and verify
 
+Use Node.js 24 LTS. There are no npm dependencies.
 
-<!-- ABOUT THE PROJECT -->
-## About The Project
-This is my eighth attempt at making a blog, so instead of making "another blog", this time things are different and I'm going to call it my web "house". The last few attempts at this, I just couldn't accept that things weren't perfect and that there were lines of code and design decisions that were just damn awful. Since then, I've learned a great deal about web security, how to design things and how to make things pretty(er?).
+```sh
+npm ci --ignore-scripts --no-audit --no-fund
+npm run check
+node scripts/security-check.mjs
+npm test
+npm run build
+npm run verify
+```
 
-This project is mostly about me learning how to do things and having a traceable archive of my previous projects so I can remember my mistakes and how not to repeat them.
+`npm run dev` builds and serves a preview at `http://127.0.0.1:4173`. `SITE_URL` optionally changes the canonical HTTPS origin. Article edits require deliberately updating the corresponding SHA-256 in `content/articles.json`.
 
-### Why a House?
-I felt constrained because a blog has to have articles, and I don't really write articles, I just play and make things. A house has lots of different objects in it ranging from your garbage through to your prized possessions, this is meant to resemble that.
+## Hosting
 
-### Why won't it fail this time?
-I've learned so much about how to design things and I've had a number of professional projects between the last time I attempted this and my current attempt. So here we are, back again, and this time I'm doing it not with the intention of perfecting it, but with the intention of having a dedicated space to showcase my portfolio of work.
+`infra/site.json` manages the `house-static` CloudFormation stack in Sydney. It provisions encrypted, private, versioned S3 storage; CloudFront with signed origin access; HTTPS redirects; security response headers; and a small edge router for deep links and old blog URLs. S3 data survives stack deletion and replacement.
 
-<!-- CONTRIBUTING -->
-## Contributing
+The AWS archive is `https://archive.josh.house` (CloudFront origin `https://d1bw5pfrth43jy.cloudfront.net`). Existing custom domains remain on their current Vercel entry point, with an explicit external route to AWS in `vercel.json`. This bridge preserves the current domain configuration while AWS serves the website. Moving the DNS itself to CloudFront later requires an ACM certificate in us-east-1 and access to the authoritative DNS for josh.engineer. The template has optional custom-domain parameters for that cutover.
 
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated** because they'll help make me realise that my current approach is potentially garbage and make me a better engineer. I'm here to learn, so please, show me how it's done.
+CloudFront pay-as-you-go includes ongoing monthly free allowances for 1 TB of transfer, 10 million requests and 2 million function invocations. S3 storage/requests, traffic above allowances, and any domain/DNS costs may still be billable on this existing account. This architecture has no always-on server, load balancer, NAT gateway or database. See [AWS’s current CloudFront pricing](https://aws.amazon.com/cloudfront/pricing/pay-as-you-go/).
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## CI/CD
 
-<!-- LICENSE -->
-## License
+Pull requests and commits to master run syntax, security, article-integrity and local-link checks plus extended CodeQL analysis. Actions are pinned to verified commit SHAs; Dependabot checks action updates weekly. CodeQL also runs weekly.
 
-Distributed under the DWTFYW licence.
+Only the master branch can assume the scoped `house-github-deploy` role through GitHub OIDC. There are no stored AWS access keys. This role can upload only this site’s release objects, update only this CloudFormation stack through its dedicated execution role, and invalidate only this CloudFront distribution. The execution role is limited to existing site infrastructure, with no IAM or general resource-creation permissions. Policies and trust documents are checked into `infra/`.
+
+After successful checks, deployment uploads every file to `releases/<commit>/` before creating a CloudFormation change set. It rejects resource deletion/replacement, applies the template and release pointer together, waits for propagation, invalidates the cache, and verifies the live article routes and security headers. Failed live checks restore the previous release. Concurrent master deployments are queued; PR checks can be cancelled.
+
+The manually dispatched **Roll back the website** workflow restores a previously uploaded commit without rebuilding content. Releases are immutable; retrying a partial upload accepts only objects whose checksums match. Old release prefixes are retained for recovery. Do not add a blanket expiry to release objects: it could delete a still-active release.
+
+For infrastructure changes, edit the template and router together and review the PR. Ordinary in-place updates deploy with the site; replacement, domain cutover, new resources and IAM changes need a separately scoped administrative bootstrap. `infra/deployment.json` identifies the account, stack and roles. The only wildcard deployment permission is CloudFormation template validation, which has no resource-level authorization.
+
+## Services left offline
+
+Ghost newsletter signup, the live Spotify feed and Umami analytics were removed from the request path. RSS and a contact link replace the broken signup UI. They have not been silently recreated or migrated with subscriber data or Spotify credentials: those source data and credentials were not available. Photo galleries currently preserve captions and addresses, not the missing original images.
+
+## Security
+
+See [SECURITY.md](SECURITY.md). The site’s HTML escapes content; it does not execute cached HTML, code injection, remote scripts or arbitrary URL schemes. Private S3 access is restricted to the one CloudFront distribution, and insecure S3 transport is denied.
