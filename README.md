@@ -54,3 +54,9 @@ Ghost newsletter signup, the live Spotify feed and Umami analytics were removed 
 ## Security
 
 See [SECURITY.md](SECURITY.md). The site’s HTML escapes content; it does not execute cached HTML, code injection, remote scripts or arbitrary URL schemes. Private S3 access is restricted to the one CloudFront distribution, and insecure S3 transport is denied.
+
+## Interactive projects
+
+`/projects/` links to five public project stories: the blog, personal MCP platform, Discord bridge, Tesla MCP and WhatsApp bridge. Each includes selectable architecture nodes, play/pause and manual flow stepping, a blocked-request scenario, security boundary overlays, and a text transcript. Motion respects the browser's reduced-motion preference. These are conceptual, synthetic demonstrations; they make no service requests.
+
+Public copy is explicitly curated in `content/projects.mjs`. Keep private repository files, deployment settings, addresses, account identifiers, keys, personal records and operational details out of this module. The build must never import private MCP configuration. Descriptions reflect the local source documentation, not a live audit or guarantee of deployment state. `tests/projects.test.mjs` exercises flow controls and checks public output for operational identifiers and network calls. Project pages use the existing self-only script/style policy without adding external libraries.
