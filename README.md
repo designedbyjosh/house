@@ -6,7 +6,7 @@ The website is a static journal built from recovered article text. It does not n
 
 Six complete article texts were recovered on 5 October 2026 from cached public web pages linked in the original sitemap and article navigation. The raw extracted cache is preserved in `content/snapshot.json`; editable article bodies, their provenance, and SHA-256 checksums are under `content/`.
 
-The journal lives at `/articles/`. Old `/blog/` addresses permanently redirect on AWS, including the previous incorrect widower slug. RSS, a sitemap, the travel note, photography captions, and all 41 photography addresses from the original sitemap are retained.
+The journal lives at `/articles/`. Old `/blog/` addresses permanently redirect on AWS, including the previous incorrect widower slug. RSS, a sitemap, photography captions, and all 41 photography addresses from the original sitemap are retained. The Travel page and its navigation/sitemap entries are removed for now; the recovered travel note remains in the source snapshot.
 
 The cache did not yield the original image bytes or exact publication dates. Missing images are labelled; dates have not been invented. `blog/cliftons` was a source placeholder and is directed to the journal. This is the set of articles recovered from the available cache, not a claim that every historical post has been found.
 
@@ -41,7 +41,7 @@ Pull requests and commits to master run syntax, security, article-integrity and 
 
 Only the master branch can assume the scoped `house-github-deploy` role through GitHub OIDC. There are no stored AWS access keys. This role can upload only this site’s release objects, update only this CloudFormation stack through its dedicated execution role, and invalidate only this CloudFront distribution. The execution role is limited to existing site infrastructure, with no IAM or general resource-creation permissions. Policies and trust documents are checked into `infra/`.
 
-After successful checks, deployment uploads every file to `releases/<commit>/` before creating a CloudFormation change set. It rejects resource deletion/replacement, applies the template and release pointer together, waits for propagation, invalidates the cache, and verifies the expected commit, all six article routes, RSS and security headers at the AWS origin, archive.josh.house, josh.house and josh.engineer. Failed live checks restore the previous release. Concurrent master deployments are queued; PR checks can be cancelled.
+After successful checks, deployment uploads every file to `releases/<commit>/` before creating a CloudFormation change set. It rejects resource deletion/replacement, applies the template and release pointer together, waits for propagation, invalidates the cache, and verifies the expected commit, all six article routes, Photography, RSS and security headers at the AWS origin, archive.josh.house, josh.house and josh.engineer. It also checks that the removed header content and Travel sitemap entry are absent and all former Travel URLs return 404. Failed live checks restore the previous release. Concurrent master deployments are queued; PR checks can be cancelled.
 
 The manually dispatched **Roll back the website** workflow restores a previously uploaded commit without rebuilding content. Releases are immutable; retrying a partial upload accepts only objects whose checksums match. Old release prefixes are retained for recovery. Do not add a blanket expiry to release objects: it could delete a still-active release.
 
