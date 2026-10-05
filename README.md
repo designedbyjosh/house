@@ -55,8 +55,14 @@ Ghost newsletter signup, the live Spotify feed and Umami analytics were removed 
 
 See [SECURITY.md](SECURITY.md). The site’s HTML escapes content; it does not execute cached HTML, code injection, remote scripts or arbitrary URL schemes. Private S3 access is restricted to the one CloudFront distribution, and insecure S3 transport is denied.
 
-## Interactive projects
+## Interactive 3D projects
 
-`/projects/` links to five public project stories: the blog, personal MCP platform, Discord bridge, Tesla MCP and WhatsApp bridge. Each includes selectable architecture nodes, play/pause and manual flow stepping, a blocked-request scenario, security boundary overlays, and a text transcript. Motion respects the browser's reduced-motion preference. These are conceptual, synthetic demonstrations; they make no service requests.
+`/projects/` is a WebGL service map with individually modeled devices, storage, gateways and server racks. Each of the five project pages has its own public logical topology. Visitors can orbit, zoom, select models, inspect trust boundaries, trace requests, pause/step playback, vary speed, explore denied access, and enter fullscreen. Keyboard camera controls, a service selector, reduced motion and text transcripts provide alternatives to direct manipulation. WebGL-unavailable browsers retain the inspector and project text.
 
-Public copy is explicitly curated in `content/projects.mjs`. Keep private repository files, deployment settings, addresses, account identifiers, keys, personal records and operational details out of this module. The build must never import private MCP configuration. Descriptions reflect the local source documentation, not a live audit or guarantee of deployment state. `tests/projects.test.mjs` exercises flow controls and checks public output for operational identifiers and network calls. Project pages use the existing self-only script/style policy without adding external libraries.
+All particle traffic is synthetic. The browser loads only public, curated topology from `web/project-graph.js`; no private MCP configuration is imported. Credentials, operational addresses, account identifiers and personal records are excluded.
+
+The live panel checks this deployment's public build marker and a sanitized public-blog reachability endpoint. `api/public-status.js` performs one fixed HEAD request to the public article index, follows no redirects, accepts no target input and uses no credentials. It returns only state, elapsed time and observation time; it is cached at Vercel for 30 seconds. Visible clients poll at one-minute intervals. Failed, stale or unavailable observations never become healthy signals. Private integrations are explicitly not monitored.
+
+The status function is hosted by Vercel, with its route before the existing production AWS proxy. The direct AWS archive and plain local static server do not run this function, so they show the public-blog monitor as unavailable. The current deployment check still works. CSP permits only same-origin connections; the public-browser diagrams never call MCP services or providers.
+
+Run `npm run check`, `npm test`, `npm run build`, `npm run verify` and `node scripts/security-check.mjs`. Tests cover denial boundaries, optional provider paths, finite model geometry, responsive projection, status freshness, request allowlisting and public-content exclusions. Browser checks are also needed for rendering and controls.
