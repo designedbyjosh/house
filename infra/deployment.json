@@ -7,6 +7,7 @@
   "deployment_role_name": "house-github-deploy",
   "deployment_role_arn": "arn:aws:iam::347069581928:role/house-github-deploy",
   "site_url": "https://josh.engineer",
+  "public_site_urls": ["https://josh.engineer", "https://josh.house", "https://archive.josh.house"],
   "infrastructure_role_name": "house-cloudformation-execution",
   "infrastructure_role_arn": "arn:aws:iam::347069581928:role/house-cloudformation-execution"
 }
