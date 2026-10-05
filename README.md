@@ -57,9 +57,11 @@ See [SECURITY.md](SECURITY.md). The site’s HTML escapes content; it does not e
 
 ## Cinematic homepage and Diving page
 
-The homepage uses direct biographical copy and an original, generated underwater cavern image. It is an illustrative environment, not a photograph of Josh or a named dive location. The optimised first-party JPEG is approximately 340 KB. A dependency-free WebGL layer adds subtle refraction, damped cursor parallax, light and suspended particles. This is image-based depth, not a fully modelled 3D environment.
+The homepage uses direct biographical copy and an original, generated underwater cavern image. It is an illustrative environment, not a photograph of Josh or a named dive location. The optimised first-party JPEG is approximately 340 KB.
 
-The effect caps animation at 30 fps, a 1.5 device-pixel ratio and 2200 pixels wide. It stops outside the viewport and in hidden tabs, respects reduced motion, and has a pause control. The image remains visible until the texture is ready, and on WebGL failure or context loss. Navigation and content are static HTML. No runtime dependencies, remote assets or analytics are required.
+On supported secure contexts, native WebGPU renders the artwork on a 65,280-triangle depth-relief mesh using custom WGSL shaders. The camera responds to the cursor and moves forward as the hero scrolls away. This is a textured 3D interpretation of a single image with an authored depth field, not a scanned cave or a freely navigable environment. Two compute pipelines simulate 512 suspended particles and a 128 × 128 damped wave field. Cursor movement injects wave impulses; ping-pong GPU buffers propagate them and the fragment shader refracts the image through their gradients. Particles share the camera and are depth-tested against the mesh. No graphics framework is shipped.
+
+The WebGPU renderer compiles its pipelines asynchronously, caps rendering at 60 fps and 1600 pixels wide, adapts resolution to completed GPU work, and permits only one frame in flight. It stops outside the viewport and in hidden tabs, respects reduced motion, and has a pause control. Reduced motion renders one static frame without running compute simulation. Device loss releases resources and switches to the existing image-based WebGL renderer, preserving a manual pause. WebGL is capped at 30 fps and falls back to the still image if unavailable. Navigation and content remain static HTML throughout. No runtime dependencies, remote assets or analytics are required.
 
 The Diving page links to the existing Chowder Bay briefing at https://chowder-bay-briefing.vercel.app/. That project currently has Vercel Authentication enabled; the link is labelled accordingly. No credentials or access bypasses are embedded.
 

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
-const source = await readFile(new URL('../web/ocean.js', import.meta.url), 'utf8');
+const source = await readFile(new URL('../web/ocean-fallback.js', import.meta.url), 'utf8');
 function scene(reduced = false, contextAvailable = true, imageReady = true) {
   const events = {}, heroEvents = {}, frames = new Map(); let nextFrame = 0, renders = 0, observer;
   const preference = {matches:reduced, addEventListener:(_,fn)=>{events.preference=fn;}};

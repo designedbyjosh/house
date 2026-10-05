@@ -72,7 +72,7 @@ export async function build() {
   await cp(path.join(root, 'public'), path.join(root, 'dist'), {recursive:true});
   await cp(path.join(root, 'web/site.css'), path.join(root, 'dist/assets/site.css'));
   await cp(path.join(root, 'web/site.js'), path.join(root, 'dist/assets/site.js'));
-  await cp(path.join(root, 'web/ocean.js'), path.join(root, 'dist/assets/ocean.js'));
+  for (const name of ['ocean.js','ocean-gpu.js','ocean-shaders.js','ocean-fallback.js']) await cp(path.join(root, 'web',name), path.join(root, 'dist/assets',name));
   const description = 'Stories of adventure, grief, discovery and finding a little meaning along the way.';
   const archiveIntro = '<p class="archive-note">These articles have been preserved from the original site. Some photographs are still being recovered.</p>';
   await output('index.html', page({title:'Software engineer in Sydney',description:'Joshua Whitcombe. Software engineer in Sydney, scuba diver, photographer and writer. Code, dive projects, photographs and personal writing.',route:'/',section:'home',body:homePage(articles.slice(0,3).map(card).join(''))}));
