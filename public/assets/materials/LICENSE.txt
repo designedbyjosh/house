@@ -1,0 +1,7 @@
+Rock Face 03 — Poly Haven / Dario Barresi and Rico Cilliers
+Source: https://polyhaven.com/a/rock_face_03
+License: CC0 1.0 Universal, https://creativecommons.org/publicdomain/zero/1.0/
+Asset license: https://polyhaven.com/license
+
+Original 1k JPG diffuse, displacement and roughness maps, renamed locally.
+Downloaded from dl.polyhaven.org. No texture is requested from a third-party server at runtime.

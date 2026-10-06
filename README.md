@@ -31,7 +31,7 @@ npm run verify
 
 `infra/site.json` manages the `house-static` CloudFormation stack in Sydney. It provisions encrypted, private, versioned S3 storage; CloudFront with signed origin access; HTTPS redirects; security response headers; and a small edge router for deep links and old blog URLs. S3 data survives stack deletion and replacement.
 
-The AWS archive is `https://archive.josh.house` (CloudFront origin `https://d1bw5pfrth43jy.cloudfront.net`). Existing custom domains remain on their current Vercel entry point, with an explicit external route to AWS in `vercel.json`. This bridge preserves the current domain configuration while AWS serves the website. Moving the DNS itself to CloudFront later requires an ACM certificate in us-east-1 and access to the authoritative DNS for josh.engineer. The template has optional custom-domain parameters for that cutover.
+The AWS archive is `https://archive.josh.house` (CloudFront origin `https://d1bw5pfrth43jy.cloudfront.net`). Existing custom domains remain on their current Vercel entry point, with a host-scoped external route to AWS in `vercel.json`. This bridge preserves the current domain configuration while AWS serves the website. Moving the DNS itself to CloudFront later requires an ACM certificate in us-east-1 and access to the authoritative DNS for josh.engineer. The template has optional custom-domain parameters for that cutover.
 
 CloudFront pay-as-you-go includes ongoing monthly free allowances for 1 TB of transfer, 10 million requests and 2 million function invocations. S3 storage/requests, traffic above allowances, and any domain/DNS costs may still be billable on this existing account. This architecture has no always-on server, load balancer, NAT gateway or database. See [AWS’s current CloudFront pricing](https://aws.amazon.com/cloudfront/pricing/pay-as-you-go/).
 
@@ -54,3 +54,22 @@ Ghost newsletter signup, the live Spotify feed and Umami analytics were removed 
 ## Security
 
 See [SECURITY.md](SECURITY.md). The site’s HTML escapes content; it does not execute cached HTML, code injection, remote scripts or arbitrary URL schemes. Private S3 access is restricted to the one CloudFront distribution, and insecure S3 transport is denied.
+
+## Interactive homepage and Engineering map
+
+The homepage renders a complete procedural 3D cavern: floor and low ceiling meshes, displaced limestone walls, columns, stalactites, boulders, a branching passage and a tracked diver model with two sidemount cylinders, mask, independent hoses, articulated frog kicks and periodic rising bubbles. Its meshes contain approximately 697,000 mesh triangles, plus instanced rubble. The limestone, palette and lighting are informed by Joshua’s supplied cave photograph; see [reference notes](docs/cave-reference.md). There is no image or depth-map projection in the scene. The small static poster is an actual frame of this model, used while loading or if graphics are unavailable.
+
+Three.js 0.186.1 renders the same scene through WebGPU or WebGL2. Locally hosted CC0 photographic rock materials, triplanar mapping, bump detail and a downsampled volumetric-lighting pass provide underwater lighting. Normal cursor movement translates the camera, and scrolling moves it forward. **Explore cave** hides the headline and enables drag to look around, scroll to move, arrow-key navigation, + / − for distance and Escape to return. Normal page scrolling and links remain unchanged outside exploration.
+
+Rendering targets 60 fps, caps pixel density and reduces resolution if rendering gets slow. It stops while paused, outside the viewport or in hidden tabs. Reduced motion starts with a static rendered frame; deliberate exploration remains available. If WebGPU is unavailable, the same mesh scene runs on WebGL2. With neither backend, or after runtime device loss, the poster and static page remain usable and the inactive controls stay hidden.
+
+The pinned Three.js distribution is vendored under `public/assets/vendor/`, with its MIT license and SHA-256 manifest checked by the security script. Core, WebGPU and TSL bundles were minified with esbuild 0.25.11; the TSL and GaussianBlur imports use local relative paths. This keeps builds offline and runtime requests first-party. The graphics modules total approximately 1.1 MB before HTTP compression and load only on Home. No package installation or external CDN is required to build or serve the site.
+
+
+Vercel preview hosts serve the branch build, with security headers and legacy blog redirects. The existing josh.house / josh.engineer custom domains still proxy to AWS. The AWS deployment continues to publish the static `dist/` output on merge.
+
+Use `PORT=4185 npm run dev` when another local preview occupies the default port.
+
+The Engineering page presents public repositories in a searchable, selectable graph with pan/zoom and animated connections. These connections are explicitly illustrative, not live integrations or traffic telemetry. The Diving landing page is currently removed.
+
+Rock Face 03 color, height and roughness maps from Poly Haven are CC0, stored locally with license and verified hashes in `public/assets/materials`. The scene waits for these maps before revealing the canvas.

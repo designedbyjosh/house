@@ -1,0 +1,12 @@
+{
+  "package": "three",
+  "version": "0.186.1",
+  "source": "https://registry.npmjs.org/three/-/three-0.186.1.tgz",
+  "files": {
+    "three.core.js": "c001a388abbe69583ddd66e9dc18098df55fa81d06bcc5a5722efb6c7f522dc8",
+    "three.webgpu.js": "db3c84e1485ce5d3d7604c56e97384aaef01c334c9d2640e73b358c83ddb5e5e",
+    "three.tsl.js": "9d5286c3a64f0452280954bfd2505453be70b85f78286bb35dd87c452394e093",
+    "GaussianBlurNode.js": "14f1bf502186077ef58ef4df080c85649c57ab6d22c9336744805f45b3db635c",
+    "THREE-LICENSE.txt": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+  }
+}
