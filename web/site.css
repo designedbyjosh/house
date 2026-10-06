@@ -63,11 +63,6 @@ nav { font-size:12px; gap:30px; align-items:center; }
 .feature-footnote { position:absolute; bottom:24px; left:5%; font:8px ui-monospace,monospace; letter-spacing:1.2px; color:#8e9ba5; }
 .journal-heading h2 { font-size:58px; letter-spacing:-2.5px; margin:40px 0; }
 .home-writing .article-grid { gap:30px; }
-.home-writing .article-card { border:0; border-top:1px solid #aeb8bd; background:transparent; }
-.home-writing .article-card a { padding:25px 0 0; min-height:270px; }
-.home-writing .article-card h2 { font-family:Georgia,serif; font-size:29px; line-height:1.22; letter-spacing:-.7px; margin:24px 0 35px; }
-.home-writing .article-card .eyebrow { font-size:9px; letter-spacing:1px; }
-.home-writing .read-link { font-size:11px; }
 .contact-section { border-top:1px solid var(--line); position:relative; padding-top:62px; padding-bottom:85px; }
 .contact-section .eyebrow { font-size:9px; }
 .contact-section h2 { font-size:clamp(42px,5.7vw,80px); letter-spacing:-3px; margin:24px 0 0; }
@@ -111,7 +106,6 @@ nav { font-size:12px; gap:30px; align-items:center; }
  .world-card+.world-card { padding-left:20px; }
  .world-card h3 { font-size:22px; }
  .home-writing .article-grid { grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; }
- .home-writing .article-card h2 { font-size:25px; }
  .diving-hero h1 { font-size:80px; }
 }
 @media(max-width:600px) {
@@ -145,8 +139,6 @@ nav { font-size:12px; gap:30px; align-items:center; }
  .feature-footnote { font-size:7px; left:6%; }
  .journal-heading h2 { font-size:48px; margin:30px 0; }
  .home-writing .article-grid { grid-template-columns:1fr; gap:30px; }
- .home-writing .article-card a { min-height:185px; }
- .home-writing .article-card h2 { font-size:29px; margin:20px 0 28px; }
  .contact-section { padding-bottom:105px; }
  .contact-section h2 { font-size:44px; letter-spacing:-2px; }
  .back-top { left:6%; right:auto; bottom:36px; }
@@ -219,3 +211,20 @@ nav { font-size:12px; gap:30px; align-items:center; }
  @view-transition { navigation:none; }
  html { scroll-behavior:auto; }
 }
+
+/* One clear, generous link per article, shared by Home and the archive. */
+.article-grid,.home-writing .article-grid{gap:18px}
+.article-card{min-width:0;border:1px solid #d8dede;border-radius:10px;background:#fff;overflow:visible;transition:border-color .2s,box-shadow .2s,transform .2s}
+.article-card a{padding:27px;min-height:350px;height:100%;display:flex;flex-direction:column;color:#202729;text-decoration:none;border-radius:10px}
+.article-card-meta{display:flex;align-items:center;justify-content:space-between;gap:15px;font:10px/1.5 ui-monospace,SFMono-Regular,monospace;letter-spacing:.7px;color:#657174}
+.article-card-meta span:first-child{text-transform:uppercase}
+.article-card h2,.ocean-page .article-card h2{font:500 25px/1.24 Arial,Helvetica,sans-serif;letter-spacing:-.65px;margin:28px 0 16px;text-wrap:pretty}
+.article-card-excerpt{font:14px/1.65 Arial,Helvetica,sans-serif;color:#606b6e;margin:0 0 30px}
+.article-card .read-link{display:flex;justify-content:space-between;align-items:center;gap:18px;border-top:1px solid #e8ecec;padding-top:18px;margin-top:auto;font:500 12px/1.5 Arial,Helvetica,sans-serif;color:#273d43}
+.article-card-arrow{float:none;display:grid;place-items:center;width:30px;height:30px;border:1px solid #dce3e3;border-radius:50%;font-size:16px;transition:background .2s,color .2s,transform .2s}
+.article-card:focus-within{border-color:#4d7476;box-shadow:0 0 0 2px #4d747633}
+.article-card a:focus-visible{outline:2px solid #315c61;outline-offset:4px}
+@media(hover:hover){.article-card:hover{transform:translateY(-3px);border-color:#a4b8b9;box-shadow:0 10px 30px #172e3510}.article-card:hover .article-card-arrow{background:#284c50;color:#fff;border-color:#284c50;transform:translate(1px,-1px)}}
+@media(max-width:800px){.article-grid,.home-writing .article-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.article-card a{padding:23px}}
+@media(max-width:540px){.article-grid,.home-writing .article-grid{grid-template-columns:1fr;gap:16px}.article-card a{min-height:0;padding:24px}.article-card h2,.ocean-page .article-card h2{font-size:25px;margin-top:24px}.article-card-excerpt{margin-bottom:26px}}
+@media(prefers-reduced-motion:reduce){.article-card,.article-card-arrow{transition:none}.article-card:hover,.article-card:hover .article-card-arrow{transform:none}}
