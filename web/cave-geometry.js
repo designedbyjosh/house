@@ -29,7 +29,7 @@ export function chamberSurfaces() {
     surface(360,80,(u,v)=>{
       const angle=u*Math.PI*2,edge=7.5+noise(Math.cos(angle)*2,9,Math.sin(angle)*2)*.7;
       const radius=edge+(62-edge)*v,x=9+Math.cos(angle)*radius/.9,z=-17+Math.sin(angle)*radius/.8;
-      return [x,13+geology(x,18,z)*1.2,z];
+      return [x,5.5+geology(x,18,z)*.65+Math.sin(z*.14)*.6,z];
     }),
     ...[-1,1].map(side=>surface(180,70,(u,v)=>{const z=25-u*110,y=-9+v*26;const radius=17+Math.sin(z*.09)*3+Math.cos(y*.16)*2;return [side*radius+geology(side*18,y,z),y,z];}))
   ];

@@ -5,8 +5,8 @@ import {geology,noise,surface,chamberSurfaces,floorHeight} from './cave-geometry
 
 export function createCave(renderer) {
   const scene=new THREE.Scene();
-  scene.background=new THREE.Color(0x031b1b);
-  scene.fog=new THREE.FogExp2(0x031b1b,.019);
+  scene.background=new THREE.Color(0x020b10);
+  scene.fog=new THREE.FogExp2(0x020b10,.019);
   const camera=new THREE.PerspectiveCamera(56,1,.15,120);
   const clock=uniform(0);
   const rock=new THREE.MeshStandardNodeMaterial({roughness:.91,metalness:.05,side:THREE.DoubleSide});
@@ -29,8 +29,8 @@ export function createCave(renderer) {
   function geometry(data){const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(data.positions,3));g.setIndex(new THREE.BufferAttribute(data.indices,1));g.computeVertexNormals();return g;}
   for(const data of chamberSurfaces())mesh(geometry(data));
   function column(x,z,radius,height,ceiling=false){
-    const base=ceiling?13:floorHeight(x,z)-.3;
-    const data=surface(48,90,(u,v)=>{
+    const base=ceiling?5.5:floorHeight(x,z)-.3;
+    const data=surface(height>16?48:24,height>16?90:32,(u,v)=>{
       const angle=u*Math.PI*2,y=base+(ceiling?-v:v)*height;
       const taper=height>16?.64+.28*Math.sin(v*Math.PI)+.12*Math.sin(v*19+x):ceiling?Math.pow(1-v,.7):Math.pow(1-v,.6);
       const r=radius*(.08+.92*taper)*(1+Math.sin(angle*7+v*5)*.13+Math.sin(angle*13-v*16)*.055)+geology(x+Math.cos(angle)*radius,y,z+Math.sin(angle)*radius)*.7;
@@ -39,14 +39,14 @@ export function createCave(renderer) {
   }
   // Foreground columns and overlapping arches make camera translation legible.
   [[-12,2,4.8,20],[-15,-15,4.1,20],[17,-3,4.2,20],[-10,-33,3.8,20],[15,-40,3.6,20],[-15,-57,2.8,18]].forEach(p=>column(...p));
-  for(let i=0;i<20;i++){
-    const x=Math.sin(i*2.39)*16,z=14-i*2.45;
-    if(Math.hypot(x-9,z+17)<12)continue;
-    column(x,z,.4+((i*17)%7)*.12,2+(i%6)*.8,true);
+  for(let i=0;i<80;i++){
+    const x=Math.sin(i*2.39)*16,z=14-i*.9;
+    if(Math.abs(x-5)<3)continue;
+    column(x,z,.4+((i*17)%7)*.12,1+(i%6)*.35,true);
   }
-  for(let i=0;i<10;i++){
-    const x=Math.sin(i*2.4)*17,z=4-i*4.8;
-    column(x,z,.35+(i%4)*.25,1.5+(i%5)*1.1);
+  for(let i=0;i<65;i++){
+    const x=10+Math.sin(i*2.4)*5,z=10-i*.8;
+    column(x,z,.35+(i%4)*.25,1.5+(i%5)*.6);
   }
   for(let i=0;i<35;i++){
     const x=Math.sin(i*5.7)*18,z=14-i*4.8;
@@ -55,14 +55,14 @@ export function createCave(renderer) {
     const b=mesh(g);b.position.set(x,floorHeight(x,z),z);b.scale.set(1+(i%4),.6+(i%3)*.6,1.2+(i%5)*.4);b.rotation.set(i*.1,i*1.9,i*.3);
   }
   const ambient=new THREE.HemisphereLight(0x8fae9c,0x010504,.38);scene.add(ambient);
-  const sun=new THREE.SpotLight(0xc9ead8,1450,110,.43,.65,1.5);
-  sun.position.set(10,20,-15);sun.target.position.set(0,-7,-23);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.bias=-.0003;sun.shadow.normalBias=.12;sun.shadow.camera.near=1;sun.shadow.camera.far=85;scene.add(sun,sun.target);
+  const sun=new THREE.SpotLight(0xbce8eb,420,110,.43,.65,1.5);
+  sun.position.set(3,3,18);sun.target.position.set(8,0,-18);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.bias=-.0003;sun.shadow.normalBias=.12;sun.shadow.camera.near=1;sun.shadow.camera.far=85;scene.add(sun,sun.target);
   const rim=new THREE.DirectionalLight(0x529a85,.28);rim.position.set(13,8,-40);scene.add(rim);
   const waterMaterial=new THREE.MeshStandardNodeMaterial({color:0x49a8b9,emissive:0x97c7af,emissiveIntensity:1.5,roughness:.25,metalness:.5,side:THREE.DoubleSide});
   waterMaterial.positionNode=positionLocal.add(vec3(0,0,sin(positionLocal.x.mul(.7).add(clock.mul(.35))).mul(cos(positionLocal.y.mul(.5).sub(clock.mul(.25)))).mul(.17)));
-  const water=mesh(new THREE.PlaneGeometry(80,100,80,100),waterMaterial);water.rotation.x=-Math.PI/2;water.position.set(0,19,-23);water.castShadow=false;
+  const water=mesh(new THREE.PlaneGeometry(80,100,80,100),waterMaterial);water.rotation.x=-Math.PI/2;water.position.set(0,19,-23);water.castShadow=false;water.visible=false;
   // A fully modelled diver: body, mask, twin cylinders, hoses, limbs and fins.
-  const diver=new THREE.Group();diver.position.set(6.2,.3,-8);diver.rotation.y=-.18;scene.add(diver);
+  const diver=new THREE.Group();diver.position.set(6.2,.3,-8);diver.rotation.y=-Math.PI/2;scene.add(diver);
   const suit=new THREE.MeshStandardMaterial({color:0x09131a,roughness:.72});
   const metal=new THREE.MeshStandardMaterial({color:0x8ea8ad,metalness:.75,roughness:.3});
   const accent=new THREE.MeshStandardMaterial({color:0x52666c,roughness:.6});
@@ -80,19 +80,25 @@ export function createCave(renderer) {
   mesh(new THREE.TubeGeometry(hose,30,.032,8,false),suit,diver);
   const torch=new THREE.SpotLight(0xe0f4da,230,30,.22,.7,1.2);torch.position.set(-.97,-.26,.32);torch.target.position.set(-14,-2,.4);diver.add(torch,torch.target);
   const lamp=ellipsoid([-.97,-.26,.32],[.06,.055,.055],new THREE.MeshBasicMaterial({color:0xe1faff}));
+  // Continuous guideline returns toward the camera/entrance (+Z).
+  const linePoints=[new THREE.Vector3(12,-2,22),new THREE.Vector3(8,-2.5,5),new THREE.Vector3(5,-2.5,-12),new THREE.Vector3(4,-2.3,-35),new THREE.Vector3(8,-2,-62)];
+  const guideline=new THREE.CatmullRomCurve3(linePoints);
+  mesh(new THREE.TubeGeometry(guideline,180,.018,6,false),new THREE.MeshStandardMaterial({color:0xd3caa4,roughness:.8}));
+  const markerMaterial=new THREE.MeshStandardMaterial({color:0xff6b09,emissive:0x713007,emissiveIntensity:.15,roughness:.6,side:THREE.DoubleSide});
+  for(const t of [.22,.43]){
+    const point=guideline.getPoint(t),exitDirection=guideline.getTangent(t).negate();
+    const shape=new THREE.Shape();shape.moveTo(0,.48);shape.lineTo(-.23,-.22);shape.lineTo(0,-.1);shape.lineTo(.23,-.22);shape.closePath();
+    const marker=mesh(new THREE.ExtrudeGeometry(shape,{depth:.025,bevelEnabled:false}),markerMaterial);
+    marker.position.copy(point);marker.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),exitDirection);
+  }
   const motes=new THREE.InstancedMesh(new THREE.SphereGeometry(.013,5,4),new THREE.MeshBasicNodeMaterial({color:0xaccfd3,transparent:true,opacity:.3}),400);
   const dummy=new THREE.Object3D();for(let i=0;i<400;i++){dummy.position.set(Math.sin(i*127.1)*19,Math.sin(i*311.7)*9+2,Math.sin(i*74.7)*35-15);dummy.scale.setScalar(.5+(i%7)*.17);dummy.updateMatrix();motes.setMatrixAt(i,dummy.matrix);}scene.add(motes);
   motes.material.positionNode=positionLocal.add(vec3(sin(clock.mul(.2).add(instanceIndex.toFloat())).mul(.18),sin(clock.mul(.13).add(instanceIndex.toFloat().mul(.7))).mul(.3),0));
   // Real volumetric lighting receives shadows from the chamber meshes.
-  const layer=10;sun.layers.enable(layer);torch.layers.enable(layer);
-  for(let i=0;i<3;i++){
-    const beam=new THREE.SpotLight(0xb8d9c6,1700,65,.035+i*.009,.7,1);
-    beam.position.set(7+i*1.1,18,-16-i*.7);beam.target.position.set(4+i*1.2,-8,-23-i*.8);
-    beam.layers.set(layer);scene.add(beam,beam.target);
-  }
+  const layer=10;torch.layers.enable(layer);
   const volumeMaterial=new THREE.VolumeNodeMaterial();volumeMaterial.steps=20;
   volumeMaterial.offsetNode=sin(screenCoordinate.x.mul(12.9898).add(screenCoordinate.y.mul(78.233))).mul(43758.5453).fract();
-  volumeMaterial.scatteringNode=Fn(()=>float(3.));
+  volumeMaterial.scatteringNode=Fn(()=>float(.7));
   const volume=new THREE.Mesh(new THREE.BoxGeometry(65,35,110),volumeMaterial);volume.position.set(0,5,-25);volume.receiveShadow=true;volume.layers.set(layer);scene.add(volume);
   const pipeline=new THREE.RenderPipeline(renderer),scenePass=pass(scene,camera);
   volumeMaterial.depthNode=scenePass.getTextureNode('depth').sample(screenUV);
@@ -102,7 +108,7 @@ export function createCave(renderer) {
     clock.value=time;const portrait=camera.aspect<.8;
     camera.position.set(-1+x*2.6+Math.sin(exploreYaw)*11,2-y*1.1+explorePitch*6,20-descent*7+Math.cos(exploreYaw)*11-11-zoom);
     camera.lookAt(portrait?5.8:2.5,1+y*.45,-15);
-    diver.position.y=.3+Math.sin(time*.6)*.12;diver.rotation.z=Math.sin(time*.4)*.025;
+    const swim=time*.035+.7;diver.position.set(4+Math.sin(swim)*1.5,.3+Math.sin(time*.45)*.06,-20+Math.cos(swim)*12);diver.rotation.y=Math.atan2(-12*Math.sin(swim),-1.5*Math.cos(swim));diver.rotation.z=Math.sin(time*.4)*.015;
     fins.forEach((fin,i)=>fin.rotation.z=.08+Math.sin(time*.7+i*.3)*.07);
     torch.target.position.y=-2+y*1.5;
   }

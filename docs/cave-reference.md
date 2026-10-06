@@ -1,16 +1,9 @@
 # Cave reference
 
-Visual reference: [Scuba Diving Kin Ha Cenote | Underwater Adventure in Mexico](https://www.youtube.com/watch?v=Nu_E_ashMUU), Roger J. Muller Jr.
+Primary reference: Joshua’s attached cave-diving photograph (DF6FCEE3-901C-4756-BC22-B873EAE9A2A8). The image shows a low limestone roof, dense irregular formations, a narrow dark passage and a continuous guideline. The image itself is not shipped or used as a scene texture.
 
-A second preview, [Cave Diving — Chinese Garden — Cenote Tajma Ha](https://www.youtube.com/watch?v=oVZPHoEOJUk) by Kyle Honn Guitar, shows dense tapered formations, green-lit limestone and horizontal diver trim. Both players failed to deliver actual playback.
+The procedural scene follows those features, with a diver facing into the passage and swimming a slow continuous circuit. The guideline runs from the near entrance into the passage. Orange directional markers point along the line toward the entrance (+Z), opposite the initial inward swimming direction.
 
-The Kin Ha video’s preview image was inspected in the browser. It shows a dark green chamber, a rough limestone mass behind a horizontally trimmed diver, a pale torch cone and strongly localized illumination. Playback failed when attempting to inspect the footage, so this revision uses the visible preview as an art reference, not a full footage study. Kin Ha also appears in Joshua’s existing Mexico cave-diving story.
+Marker reference: [TDI directional and non-directional markers](https://www.tdisdi.com/tdi-diver-news/cave-diving-directional-and-non-directional-markers-101/). This is a visual scene, not a surveyed cave route or navigation resource.
 
-Changes informed by that preview:
-
-- Irregular, deeply fluted limestone masses in place of evenly rounded columns.
-- Olive limestone, green-black distance and reduced ambient blue light.
-- A smaller roof opening and narrower, restrained overhead shafts.
-- A stronger diver torch and slower, nearly synchronized fin movement.
-
-This is an original procedural scene informed by the video preview, not a scan or an exact reconstruction of Kin Ha. No video, extracted frame, photo texture or third-party footage is shipped. The fallback poster is rendered from our own mesh scene.
+Earlier art references were the visible previews of Kin Ha and Tajma Ha videos. The supplied photograph now takes precedence. No third-party footage is shipped. The fallback poster is a render of the mesh scene.

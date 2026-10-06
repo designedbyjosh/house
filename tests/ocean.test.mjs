@@ -7,6 +7,6 @@ test('Vercel previews serve their own build; only existing public domains use AW
   for(const domain of ['josh.house','josh.engineer','www.josh.house','www.josh.engineer'])assert(host.test(domain));
   for(const domain of ['house-preview.vercel.app','josh.house.evil.test','archive.josh.house'])assert(!host.test(domain));
   const deep=config.routes.find(r=>r.check);const route=new RegExp(`^${deep.src}$`);
-  assert.equal('/diving/'.replace(route,deep.dest),'/diving/index.html');assert.equal('/articles/after-aaron'.replace(route,deep.dest),'/articles/after-aaron/index.html');
+  assert.equal('/engineering/'.replace(route,deep.dest),'/engineering/index.html');assert.equal('/articles/after-aaron'.replace(route,deep.dest),'/articles/after-aaron/index.html');
   assert.equal(config.routes.at(-1).status,404);
 });
