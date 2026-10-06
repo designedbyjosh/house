@@ -10,7 +10,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check scripts/build.mjs && node --check web/site.js && node --check infra/router.js && node --check web/project-explorer.js && node --check web/project-renderer.js && node --check web/project-status.js && node --check api/public-status.js",
+    "check": "node --check scripts/build.mjs && node --check web/site.js && node --check infra/router.js && node --check web/project-explorer.js && node --check web/project-renderer.js && node --check web/project-status.js && node --check api/public-status.js && node --check api/traffic.js && node --check web/traffic-client.js",
     "verify": "node scripts/verify.mjs",
     "dev": "node scripts/serve.mjs"
   }

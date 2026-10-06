@@ -2,9 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {projects,projectPage,projectsIndex} from '../scripts/projects.mjs';
-import {scenes,flowEdges,connectionPoint} from '../web/project-graph.js';
+import {scenes,flowEdges} from '../web/project-graph.js';
 import {nextTrace} from '../web/project-explorer.js';
-import {buildModels,cameraMatrix,projectPoint} from '../web/project-renderer.js';
+import {layoutNodes,curve,liveEdges} from '../web/project-renderer.js';
 import {readStatus,validObservation} from '../web/project-status.js';
 import {checkPublicBlog} from '../api/public-status.js';
 for(const [slug,scene] of Object.entries(scenes)){
@@ -15,18 +15,21 @@ for(const [slug,scene] of Object.entries(scenes)){
   let index=-1;for(let i=0;i<=blocked.length;i++){const trace=nextTrace(scene,'blocked',index);index=trace.index;if(i===blocked.length)assert.match(trace.text,/Access denied/);}
   const normal=flowEdges(scene);assert(!normal.some(e=>e.optional||e.deniedOnly));
  });
- test(`${slug}: finite 3D geometry and usable camera projection`,()=>{
-  const vertices=buildModels(scene);assert(vertices.length>5000);assert.equal(vertices.length%27,0);assert(vertices.every(Number.isFinite));
-  for(const [w,h] of [[880,580],[340,470]]){
-   const m=cameraMatrix(-.24,.69,(scene.nodes.length>6?23:22)*Math.max(1,620/w),w/h,scene.nodes.length>6?[0,0,-1.7]:[0,0,0]);
-   for(const node of scene.nodes){const p=projectPoint(node.position,m,w,h);assert(p.visible);assert(p.x>0&&p.x<w,`${slug} clipped horizontally at ${w}`);assert(p.y>0&&p.y<h);}
+ test(`${slug}: readable 2D cards fit desktop and mobile without overlap`,()=>{
+  for(const [w,h] of [[880,580],[340,500]]){
+   const nodes=layoutNodes({...scene,slug},w,h);
+   for(const node of nodes){assert(node.x-node.w/2>=0);assert(node.x+node.w/2<=w);assert(node.y-node.h/2>=140);assert(node.y+node.h/2<h-40);}
+   for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const a=nodes[i],b=nodes[j];assert(Math.abs(a.x-b.x)>(a.w+b.w)/2||Math.abs(a.y-b.y)>(a.h+b.h)/2,`${slug}: ${a.id} overlaps ${b.id}`);}
   }
  });
 }
 test('Tesla defaults to saved observations and only illustrates provider operations explicitly',()=>{
  assert(!flowEdges(scenes.tesla).some(e=>e.b==='fleet'));assert(flowEdges(scenes.tesla,'provider').some(e=>e.b==='fleet'));
 });
-test('curved flow connects the expected endpoints',()=>{assert.deepEqual(connectionPoint([0,0,0],[4,0,2],0),[0,.55,0]);assert(Math.abs(connectionPoint([0,0,0],[4,0,2],1)[0]-4)<1e-6);});
+test('curved flow connects endpoints and real visits light only public delivery',()=>{
+ const a={x:0,y:0},b={x:40,y:20};assert.deepEqual(curve(a,b,0),a);assert(Math.abs(curve(a,b,1).y-b.y)<1e-6);
+ for(const [slug,scene] of Object.entries(scenes)){const edges=liveEdges(scene);assert.equal(edges.length,['overview','blog'].includes(slug)?1:0);assert(edges.every(e=>e.a==='reader'&&['blog','edge'].includes(e.b)));}
+});
 test('public descriptions and browser data omit operational identifiers',async()=>{
  const html=projectsIndex()+projects.map(projectPage).join('');const graph=await readFile(new URL('../web/project-graph.js',import.meta.url),'utf8');
  assert(!/\b\d{12}\b|arn:aws:|127\.0\.0\.1|mcp\.whitcombe\.me|i-[a-f0-9]{17}|cognito-idp|BEGIN .*PRIVATE KEY/.test(html+graph));

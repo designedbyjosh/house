@@ -13,3 +13,5 @@ __pycache__/
 *.pyc
 .DS_Store
 deployment-local.json
+.vercel
+.env*

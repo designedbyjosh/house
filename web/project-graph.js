@@ -24,4 +24,3 @@ export function flowEdges(scene,scenario='normal'){
  if(scenario==='blocked'){const direct=scene.edges.filter(e=>e.deniedOnly);if(direct.length)return direct;const result=[];const queue=[scene.nodes[0].id];const seen=new Set();while(queue.length){const id=queue.shift();if(seen.has(id)||id===scene.gate)continue;seen.add(id);for(const edge of scene.edges.filter(e=>e.a===id)){result.push(edge);queue.push(edge.b);}}return result;}
  return scene.edges.filter(edge=>!edge.deniedOnly&&(!edge.optional || scenario==='provider'));
 }
-export function connectionPoint(a,b,t){return [a[0]+(b[0]-a[0])*t,.55+Math.sin(t*Math.PI)*1.05,a[2]+(b[2]-a[2])*t];}
