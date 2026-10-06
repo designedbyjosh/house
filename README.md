@@ -57,7 +57,7 @@ See [SECURITY.md](SECURITY.md). The site’s HTML escapes content; it does not e
 
 ## Cinematic homepage and Diving page
 
-The homepage renders a complete procedural 3D cavern: floor and ceiling meshes, displaced limestone walls, columns, stalactites, boulders, water and a diver model with twin cylinders, mask, hoses, limbs and fins. Its 92 meshes contain approximately 500,000 triangles. There is no image or depth-map projection in the scene. The small static poster is an actual frame of this model, used while loading or if graphics are unavailable.
+The homepage renders a complete procedural 3D cavern: floor and ceiling meshes, displaced limestone walls, columns, stalactites, boulders, water and a diver model with twin cylinders, mask, hoses, limbs and fins. Its meshes contain approximately 500,000 triangles. The limestone, palette and lighting are informed by a Kin Ha diving reference frame; see [reference notes](docs/cave-reference.md). There is no image or depth-map projection in the scene. The small static poster is an actual frame of this model, used while loading or if graphics are unavailable.
 
 Three.js 0.186.1 renders the same scene through WebGPU or WebGL2. World-space procedural materials, animated caustics, shadow maps and a downsampled volumetric-lighting pass provide underwater lighting. Normal cursor movement translates the camera, and scrolling moves it forward. **Explore cave** hides the headline and enables drag to look around, scroll to move, arrow-key navigation, + / − for distance and Escape to return. Normal page scrolling and links remain unchanged outside exploration.
 

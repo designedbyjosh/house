@@ -27,7 +27,7 @@ export function chamberSurfaces() {
     surface(180,220,(u,v)=>{const x=u*66-33,z=28-v*110;return [x,floorHeight(x,z),z];}),
     // Annular topology follows the opening exactly, avoiding a stair-stepped grid cutout.
     surface(360,80,(u,v)=>{
-      const angle=u*Math.PI*2,edge=10.5+noise(Math.cos(angle)*2,9,Math.sin(angle)*2)*.7;
+      const angle=u*Math.PI*2,edge=7.5+noise(Math.cos(angle)*2,9,Math.sin(angle)*2)*.7;
       const radius=edge+(62-edge)*v,x=9+Math.cos(angle)*radius/.9,z=-17+Math.sin(angle)*radius/.8;
       return [x,13+geology(x,18,z)*1.2,z];
     }),
