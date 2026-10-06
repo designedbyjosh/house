@@ -57,9 +57,9 @@ See [SECURITY.md](SECURITY.md). The site’s HTML escapes content; it does not e
 
 ## Interactive homepage and Engineering map
 
-The homepage renders a complete procedural 3D cavern: floor and low ceiling meshes, displaced limestone walls, columns, stalactites, boulders, water and a tracked diver model with two sidemount cylinders, mask, independent hoses, articulated frog kicks and periodic rising bubbles. Its meshes contain approximately 530,000 triangles. The limestone, palette and lighting are informed by Joshua’s supplied cave photograph; see [reference notes](docs/cave-reference.md). There is no image or depth-map projection in the scene. The small static poster is an actual frame of this model, used while loading or if graphics are unavailable.
+The homepage renders a complete procedural 3D cavern: floor and low ceiling meshes, displaced limestone walls, columns, stalactites, boulders, a branching passage and a tracked diver model with two sidemount cylinders, mask, independent hoses, articulated frog kicks and periodic rising bubbles. Its meshes contain approximately 697,000 mesh triangles, plus instanced rubble. The limestone, palette and lighting are informed by Joshua’s supplied cave photograph; see [reference notes](docs/cave-reference.md). There is no image or depth-map projection in the scene. The small static poster is an actual frame of this model, used while loading or if graphics are unavailable.
 
-Three.js 0.186.1 renders the same scene through WebGPU or WebGL2. World-space procedural materials, animated caustics, shadow maps and a downsampled volumetric-lighting pass provide underwater lighting. Normal cursor movement translates the camera, and scrolling moves it forward. **Explore cave** hides the headline and enables drag to look around, scroll to move, arrow-key navigation, + / − for distance and Escape to return. Normal page scrolling and links remain unchanged outside exploration.
+Three.js 0.186.1 renders the same scene through WebGPU or WebGL2. Locally hosted CC0 photographic rock materials, triplanar mapping, bump detail and a downsampled volumetric-lighting pass provide underwater lighting. Normal cursor movement translates the camera, and scrolling moves it forward. **Explore cave** hides the headline and enables drag to look around, scroll to move, arrow-key navigation, + / − for distance and Escape to return. Normal page scrolling and links remain unchanged outside exploration.
 
 Rendering targets 60 fps, caps pixel density and reduces resolution if rendering gets slow. It stops while paused, outside the viewport or in hidden tabs. Reduced motion starts with a static rendered frame; deliberate exploration remains available. If WebGPU is unavailable, the same mesh scene runs on WebGL2. With neither backend, or after runtime device loss, the poster and static page remain usable and the inactive controls stay hidden.
 
@@ -71,3 +71,5 @@ Vercel preview hosts serve the branch build, with security headers and legacy bl
 Use `PORT=4185 npm run dev` when another local preview occupies the default port.
 
 The Engineering page presents public repositories in a searchable, selectable graph with pan/zoom and animated connections. These connections are explicitly illustrative, not live integrations or traffic telemetry. The Diving landing page is currently removed.
+
+Rock Face 03 color, height and roughness maps from Poly Haven are CC0, stored locally with license and verified hashes in `public/assets/materials`. The scene waits for these maps before revealing the canvas.

@@ -33,3 +33,10 @@ for(const [name,expected] of Object.entries(vendor.files)){
  assert.equal(createHash('sha256').update(bytes).digest('hex'),expected,`Vendored asset changed: ${name}`);
 }
 console.log('Pinned graphics assets, private storage, scoped origin access, transport encryption, CSP and workflow pins verified.');
+
+const materialManifest=JSON.parse(await readFile(path.join(root,'public/assets/materials/manifest.json'),'utf8'));
+assert.equal(materialManifest.license,'CC0-1.0');
+for(const [name,hash] of Object.entries(materialManifest.files)){
+ assert(/^[a-z-]+\.jpg$/.test(name));
+ assert.equal(createHash('sha256').update(await readFile(path.join(root,'public/assets/materials',name))).digest('hex'),hash,`Material changed: ${name}`);
+}

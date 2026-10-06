@@ -19,10 +19,11 @@ export async function startCave(canvas) {
   // allocating new contexts on an unstable device. Initial WebGL2 fallback is
   // handled by WebGPURenderer before the scene is created.
   function fallback(){dispose();}
+    window.addEventListener('pagehide',event=>{dispose();if(event.persisted)window.addEventListener('pageshow',()=>{const fresh=canvas.cloneNode(false);canvas.replaceWith(fresh);startCave(fresh).catch(()=>{});},{once:true});},options);
   try {
     await renderer.init();initialized=true;if(dead){renderer.dispose().catch(()=>{});return;}
     renderer.onDeviceLost=fallback;
-    world=createCave(renderer);
+    world=createCave(renderer);await world.ready;if(dead)return;
     const preference=matchMedia('(prefers-reduced-motion: reduce)');
     function resize(){const box=hero.getBoundingClientRect();renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5)*quality);renderer.setSize(box.width,box.height,false);world.camera.aspect=box.width/box.height;world.camera.updateProjectionMatrix();draw();}
     function draw(){
@@ -59,7 +60,6 @@ export async function startCave(canvas) {
     preference.addEventListener('change',e=>{paused=e.matches;sync();},options);
     document.addEventListener('visibilitychange',sync,options);
     window.addEventListener('scroll',()=>{if(paused||exploring)return;targetDescent=Math.max(0,Math.min(1,-hero.getBoundingClientRect().top/hero.clientHeight));},{...options,passive:true});
-    window.addEventListener('pagehide',event=>{dispose();if(event.persisted)window.addEventListener('pageshow',()=>{const fresh=canvas.cloneNode(false);canvas.replaceWith(fresh);startCave(fresh).catch(()=>{});},{once:true});},options);
     resizeObserver=new ResizeObserver(resize);resizeObserver.observe(hero);
     observer=new IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();});observer.observe(hero);
     resize();sync();

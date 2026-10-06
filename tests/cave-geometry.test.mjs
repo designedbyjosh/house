@@ -14,9 +14,9 @@ test('chamber mesh buffers contain finite 3D positions and valid triangle indice
     }
   }
 });
-test('the cavern has a real ceiling opening and a continuous floor',()=>{
+test('the cavern has a continuous low roof and floor',()=>{
   const [floor,roof]=chamberSurfaces();
-  assert.equal(floor.indices.length,180*220*6);assert(roof.indices.length<180*180*6);
+  assert.equal(floor.indices.length,180*220*6);assert.equal(roof.indices.length,180*150*6);
   let minimum=Infinity,maximum=-Infinity;for(let x=-30;x<=30;x+=3)for(let z=-70;z<=20;z+=3){const h=floorHeight(x,z);minimum=Math.min(minimum,h);maximum=Math.max(maximum,h);}
   assert(minimum>-11&&maximum<-3);
 });

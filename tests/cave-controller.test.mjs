@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
 const source=(await readFile(new URL('../web/cave-controller.js',import.meta.url),'utf8')).replace(/^import .+;\n/gm,'').replace('export async function','async function')+'\nglobalThis.start=startCave;';
-async function setup({reduced=false,fail=false}={}){
+async function setup({reduced=false,fail=false,assetFail=false}={}){
   const events={},frames=new Map();let frame=0,renders=0,disposed=0,visibleCallback;
   const control=()=>({hidden:true,textContent:'',attrs:{'aria-pressed':'false'},setAttribute(k,v){this.attrs[k]=v;},getAttribute(k){return this.attrs[k];},addEventListener(n,fn){this[n]=fn;},focus(){}});
   const pause=control(),explore=control(),hint={hidden:true},classes=new Set();
@@ -12,7 +12,7 @@ async function setup({reduced=false,fail=false}={}){
   const document={hidden:false,addEventListener:(n,fn)=>events[n]=fn};
   const context={document,window:{addEventListener:(n,fn)=>events[n]=fn},matchMedia:()=>({matches:reduced,addEventListener:(n,fn)=>events.preference=fn}),devicePixelRatio:1,AbortController,performance,console,requestAnimationFrame:fn=>{const id=++frame;frames.set(id,fn);return id;},cancelAnimationFrame:id=>frames.delete(id),ResizeObserver:class{observe(){}disconnect(){}},IntersectionObserver:class{constructor(fn){visibleCallback=fn;}observe(){}disconnect(){}},ACESFilmicToneMapping:1,
     WebGPURenderer:class {backend={isWebGPUBackend:true};shadowMap={};async init(){if(fail)throw Error('no graphics context');}setPixelRatio(){}setSize(){}async compileAsync(){}async dispose(){disposed++;}},
-    createCave:()=>({scene:{},camera:{updateProjectionMatrix(){}},update(){},render(){renders++;},dispose(){}})};
+    createCave:()=>({ready:assetFail?Promise.reject(Error('material unavailable')):Promise.resolve(),scene:{},camera:{updateProjectionMatrix(){}},update(){},render(){renders++;},dispose(){}})};
   vm.createContext(context);vm.runInContext(source,context);
   return {start:()=>context.start(canvas),pause,explore,hint,events,frames,document,classes,visible:v=>visibleCallback([{isIntersecting:v}]),get renders(){return renders;},get disposed(){return disposed;}};
 }
@@ -29,4 +29,9 @@ test('reduced motion allows deliberate keyboard exploration without starting ani
   const s=await setup({reduced:true});await s.start();assert.equal(s.frames.size,0);s.explore.click();assert(s.classes.has('is-exploring'));assert.equal(s.hint.hidden,false);
   const before=s.renders;s.events.keydown({key:'ArrowLeft',preventDefault(){}});assert(s.renders>before);assert.equal(s.frames.size,0);
   s.events.keydown({key:'Escape'});assert(!s.classes.has('is-exploring'));assert.equal(s.hint.hidden,true);assert.equal(s.explore.attrs['aria-pressed'],'false');
+});
+
+test('a missing material preserves the poster and releases the initialized renderer',async()=>{
+ const s=await setup({assetFail:true});await assert.rejects(s.start(),/material unavailable/);
+ assert.equal(s.disposed,1);assert(s.pause.hidden&&s.explore.hidden);assert.equal(s.renders,0);assert.equal(s.frames.size,0);
 });
