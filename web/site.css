@@ -55,7 +55,7 @@ nav { font-size:12px; gap:30px; align-items:center; }
 .world-card:hover h3 span { transform:translate(3px,-3px); }
 .world-card p { font-size:13px; line-height:1.8; color:var(--muted); margin-bottom:30px; }
 .card-link { font-size:10px; margin-top:auto; color:#4f606a; }
-.dive-feature { position:relative; max-width:none; min-height:500px; padding:100px 5%; background:linear-gradient(90deg,#02080dee,#02080d22),url('/ocean-cavern.jpg') 75% 45%/cover; color:#eaf0f4; display:flex; align-items:center; }
+.dive-feature { position:relative; max-width:none; min-height:500px; padding:100px 5%; background:linear-gradient(90deg,#02080dee,#02080d22),url('/cave-poster.jpg') 75% 45%/cover; color:#eaf0f4; display:flex; align-items:center; }
 .dive-feature-copy { max-width:900px; }
 .dive-feature .eyebrow { font-size:9px; color:#b3c3d0; letter-spacing:2px; }
 .dive-feature h2 { font-size:clamp(36px,4.5vw,65px); line-height:1.12; letter-spacing:-2px; margin:25px 0 40px; }
@@ -173,3 +173,17 @@ nav { font-size:12px; gap:30px; align-items:center; }
  .dive-feature { background:white; color:black; min-height:0; }
  .section-wrap { padding:25px 0; }
 }
+
+/* Full 3D scene: exploration is opt-in; normal page scrolling stays native. */
+.ocean-fallback { background:#04151e url('/cave-poster.jpg') center/cover; }
+.scene-controls { display:flex; gap:22px; align-items:center; }
+.explore-toggle { border:1px solid #b1c9d24d; background:#06131e50; color:#e2eef1; padding:9px 15px; font-size:11px; cursor:pointer; }
+.explore-toggle:hover { border-color:#d2ebf1; }
+.explore-hint { position:absolute; bottom:60px; right:0; text-align:right; font-size:10px; line-height:1.8; color:#b7ccd2; }
+.is-exploring { touch-action:none; cursor:grab; }
+.is-exploring:active { cursor:grabbing; }
+.is-exploring .hero-content { opacity:0; visibility:hidden; }
+.is-exploring .ocean-shade { opacity:.25; }
+.hero-content,.ocean-shade { transition:opacity .45s,visibility .45s; }
+@media(prefers-reduced-motion:reduce){.hero-content,.ocean-shade{transition:none;}}
+@media(max-width:600px){.scene-controls{gap:10px}.explore-toggle{font-size:10px;padding:8px 10px}.scene-note{max-width:90px;line-height:1.6}.explore-hint{max-width:250px}}

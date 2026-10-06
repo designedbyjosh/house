@@ -1,18 +1,6 @@
-// Progressive enhancement: native WebGPU, image-based WebGL, then static HTML.
-(async () => {
-  const canvas=document.querySelector('#ocean-canvas');
-  if(!canvas)return;
-  let fallbackStarted=false;
-  async function fallback(){
-    if(fallbackStarted)return;fallbackStarted=true;
-    // A canvas cannot switch from a WebGPU context to WebGL in-place.
-    const current=document.querySelector('#ocean-canvas');
-    const replacement=current.cloneNode(false);replacement.classList.remove('is-ready');delete replacement.dataset.renderer;
-    current.replaceWith(replacement);
-    try {await import('./ocean-fallback.js');} catch {/* The still image is already rendered. */}
-  }
-  try {
-    const {startWebGPU}=await import('./ocean-gpu.js');
-    if(!await startWebGPU(canvas,fallback))await fallback();
-  } catch {await fallback();}
+// The same mesh scene is rendered by WebGPU or WebGL2. No image projection.
+(async()=>{
+  const canvas=document.querySelector('#ocean-canvas');if(!canvas)return;
+  try {const {startCave}=await import('./cave-controller.js');await startCave(canvas);}
+  catch(error){console.warn('3D cave unavailable; showing the static fallback.',error);}
 })();

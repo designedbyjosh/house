@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {readFile,readdir} from 'node:fs/promises';
 import path from 'node:path';
 import {root} from './build.mjs';
@@ -23,5 +24,12 @@ for(const name of await readdir(path.join(root,'.github/workflows'))){
  assert(workflow.includes('timeout-minutes:'),`Workflow missing timeout: ${name}`);
 }
 const pkg=JSON.parse(await readFile(path.join(root,'package.json'),'utf8'));
-assert(!pkg.dependencies&&!pkg.devDependencies,'The static website must remain free of runtime dependencies.');
-console.log('Private storage, scoped origin access, transport encryption, CSP and workflow pins verified.');
+assert(!pkg.dependencies&&!pkg.devDependencies,'The static build must not acquire unreviewed package dependencies.');
+const vendor=JSON.parse(await readFile(path.join(root,'public/assets/vendor/manifest.json'),'utf8'));
+assert.equal(vendor.version,'0.186.1');
+for(const [name,expected] of Object.entries(vendor.files)){
+ assert(!name.includes('/')&&!name.includes('..'),'Invalid vendor filename');
+ const bytes=await readFile(path.join(root,'public/assets/vendor',name));
+ assert.equal(createHash('sha256').update(bytes).digest('hex'),expected,`Vendored asset changed: ${name}`);
+}
+console.log('Pinned graphics assets, private storage, scoped origin access, transport encryption, CSP and workflow pins verified.');
