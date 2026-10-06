@@ -200,3 +200,25 @@ nav { font-size:12px; gap:30px; align-items:center; }
 #project-graph{touch-action:none;cursor:grab}#project-graph:active{cursor:grabbing}
 
 .flow-0{animation-delay:-0.0s}.flow-1{animation-delay:-0.7s}.flow-2{animation-delay:-1.4s}.flow-3{animation-delay:-2.1s}.flow-4{animation-delay:-2.8s}.flow-5{animation-delay:-3.5s}.flow-6{animation-delay:-4.2s}
+
+/* Native document transitions preserve real links, history and scroll restoration. */
+@media (prefers-reduced-motion: no-preference) {
+ @view-transition { navigation:auto; }
+ main { view-transition-name:page-content; }
+ .site-header { view-transition-name:site-navigation; }
+ ::view-transition-group(*) { animation-duration:320ms; animation-timing-function:cubic-bezier(.22,1,.36,1); }
+ ::view-transition-old(root) { animation:page-fade-out 180ms ease both; }
+ ::view-transition-new(root) { animation:page-fade-in 240ms ease both; }
+ ::view-transition-old(page-content) { animation:page-content-out 180ms ease both; }
+ ::view-transition-new(page-content) { animation:page-content-in 320ms cubic-bezier(.22,1,.36,1) both; }
+ ::view-transition-old(site-navigation) { animation:page-fade-out 140ms ease both; }
+ ::view-transition-new(site-navigation) { animation:page-fade-in 200ms ease both; }
+ @keyframes page-fade-out { to { opacity:0; } }
+ @keyframes page-fade-in { from { opacity:0; } }
+ @keyframes page-content-out { to { opacity:0; transform:translateY(-6px); } }
+ @keyframes page-content-in { from { opacity:0; transform:translateY(14px); } }
+}
+@media (prefers-reduced-motion: reduce) {
+ @view-transition { navigation:none; }
+ html { scroll-behavior:auto; }
+}
