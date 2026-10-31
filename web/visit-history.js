@@ -1,5 +1,6 @@
 export const HISTORY_KEY = 'josh.visit-history.v1';
 export const SESSION_KEY = 'josh.visit-session.v1';
+export const NAVIGATION_KEY = 'josh.visit-navigation.v1';
 export const PAUSE_KEY = 'josh.analytics-paused';
 export const SESSION_GAP = 30 * 60 * 1000;
 const RETENTION = 90 * 24 * 60 * 60 * 1000;
@@ -44,11 +45,20 @@ export class VisitHistory {
     // Keep the pre-entry snapshot: a quick return or refresh must not hide it.
     this.lastAccess=this.visits[0] ? structuredClone(this.visits[0]) : null;
     let resumeId=null;
-    if (resumesVisit(navigation)) {
+    let pending;
+    try { pending=JSON.parse(this.sessionStorage?.getItem(NAVIGATION_KEY) || 'null'); this.sessionStorage?.removeItem(NAVIGATION_KEY); } catch {}
+    const internal=pending?.path===this.path && now>=pending.at && now-pending.at<10000;
+    if(internal) resumeId=pending.visitId;
+    else if (resumesVisit(navigation)) {
       try { resumeId=this.sessionStorage?.getItem(SESSION_KEY) || this.visits[0]?.id; }
       catch { resumeId=this.visits[0]?.id; }
     }
+    if(resumeId) this.lastAccess=structuredClone(this.visits.find(v=>v.id===resumeId) || this.lastAccess);
     this.open(now,resumeId); return this.snapshot();
+  }
+  prepareNavigation(path) {
+    // Production deliberately sends no referrer; carry only the local path in this tab.
+    try { this.sessionStorage?.setItem(NAVIGATION_KEY,JSON.stringify({visitId:this.visitId,path:path.split(/[?#]/)[0].slice(0,300),at:this.now()})); } catch {}
   }
   open(now,resumeId=null) {
     const opened=beginVisit(this.visits,now,this.path,{resumeId,newId:this.newId()});
@@ -81,6 +91,7 @@ export class VisitHistory {
   }
   clear({restart=true}={}) {
     this.visits=[]; this.lastAccess=null;
+    try { this.sessionStorage?.removeItem(NAVIGATION_KEY); } catch {}
     try { this.storage?.removeItem(HISTORY_KEY); } catch { /* Clear page memory too. */ }
     if(restart) this.open(this.now());
     else { this.visitId=null; try { this.sessionStorage?.removeItem(SESSION_KEY); } catch {} }

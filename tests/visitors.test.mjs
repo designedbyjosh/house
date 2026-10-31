@@ -159,3 +159,20 @@ test('clearing history removes the last-access snapshot and does not create a re
   tracker.clear({restart:false}); assert.equal(browser.storage.getItem(HISTORY_KEY),null);
   assert.equal(tracker.snapshot().visits.length,0);
 });
+
+test('internal links retain the visit under the production no-referrer policy',()=>{
+  const browser=browserHarness(),tab=memoryStorage(); const first=browser.make(tab); first.start('/visitors/');
+  browser.advance(2000); first.tick(2000); first.prepareNavigation('/articles/?private=omitted');
+  const next=browser.make(tab); const state=next.start('/articles/',{navigationType:'navigate',referrer:'',origin:'https://josh.engineer'});
+  assert.equal(state.visits.length,1); assert.equal(state.current.activeMs,2000);
+  assert.deepEqual(state.current.paths,['/visitors/','/articles/']);
+  const direct=browser.make(tab).start('/articles/');
+  assert.equal(direct.visits.length,2,'navigation intent is consumed only once');
+});
+test('an expired or unmatched internal navigation intent cannot resume a later direct visit',()=>{
+  const browser=browserHarness(),tab=memoryStorage(); const first=browser.make(tab); first.start('/');
+  first.prepareNavigation('/articles/'); browser.advance(10001);
+  assert.equal(browser.make(tab).start('/articles/').visits.length,2);
+  const current=browser.make(tab); current.start('/'); current.prepareNavigation('/articles/');
+  assert.equal(browser.make(tab).start('/visitors/').visits.length,4);
+});

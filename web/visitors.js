@@ -36,7 +36,7 @@ function renderHistory() {
   set('last-duration-label',sameVisit ? 'Time already spent' : 'Last stay');
   set('last-duration-note',sameVisit ? 'Before opening this page' : 'Visible-tab time on your last visit');
   set('history-note',persistent ? 'Your recent visits, saved on this browser and domain for up to 90 days.' : 'Browser storage is unavailable. This page is tracked in memory only; it won’t be saved.');
-  const recent=visits.slice(0,5);
+  const recent=[...visits].sort((a,b)=>(b.id===current?.id)-(a.id===current?.id) || b.lastSeen-a.lastSeen).slice(0,5);
   const signature=recent.map(v=>`${v.id}:${v.id===current?.id}`).join('|');
   if(signature!==listSignature) {
     list.replaceChildren(); listSignature=signature;
@@ -63,6 +63,13 @@ function tick() {
   tracker.tick(elapsed); renderHistory();
 }
 start();
+document.addEventListener('click',event=>{
+  if(paused || event.defaultPrevented || event.button!==0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const link=event.target instanceof Element ? event.target.closest('a[href]') : null;
+  if(!link || link.hasAttribute('download') || (link.target && link.target!=='_self')) return;
+  const destination=new URL(link.href,location.href);
+  if(destination.origin===location.origin && (destination.pathname!==path || !destination.hash)) tracker.prepareNavigation(destination.pathname);
+});
 setInterval(tick,1000);
 document.addEventListener('visibilitychange',()=>{
   tick(); visible=!document.hidden; lastTick=performance.now();
