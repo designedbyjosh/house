@@ -10,7 +10,7 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check scripts/build.mjs && node --check web/site.js && node --check infra/router.js && node --check scripts/visitors.mjs && node --check web/visitors.js && node --check web/visit-history.js && node --check lib/umami.js && node --check api/visitor.js && node --check api/visitor-activity.js",
+    "check": "node --check scripts/build.mjs && node --check web/site.js && node --check infra/router.js && node --check scripts/visitors.mjs && node --check web/visitors.js && node --check web/visit-history.js && node --check lib/umami.js && node --check api/visitor.js && node --check api/visitor-activity.js && node --check web/visitor-camera.js",
     "verify": "node scripts/verify.mjs",
     "dev": "node scripts/serve.mjs"
   }

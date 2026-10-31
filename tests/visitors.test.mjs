@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {configuration, aggregateRealtime, readRealtime, countryCode} from '../lib/umami.js';
 import visitor from '../api/visitor.js';
-import {readHistory, beginVisit, addActiveTime, SESSION_GAP, HISTORY_KEY} from '../web/visit-history.js';
+import {readHistory, beginVisit, addActiveTime, SESSION_GAP, HISTORY_KEY, VisitHistory} from '../web/visit-history.js';
 
 const id = '12345678-1234-1234-1234-123456789abc';
 const env = {VERCEL_ENV:'production', UMAMI_WEBSITE_ID:id, UMAMI_SCRIPT_URL:'https://cloud.umami.is/script.js', UMAMI_API_KEY:'server-only-test-key'};
@@ -55,23 +55,24 @@ test('unknown and invalid country headers never become a guessed location', () =
 });
 const now=1800000000000;
 test('navigation resumes a visit, while thirty minutes away starts a new one with its duration intact', () => {
-  let history=beginVisit([],now,'/');
+  let opened=beginVisit([],now,'/');
+  let history=opened.visits;
   history=addActiveTime(history,now+4000,4000);
-  history=beginVisit(history,now+5000,'/articles/');
+  history=beginVisit(history,now+5000,'/articles/',{resumeId:opened.visitId}).visits;
   assert.equal(history.length,1); assert.equal(history[0].pageviews,2); assert.equal(history[0].activeMs,4000);
   assert.deepEqual(history[0].paths,['/','/articles/']);
-  history=beginVisit(history,now+5000+SESSION_GAP,'/visitors/');
+  history=beginVisit(history,now+5000+SESSION_GAP,'/visitors/',{resumeId:opened.visitId}).visits;
   assert.equal(history.length,2); assert.equal(history[1].activeMs,4000); assert.equal(history[0].activeMs,0);
 });
 test('overlapping tabs and backwards clocks cannot double-count or subtract active time', () => {
-  const history=beginVisit([],now,'/');
+  const history=beginVisit([],now,'/').visits;
   addActiveTime(history,now+1000,1000); addActiveTime(history,now+1000,1000);
   assert.equal(history[0].activeMs,1000);
   addActiveTime(history,now-1000,1000); assert.equal(history[0].activeMs,1000);
   addActiveTime(history,now+100000,100000); assert.equal(history[0].activeMs,6000);
 });
 test('history is bounded, expires after 90 days, and tolerates denied or corrupted storage', () => {
-  const valid=beginVisit([],now,'/')[0];
+  const valid=beginVisit([],now,'/').visits[0];
   const storage={getItem:key=>{assert.equal(key,HISTORY_KEY); return JSON.stringify([{...valid,startedAt:now-91*86400000}, {...valid,activeMs:-1}, {...valid,paths:['https://external.test']},...Array.from({length:25},()=>valid)]);}};
   assert.equal(readHistory(storage,now).length,20);
   assert.deepEqual(readHistory({getItem(){throw Error('denied');}},now),[]);
@@ -87,4 +88,74 @@ test('Vercel routes visitor functions before the production-only AWS proxy',asyn
   assert.equal(routes[0].dest,'/api/$1');
   for(const rule of routes.filter(r=>r.dest?.startsWith('https:'))) assert(rule.has.some(x=>x.type==='host'));
   assert(routes.some(r=>r.handle==='filesystem'));
+});
+
+function memoryStorage() {
+  const items=new Map();
+  return {getItem:k=>items.get(k)??null,setItem:(k,v)=>items.set(k,String(v)),removeItem:k=>items.delete(k)};
+}
+function browserHarness() {
+  const storage=memoryStorage(); let clock=now, sequence=0;
+  return {storage,advance:ms=>clock+=ms,make:(sessionStorage=memoryStorage())=>new VisitHistory({storage,sessionStorage,now:()=>clock,newId:()=>`visit-${++sequence}`})};
+}
+test('closing and reopening within a minute immediately shows the saved last access and duration',()=>{
+  const browser=browserHarness(); const first=browser.make(); first.start('/');
+  browser.advance(4000); first.tick(4000);
+  browser.advance(15000); const returning=browser.make(); const state=returning.start('/visitors/');
+  assert.equal(state.visits.length,2); assert.equal(state.current.activeMs,0);
+  assert.equal(state.lastAccess.activeMs,4000); assert.equal(state.lastAccess.lastSeen,now+4000);
+  assert.notEqual(state.current.id,state.lastAccess.id);
+});
+test('reload and internal navigation retain the visit while showing the pre-entry snapshot',()=>{
+  const browser=browserHarness(),tab=memoryStorage(); const first=browser.make(tab); first.start('/');
+  browser.advance(3000); first.tick(3000);
+  const refreshed=browser.make(tab); let state=refreshed.start('/',{navigationType:'reload'});
+  assert.equal(state.visits.length,1); assert.equal(state.lastAccess.activeMs,3000); assert.equal(state.lastAccess.pageviews,1);
+  browser.advance(1000); refreshed.tick(1000);
+  const next=browser.make(tab); state=next.start('/articles/?private=query',{referrer:'https://josh.engineer/',origin:'https://josh.engineer'});
+  assert.equal(state.visits.length,1); assert.equal(state.current.pageviews,3);
+  assert.deepEqual(state.current.paths,['/','/articles/']); assert.equal(state.lastAccess.activeMs,4000);
+});
+test('a direct return in the same tab starts a new visit, but back navigation resumes',()=>{
+  const browser=browserHarness(),tab=memoryStorage(); const first=browser.make(tab); first.start('/');
+  browser.advance(2000); first.tick(2000);
+  const returned=browser.make(tab); const state=returned.start('/',{navigationType:'navigate',referrer:'',origin:'https://josh.engineer'});
+  assert.equal(state.visits.length,2);
+  const back=browser.make(tab); assert.equal(back.start('/articles/',{navigationType:'back_forward'}).visits.length,2);
+});
+test('visible time excludes hidden intervals and resumes into a fresh visit after inactivity',()=>{
+  const browser=browserHarness(),tracker=browser.make(); tracker.start('/');
+  browser.advance(2000); tracker.tick(2000);
+  browser.advance(SESSION_GAP+1); tracker.tick(SESSION_GAP+1,false);
+  assert.equal(tracker.snapshot().current.activeMs,2000);
+  const returned=tracker.tick(0,true);
+  assert.equal(returned.visits.length,2); assert.equal(returned.lastAccess.activeMs,2000); assert.equal(returned.current.activeMs,0);
+});
+test('separate tabs update their own visit records without overwriting another visit',()=>{
+  const browser=browserHarness(),one=browser.make(); one.start('/');
+  browser.advance(1000); one.tick(1000);
+  const two=browser.make(); two.start('/visitors/');
+  browser.advance(1000); one.tick(1000); two.tick(1000);
+  assert.equal(one.refresh().current.activeMs,2000); assert.equal(two.refresh().current.activeMs,1000);
+  assert.equal(one.snapshot().visits.length,2);
+});
+test('existing v1 history is migrated in place without losing dates, duration or paths',()=>{
+  const browser=browserHarness();
+  browser.storage.setItem(HISTORY_KEY,JSON.stringify([{startedAt:now-30000,lastSeen:now-10000,activeMs:20000,pageviews:2,paths:['/','/articles/']}]));
+  const state=browser.make().start('/visitors/');
+  assert.equal(state.lastAccess.id,`legacy-${now-30000}`); assert.equal(state.lastAccess.activeMs,20000);
+  assert.deepEqual(state.lastAccess.paths,['/','/articles/']); assert.equal(state.visits.length,2);
+});
+test('denied writes produce an honest in-memory state instead of silently resetting every tick',()=>{
+  const denied={getItem:()=>null,setItem(){throw Error('denied');},removeItem(){throw Error('denied');}};
+  let clock=now; const tracker=new VisitHistory({storage:denied,now:()=>clock,newId:()=> 'temporary'});
+  assert.equal(tracker.start('/').persistent,false);
+  clock+=2000; assert.equal(tracker.tick(2000).current.activeMs,2000);
+});
+test('clearing history removes the last-access snapshot and does not create a record while paused',()=>{
+  const browser=browserHarness(),tracker=browser.make(); tracker.start('/');
+  browser.advance(1000); tracker.tick(1000);
+  assert.equal(tracker.clear().visits.length,1); assert.equal(tracker.snapshot().lastAccess,null);
+  tracker.clear({restart:false}); assert.equal(browser.storage.getItem(HISTORY_KEY),null);
+  assert.equal(tracker.snapshot().visits.length,0);
 });
