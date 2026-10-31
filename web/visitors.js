@@ -2,6 +2,7 @@ import {HISTORY_KEY, PAUSE_KEY, VisitHistory, formatDuration} from './visit-hist
 import {countryFrame, worldFrame} from './visitor-camera.js';
 
 const panel = document.querySelector('[data-visitor-panel]');
+const isHome=panel?.hasAttribute('data-visitor-home');
 const set = (name, value) => { const element=panel?.querySelector(`[data-${name}]`); if(element) element.textContent=value; };
 let storage, tabStorage;
 try { storage=window.localStorage; } catch { /* Storage can be disabled. */ }
@@ -19,15 +20,16 @@ function renderHistory() {
   const list=panel.querySelector('[data-visit-history]');
   if(paused) {
     set('visit-duration','Paused'); set('visit-pages','—'); set('visit-count','History paused');
-    set('last-visit','Paused'); set('last-duration','—');
+    set('last-visit','History paused'); set('last-duration','—'); set('pin-visits','—');
     set('last-context','No new activity is saved');
     set('history-note',privacySignal ? 'Your browser privacy preference pauses local history and analytics.' : 'Local history and analytics are paused.');
-    list.replaceChildren(); listSignature=''; return;
+    list?.replaceChildren(); listSignature=''; return;
   }
   const {current,lastAccess,visits,persistent}=tracker.snapshot();
   set('welcome',lastAccess ? 'Good to have you back.' : 'Make yourself at home.');
   set('visit-duration',formatDuration(current?.activeMs || 0));
   set('visit-pages',String(current?.paths.length || 0));
+  set('pin-visits',persistent ? String(visits.length) : '—');
   set('visit-count',`${visits.length} ${persistent ? 'saved ' : ''}${visits.length===1 ? 'visit' : 'visits'}`);
   set('last-visit',lastAccess ? dateLabel(lastAccess.lastSeen) : 'First visit');
   const sameVisit=lastAccess?.id===current?.id;
@@ -36,6 +38,7 @@ function renderHistory() {
   set('last-duration-label',sameVisit ? 'Time already spent' : 'Last stay');
   set('last-duration-note',sameVisit ? 'Before opening this page' : 'Visible-tab time on your last visit');
   set('history-note',persistent ? 'Your recent visits, saved on this browser and domain for up to 90 days.' : 'Browser storage is unavailable. This page is tracked in memory only; it won’t be saved.');
+  if(!list) return;
   const recent=[...visits].sort((a,b)=>(b.id===current?.id)-(a.id===current?.id) || b.lastSeen-a.lastSeen).slice(0,5);
   const signature=recent.map(v=>`${v.id}:${v.id===current?.id}`).join('|');
   if(signature!==listSignature) {
@@ -109,9 +112,42 @@ const wallpaper=panel?.querySelector('.visitor-wallpaper');
 const map=panel?.querySelector('.visitor-map');
 const mapToggle=panel?.querySelector('[data-map-toggle]');
 const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+const homePin=panel?.querySelector('[data-home-pin]');
+const pinToggle=panel?.querySelector('[data-pin-toggle]');
+const pinCard=panel?.querySelector('[data-pin-card]');
+const roomyScreen=window.matchMedia('(min-width: 1000px) and (min-height: 600px)');
+let pinOpen=roomyScreen.matches, pinPoint=null;
 let frame=null, animation=null, focusedCountry=null, showWorld=false;
+function renderPinCard() {
+  if(!pinCard) return;
+  pinCard.hidden=!pinOpen;
+  pinToggle.setAttribute('aria-expanded',String(pinOpen));
+  pinToggle.setAttribute('aria-label',`${pinOpen ? 'Hide' : 'Show'} your visit details`);
+  if(frame) positionHomePin(frame);
+}
+function positionHomePin(value) {
+  if(!homePin || !pinPoint) return;
+  const width=wallpaper.clientWidth,height=wallpaper.clientHeight;
+  const x=(pinPoint.x-value.x)/value.width*width,y=(pinPoint.y-value.y)/value.height*height;
+  // The note belongs to the introduction; hide it before it can cover the journal.
+  const journalTop=document.querySelector('.writing-section')?.getBoundingClientRect().top ?? 0;
+  homePin.hidden=x<16 || x>width-16 || y<100 || y>height-16 || journalTop<y+24 || window.scrollY>120;
+  homePin.style.left=`${x}px`; homePin.style.top=`${y}px`;
+  const cardWidth=244,cardLeft=Math.max(16,Math.min(width-cardWidth-16,x-cardWidth/2));
+  pinCard.style.left=`${cardLeft-x}px`;
+  pinCard.style.setProperty('--pin-offset',`${x-cardLeft}px`);
+}
+if(homePin) {
+  pinToggle.addEventListener('click',()=>{ pinOpen=!pinOpen; renderPinCard(); });
+  homePin.addEventListener('keydown',event=>{ if(event.key==='Escape') { pinOpen=false; renderPinCard(); pinToggle.focus(); } });
+  document.addEventListener('click',event=>{ if(!roomyScreen.matches && !homePin.contains(event.target)) { pinOpen=false; renderPinCard(); } });
+  roomyScreen.addEventListener('change',()=>{ pinOpen=roomyScreen.matches; renderPinCard(); focusCamera(false); });
+  window.addEventListener('scroll',()=>{ if(frame) positionHomePin(frame); },{passive:true});
+  renderPinCard();
+}
 function applyFrame(value) {
   frame=value; map.setAttribute('viewBox',`${value.x} ${value.y} ${value.width} ${value.height}`);
+  positionHomePin(value);
   const unit=value.width/Math.max(1,wallpaper.clientWidth);
   panel.querySelectorAll('.visitor-pins circle').forEach(circle=>circle.setAttribute('r',String(unit*(circle.classList.contains('pin-ring') ? 10 : 3.5))));
 }
@@ -119,7 +155,9 @@ function focusCamera(animate=true) {
   if(!map || !wallpaper) return;
   const outline=[...panel.querySelectorAll('[data-country]')].find(p=>p.dataset.country===ownCountry);
   const bounds=outline?.getBBox();
-  const target=outline && !showWorld ? countryFrame({x:Number(outline.dataset.x),y:Number(outline.dataset.y),width:bounds.width,height:bounds.height},wallpaper.clientWidth,wallpaper.clientHeight) : worldFrame(wallpaper.clientWidth,wallpaper.clientHeight);
+  const introEnd=(document.querySelector('.intro')?.getBoundingClientRect().bottom ?? wallpaper.clientHeight)+window.scrollY;
+  const maxPinY=(introEnd-32)/Math.max(1,wallpaper.clientHeight);
+  const target=outline && !showWorld ? countryFrame({x:Number(outline.dataset.x),y:Number(outline.dataset.y),width:bounds.width,height:bounds.height},wallpaper.clientWidth,wallpaper.clientHeight,{home:isHome,maxPinY}) : worldFrame(wallpaper.clientWidth,wallpaper.clientHeight);
   if(animation) cancelAnimationFrame(animation);
   if(!frame || !animate || reducedMotion.matches) { applyFrame(target); return; }
   const from={...frame},started=performance.now();
@@ -133,16 +171,17 @@ function focusCamera(animate=true) {
 if(wallpaper) {
   new ResizeObserver(()=>focusCamera(false)).observe(wallpaper);
   reducedMotion.addEventListener('change',()=>focusCamera(false));
-  mapToggle.addEventListener('click',()=>{ showWorld=!showWorld; mapToggle.textContent=showWorld ? 'Focus on my country ↗' : 'Show the world ↗'; focusCamera(); });
+  mapToggle?.addEventListener('click',()=>{ showWorld=!showWorld; mapToggle.textContent=showWorld ? 'Focus on my country ↗' : 'Show the world ↗'; focusCamera(); });
   focusCamera(false);
 }
 function drawMap() {
   if (!panel) return;
   const countries = new Set(activity?.countries.map(row => row.code) || []);
-  const pins = panel.querySelector('.visitor-pins'); pins.replaceChildren();
+  const pins = panel.querySelector('.visitor-pins'); pins.replaceChildren(); pinPoint=null;
   for (const outline of panel.querySelectorAll('[data-country]')) {
     const code = outline.dataset.country, mine = code === ownCountry, recent = countries.has(code);
     outline.dataset.you = String(mine); outline.dataset.recent = String(recent);
+    if(mine) pinPoint={x:Number(outline.dataset.x),y:Number(outline.dataset.y)};
     if (!mine && !recent) continue;
     const circle = document.createElementNS(svgNS, 'circle');
     for (const [key, value] of Object.entries({cx:outline.dataset.x, cy:outline.dataset.y, r:mine ? '4' : '2.5'})) circle.setAttribute(key, value);
@@ -150,7 +189,8 @@ function drawMap() {
     if (mine) { const ring = circle.cloneNode(); ring.setAttribute('r', '9'); ring.setAttribute('class', 'pin-ring'); pins.append(ring); }
   }
   const canFocus=[...panel.querySelectorAll('[data-country]')].some(p=>p.dataset.country===ownCountry);
-  mapToggle.hidden=!canFocus;
+  if(mapToggle) mapToggle.hidden=!canFocus;
+  if(homePin && !canFocus) homePin.hidden=true;
   if(focusedCountry!==ownCountry) { focusedCountry=ownCountry; focusCamera(); }
   else if(frame) applyFrame(frame);
 }
@@ -177,7 +217,7 @@ async function refreshActivity() {
     activity = result; drawMap();
     panel.querySelectorAll('[data-world-summary], [data-global-legend]').forEach(element => { element.hidden = false; });
     set('activity-status', result.environment === 'preview' ? 'Preview activity' : 'Live · Umami Cloud');
-    panel.querySelector('[data-activity-status]').dataset.connected = 'true';
+    panel.querySelector('[data-activity-status]')?.setAttribute('data-connected','true');
     set('world-visitors', String(result.visitors)); set('world-views', String(result.views)); set('world-countries', String(result.countries.length));
     set('activity-update', `Updated ${new Date(result.observedAt).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})} · 30-minute window`);
     set('map-caption', result.countries.length ? result.countries.slice().sort((a,b)=>b.visitors-a.visitors).slice(0,4).map(row => `${countryName(row.code)} ${row.visitors}`).join(' · ') : 'No recorded visitors in the last 30 minutes.');
@@ -191,6 +231,7 @@ async function connect() {
     const config = await response.json();
     activityAvailable = config.activityAvailable === true;
     ownCountry = /^[A-Z]{2}$/.test(config.country || '') ? config.country : null;
+    set('pin-country',ownCountry ? countryName(ownCountry) : 'Around the world');
     set('country-name',ownCountry ? `${countryName(ownCountry)}.` : 'Somewhere.');
     set('location',ownCountry ? `${countryName(ownCountry)} · approximate country` : 'Country location is unavailable');
     drawMap();

@@ -1,6 +1,6 @@
 # Visitor map and Umami Cloud
 
-The homepage and `/visitors/` use locally bundled Natural Earth country outlines as a full-viewport wallpaper, focused on the current visitor's approximate country. Visit details and a recent-history list sit directly over the background. A Show the world control switches between country focus and a world view. Optional aggregate activity comes from Umami Cloud. Static writing and navigation still work when either API is unavailable.
+The homepage and `/visitors/` use locally bundled Natural Earth country outlines as a full-viewport wallpaper, focused on the current visitor's approximate country. The homepage keeps visitor metadata out of the content flow: a compact card above the country pin shows last access, saved visit count and current duration, with a link to full history and privacy controls. It opens by default only on spacious screens, opens from the pin on smaller screens, and hides before overlapping the journal. Unknown or unmapped countries omit this card. The `/visitors/` page retains the full history, privacy controls and a Show the world toggle. Optional aggregate activity comes from Umami Cloud. Static writing and navigation still work when either API is unavailable.
 
 ## Connection
 

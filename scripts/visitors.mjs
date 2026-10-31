@@ -1,9 +1,20 @@
 export function visitorPanel(map, {home=false} = {}) {
   const wallpaper=map.replace('class="country-outlines"','id="country-geometry" class="country-outlines"').replace('<g class="visitor-pins"','<use href="#country-geometry" transform="translate(-900 0)"/><use href="#country-geometry" transform="translate(900 0)"/><g class="visitor-pins"');
-  return `<section class="visitor-experience${home ? ' visitor-experience--home' : ''}" aria-labelledby="visitor-heading" data-visitor-panel>
+  if(home) return `<div class="visitor-experience--home" data-visitor-panel data-visitor-home>
+    <div class="visitor-wallpaper" aria-hidden="true">${wallpaper}</div>
+    <aside class="visitor-pin-note" aria-label="Your visit" data-home-pin hidden>
+      <button class="visitor-pin-trigger" type="button" aria-label="Show your visit details" aria-expanded="false" aria-controls="visitor-pin-card" data-pin-toggle><span class="pin-dot" aria-hidden="true"></span></button>
+      <div class="visitor-pin-card" id="visitor-pin-card" data-pin-card hidden>
+        <p class="pin-eyebrow">You’re here</p><h2 data-pin-country>Around the world</h2>
+        <dl><div class="pin-last"><dt>Last here</dt><dd data-last-visit>First visit</dd></div><div><dt>Saved visits</dt><dd data-pin-visits>—</dd></div><div><dt>Time here</dt><dd data-visit-duration>—</dd></div></dl>
+        <a href="/visitors/">Your visits &amp; privacy <span aria-hidden="true">↗</span></a>
+      </div>
+    </aside>
+  </div>`;
+  return `<section class="visitor-experience" aria-labelledby="visitor-heading" data-visitor-panel>
     <div class="visitor-wallpaper" aria-hidden="true">${wallpaper}</div>
     <div class="visitor-hero"><p class="eyebrow"><span class="connection-dot" aria-hidden="true"></span><span data-activity-status>Your corner of the world</span></p>
-      <${home ? 'h2' : 'h1'} id="visitor-heading">${home ? 'Joining from' : 'You’re here.'}<br><em data-country-name>Somewhere.</em></${home ? 'h2' : 'h1'}>
+      <h1 id="visitor-heading">You’re here.<br><em data-country-name>Somewhere.</em></h1>
       <p class="visitor-greeting" data-welcome>Make yourself at home.</p>
       <div class="visitor-location"><span data-location>Finding your approximate country…</span><button type="button" data-map-toggle hidden>Show the world <span aria-hidden="true">↗</span></button></div>
     </div>

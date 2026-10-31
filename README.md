@@ -53,7 +53,7 @@ Ghost newsletter signup, the live Spotify feed and the old self-hosted Umami ser
 
 ## Visitor map
 
-The homepage and `/visitors/` have a country-outline wallpaper focused on your approximate country, optional Umami Cloud aggregate activity and private browser-local visit history. Last here and the saved duration appear immediately on a return, with a visible recent-visits list. Reloads and internal links continue a recent visit; a new arrival starts another. Existing saved history is preserved. DNT/GPC, an opt-out and a clear-history control are supported. The site remains usable without analytics.
+The homepage and `/visitors/` have a country-outline wallpaper focused on your approximate country, optional Umami Cloud aggregate activity and private browser-local visit history. The homepage keeps its introduction and journal together, with a small visit card anchored above the country pin. On smaller screens the pin opens the card; it hides as the journal comes into view. Full history and privacy controls live on `/visitors/`. Last here and the saved duration appear immediately on a return. Reloads and internal links continue a recent visit; a new arrival starts another. Existing saved history is preserved. DNT/GPC, an opt-out and a clear-history control are supported. The site remains usable without analytics.
 
 The Umami Cloud property and public production tracking configuration are connected. Global activity requires a server-only API key; preview tracking is disabled unless a separate property is configured. A preview or configured property does not establish live production collection. See [visitor-map setup, boundaries and verification](docs/visitor-map.md).
 
