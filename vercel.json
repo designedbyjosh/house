@@ -6,8 +6,65 @@
   "installCommand": "npm ci --ignore-scripts --no-audit --no-fund",
   "routes": [
     {
+      "src": "/api/(visitor|visitor-activity)",
+      "dest": "/api/$1"
+    },
+    {
       "src": "/(.*)",
+      "headers": {
+        "Content-Security-Policy": "default-src 'none'; script-src 'self' https://cloud.umami.is https://analytics.umami.is; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://cloud.umami.is https://analytics.umami.is https://gateway.umami.is; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; form-action 'none'; upgrade-insecure-requests",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "no-referrer"
+      },
+      "continue": true
+    },
+    {
+      "src": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "josh.house"
+        }
+      ],
       "dest": "https://archive.josh.house/$1"
+    },
+    {
+      "src": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.josh.house"
+        }
+      ],
+      "dest": "https://archive.josh.house/$1"
+    },
+    {
+      "src": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "josh.engineer"
+        }
+      ],
+      "dest": "https://archive.josh.house/$1"
+    },
+    {
+      "src": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.josh.engineer"
+        }
+      ],
+      "dest": "https://archive.josh.house/$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/404.html",
+      "status": 404
     }
   ]
 }
