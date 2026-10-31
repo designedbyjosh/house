@@ -1,82 +1,106 @@
-import {HISTORY_KEY, PAUSE_KEY, SESSION_GAP, readHistory, beginVisit, addActiveTime, formatDuration} from './visit-history.js';
+import {HISTORY_KEY, PAUSE_KEY, VisitHistory, formatDuration} from './visit-history.js';
+import {countryFrame, worldFrame} from './visitor-camera.js';
 
 const panel = document.querySelector('[data-visitor-panel]');
-const set = (name, value) => { const element = panel?.querySelector(`[data-${name}]`); if (element) element.textContent = value; };
-let storage;
-try { storage = window.localStorage; } catch { /* Private browsing may deny access. */ }
+const isHome=panel?.hasAttribute('data-visitor-home');
+const set = (name, value) => { const element=panel?.querySelector(`[data-${name}]`); if(element) element.textContent=value; };
+let storage, tabStorage;
+try { storage=window.localStorage; } catch { /* Storage can be disabled. */ }
+try { tabStorage=window.sessionStorage; } catch { /* History can still use local storage. */ }
 const stored = key => { try { return storage?.getItem(key); } catch { return null; } };
 const privacySignal = navigator.globalPrivacyControl === true || navigator.doNotTrack === '1' || window.doNotTrack === '1';
 let paused = privacySignal || stored(PAUSE_KEY) === 'true' || stored('umami.disabled') === '1';
-let history = [], persistent = Boolean(storage), lastTick = performance.now(), visible = !document.hidden;
-const path = location.pathname.slice(0, 300); // Never retain query strings or fragments.
-function save() {
-  if (!persistent) return;
-  try { storage.setItem(HISTORY_KEY, JSON.stringify(history)); } catch { persistent = false; }
-}
+let tracker=new VisitHistory({storage,sessionStorage:tabStorage}), lastTick=performance.now(), visible=!document.hidden;
+const path=location.pathname;
+const navigation={navigationType:performance.getEntriesByType('navigation')[0]?.type,referrer:document.referrer,origin:location.origin};
+const dateLabel = value => new Intl.DateTimeFormat(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}).format(value);
+let listSignature='';
 function renderHistory() {
-  if (!panel) return;
-  if (paused) {
-    set('visit-duration', 'Paused'); set('visit-pages', '—'); set('visit-count', '—');
-    set('last-visit', 'History paused'); set('last-duration', '—');
-    set('history-note', privacySignal ? 'Your browser privacy preference is being respected.' : 'Analytics and local visit history are paused.');
-    return;
+  if(!panel) return;
+  const list=panel.querySelector('[data-visit-history]');
+  if(paused) {
+    set('visit-duration','Paused'); set('visit-pages','—'); set('visit-count','History paused');
+    set('last-visit','History paused'); set('last-duration','—'); set('pin-visits','—');
+    set('last-context','No new activity is saved');
+    set('history-note',privacySignal ? 'Your browser privacy preference pauses local history and analytics.' : 'Local history and analytics are paused.');
+    list?.replaceChildren(); listSignature=''; return;
   }
-  const current = history[0], previous = history[1];
-  set('welcome', previous ? 'Good to have you back.' : 'Make yourself at home.');
-  set('visit-duration', formatDuration(current?.activeMs || 0));
-  set('visit-pages', String(current?.paths.length || 0));
-  set('visit-count', String(history.length));
-  set('last-visit', previous ? new Intl.DateTimeFormat(undefined, {month:'short', day:'numeric', hour:'numeric', minute:'2-digit'}).format(previous.lastSeen) : 'First remembered visit');
-  set('last-duration', previous ? formatDuration(previous.activeMs) : '—');
-  set('history-note', persistent ? 'Remembered only in this browser, for up to 90 days.' : 'Browser storage is unavailable. This page only; history won’t be saved.');
+  const {current,lastAccess,visits,persistent}=tracker.snapshot();
+  set('welcome',lastAccess ? 'Good to have you back.' : 'Make yourself at home.');
+  set('visit-duration',formatDuration(current?.activeMs || 0));
+  set('visit-pages',String(current?.paths.length || 0));
+  set('pin-visits',persistent ? String(visits.length) : '—');
+  set('visit-count',`${visits.length} ${persistent ? 'saved ' : ''}${visits.length===1 ? 'visit' : 'visits'}`);
+  set('last-visit',lastAccess ? dateLabel(lastAccess.lastSeen) : 'First visit');
+  const sameVisit=lastAccess?.id===current?.id;
+  set('last-context',lastAccess ? sameVisit ? 'Earlier in this visit' : 'Before this visit' : 'This visit is your first saved memory');
+  set('last-duration',lastAccess ? formatDuration(lastAccess.activeMs) : '—');
+  set('last-duration-label',sameVisit ? 'Time already spent' : 'Last stay');
+  set('last-duration-note',sameVisit ? 'Before opening this page' : 'Visible-tab time on your last visit');
+  set('history-note',persistent ? 'Your recent visits, saved on this browser and domain for up to 90 days.' : 'Browser storage is unavailable. This page is tracked in memory only; it won’t be saved.');
+  if(!list) return;
+  const recent=[...visits].sort((a,b)=>(b.id===current?.id)-(a.id===current?.id) || b.lastSeen-a.lastSeen).slice(0,5);
+  const signature=recent.map(v=>`${v.id}:${v.id===current?.id}`).join('|');
+  if(signature!==listSignature) {
+    list.replaceChildren(); listSignature=signature;
+    for(const visit of recent) {
+      const row=document.createElement('li'); row.dataset.visitId=visit.id;
+      const date=document.createElement('span'); date.className='history-date';
+      const time=document.createElement('time'); time.dateTime=new Date(visit.startedAt).toISOString(); time.textContent=dateLabel(visit.startedAt); date.append(time);
+      if(visit.id===current?.id) { const badge=document.createElement('span'); badge.className='history-current'; badge.textContent='This visit'; date.append(badge); }
+      const duration=document.createElement('span'); duration.className='history-duration';
+      const pages=document.createElement('span'); pages.className='history-pages';
+      row.append(date,duration,pages); list.append(row);
+    }
+  }
+  for(const [index,visit] of recent.entries()) {
+    const row=list.children[index];
+    row.querySelector('.history-duration').textContent=formatDuration(visit.activeMs);
+    row.querySelector('.history-pages').textContent=`${visit.paths.length} ${visit.paths.length===1 ? 'page' : 'pages'}`;
+  }
 }
-function start() {
-  if (paused) return renderHistory();
-  history = beginVisit(readHistory(storage, Date.now()), Date.now(), path);
-  save(); renderHistory();
-}
+function start() { if(!paused) tracker.start(path,navigation); renderHistory(); }
 function tick() {
-  const now = Date.now(), elapsed = performance.now() - lastTick;
-  lastTick = performance.now();
-  if (paused || !visible) return;
-  if (persistent) history = readHistory(storage, now);
-  if (!history.length || now - history[0].lastSeen >= SESSION_GAP) history = beginVisit(history, now, path);
-  else history = addActiveTime(history, now, elapsed);
-  save(); renderHistory();
+  const elapsed=performance.now()-lastTick; lastTick=performance.now();
+  if(paused || !visible) return;
+  tracker.tick(elapsed); renderHistory();
 }
 start();
-setInterval(tick, 1000);
-document.addEventListener('visibilitychange', () => {
-  tick(); visible = !document.hidden; lastTick = performance.now();
-  if (visible) { tick(); if (panel) refreshActivity(); }
+document.addEventListener('click',event=>{
+  if(paused || event.defaultPrevented || event.button!==0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const link=event.target instanceof Element ? event.target.closest('a[href]') : null;
+  if(!link || link.hasAttribute('download') || (link.target && link.target!=='_self')) return;
+  const destination=new URL(link.href,location.href);
+  if(destination.origin===location.origin && (destination.pathname!==path || !destination.hash)) tracker.prepareNavigation(destination.pathname);
 });
-window.addEventListener('pagehide', tick);
-window.addEventListener('pageshow', event => { if (event.persisted) { lastTick = performance.now(); visible = !document.hidden; tick(); } });
-window.addEventListener('storage', event => {
-  if ([PAUSE_KEY, 'umami.disabled'].includes(event.key)) location.reload();
-  if (event.key === HISTORY_KEY && !paused) { history = readHistory(storage, Date.now()); renderHistory(); }
+setInterval(tick,1000);
+document.addEventListener('visibilitychange',()=>{
+  tick(); visible=!document.hidden; lastTick=performance.now();
+  if(visible) { tick(); if(panel) refreshActivity(); }
 });
-panel?.querySelector('[data-clear-history]')?.addEventListener('click', () => {
-  history = [];
-  try { storage?.removeItem(HISTORY_KEY); } catch { /* In-memory clear still works. */ }
-  if (!paused) { history = beginVisit([], Date.now(), path); save(); }
-  renderHistory(); set('privacy-status', 'Earlier visits cleared.');
+window.addEventListener('pagehide',()=>{ tick(); visible=false; });
+window.addEventListener('pageshow',event=>{ if(event.persisted) { tracker.refresh(); tracker.lastAccess=structuredClone(tracker.snapshot().current || null); lastTick=performance.now(); visible=!document.hidden; tick(); } });
+window.addEventListener('storage',event=>{
+  if([PAUSE_KEY,'umami.disabled'].includes(event.key)) location.reload();
+  if(event.key===HISTORY_KEY && !paused) { tracker.refresh(); renderHistory(); }
 });
-const toggle = panel?.querySelector('[data-toggle-analytics]');
-if (toggle) {
-  toggle.textContent = paused ? 'Resume analytics & history' : 'Pause analytics & history';
-  toggle.disabled = privacySignal;
-  toggle.addEventListener('click', () => {
+panel?.querySelector('[data-clear-history]')?.addEventListener('click',()=>{
+  tracker.clear({restart:!paused}); renderHistory(); set('privacy-status','Your earlier visits have been cleared.');
+});
+const toggle=panel?.querySelector('[data-toggle-analytics]');
+if(toggle) {
+  toggle.textContent=paused ? 'Resume analytics & history' : 'Pause analytics & history'; toggle.disabled=privacySignal;
+  toggle.addEventListener('click',()=>{
     try {
-      if (!storage) throw new Error('No storage');
-      storage.setItem(PAUSE_KEY, String(!paused));
-      if (!paused) storage.setItem('umami.disabled', '1'); else storage.removeItem('umami.disabled');
+      if(!storage) throw new Error('No storage');
+      storage.setItem(PAUSE_KEY,String(!paused));
+      if(!paused) storage.setItem('umami.disabled','1'); else storage.removeItem('umami.disabled');
       location.reload();
     } catch {
-      paused = !paused; renderHistory(); refreshActivity();
-      toggle.textContent = paused ? 'Resume analytics & history' : 'Pause analytics & history';
-      set('privacy-status', 'Preference applies to this page only; browser storage is unavailable.');
-      if (!paused) { start(); connect(); }
+      paused=!paused; renderHistory(); refreshActivity();
+      toggle.textContent=paused ? 'Resume analytics & history' : 'Pause analytics & history';
+      set('privacy-status','Preference applies to this page only; browser storage is unavailable.');
+      if(!paused) { start(); connect(); }
     }
   });
 }
@@ -84,19 +108,91 @@ if (toggle) {
 let ownCountry = null, activity = null, fetching = false, activityAvailable = false;
 const countryName = code => { try { return new Intl.DisplayNames(undefined, {type:'region'}).of(code) || code; } catch { return code; } };
 const svgNS = 'http://www.w3.org/2000/svg';
+const wallpaper=panel?.querySelector('.visitor-wallpaper');
+const map=panel?.querySelector('.visitor-map');
+const mapToggle=panel?.querySelector('[data-map-toggle]');
+const reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)');
+const homePin=panel?.querySelector('[data-home-pin]');
+const pinToggle=panel?.querySelector('[data-pin-toggle]');
+const pinCard=panel?.querySelector('[data-pin-card]');
+const roomyScreen=window.matchMedia('(min-width: 1000px) and (min-height: 600px)');
+let pinOpen=roomyScreen.matches, pinPoint=null;
+let frame=null, animation=null, focusedCountry=null, showWorld=false;
+function renderPinCard() {
+  if(!pinCard) return;
+  pinCard.hidden=!pinOpen;
+  pinToggle.setAttribute('aria-expanded',String(pinOpen));
+  pinToggle.setAttribute('aria-label',`${pinOpen ? 'Hide' : 'Show'} your visit details`);
+  if(frame) positionHomePin(frame);
+}
+function positionHomePin(value) {
+  if(!homePin || !pinPoint) return;
+  const width=wallpaper.clientWidth,height=wallpaper.clientHeight;
+  const x=(pinPoint.x-value.x)/value.width*width,y=(pinPoint.y-value.y)/value.height*height;
+  // The note belongs to the introduction; hide it before it can cover the journal.
+  const journalTop=document.querySelector('.writing-section')?.getBoundingClientRect().top ?? 0;
+  homePin.hidden=x<16 || x>width-16 || y<100 || y>height-16 || journalTop<y+24 || window.scrollY>120;
+  homePin.style.left=`${x}px`; homePin.style.top=`${y}px`;
+  const cardWidth=244,cardLeft=Math.max(16,Math.min(width-cardWidth-16,x-cardWidth/2));
+  pinCard.style.left=`${cardLeft-x}px`;
+  pinCard.style.setProperty('--pin-offset',`${x-cardLeft}px`);
+}
+if(homePin) {
+  pinToggle.addEventListener('click',()=>{ pinOpen=!pinOpen; renderPinCard(); });
+  homePin.addEventListener('keydown',event=>{ if(event.key==='Escape') { pinOpen=false; renderPinCard(); pinToggle.focus(); } });
+  document.addEventListener('click',event=>{ if(!roomyScreen.matches && !homePin.contains(event.target)) { pinOpen=false; renderPinCard(); } });
+  roomyScreen.addEventListener('change',()=>{ pinOpen=roomyScreen.matches; renderPinCard(); focusCamera(false); });
+  window.addEventListener('scroll',()=>{ if(frame) positionHomePin(frame); },{passive:true});
+  renderPinCard();
+}
+function applyFrame(value) {
+  frame=value; map.setAttribute('viewBox',`${value.x} ${value.y} ${value.width} ${value.height}`);
+  positionHomePin(value);
+  const unit=value.width/Math.max(1,wallpaper.clientWidth);
+  panel.querySelectorAll('.visitor-pins circle').forEach(circle=>circle.setAttribute('r',String(unit*(circle.classList.contains('pin-ring') ? 10 : 3.5))));
+}
+function focusCamera(animate=true) {
+  if(!map || !wallpaper) return;
+  const outline=[...panel.querySelectorAll('[data-country]')].find(p=>p.dataset.country===ownCountry);
+  const bounds=outline?.getBBox();
+  const introEnd=(document.querySelector('.intro')?.getBoundingClientRect().bottom ?? wallpaper.clientHeight)+window.scrollY;
+  const maxPinY=(introEnd-32)/Math.max(1,wallpaper.clientHeight);
+  const target=outline && !showWorld ? countryFrame({x:Number(outline.dataset.x),y:Number(outline.dataset.y),width:bounds.width,height:bounds.height},wallpaper.clientWidth,wallpaper.clientHeight,{home:isHome,maxPinY}) : worldFrame(wallpaper.clientWidth,wallpaper.clientHeight);
+  if(animation) cancelAnimationFrame(animation);
+  if(!frame || !animate || reducedMotion.matches) { applyFrame(target); return; }
+  const from={...frame},started=performance.now();
+  const move=now=>{
+    const progress=Math.min(1,(now-started)/1300),ease=1-(1-progress)**3;
+    applyFrame(Object.fromEntries(Object.keys(target).map(key=>[key,from[key]+(target[key]-from[key])*ease])));
+    if(progress<1) animation=requestAnimationFrame(move); else animation=null;
+  };
+  animation=requestAnimationFrame(move);
+}
+if(wallpaper) {
+  new ResizeObserver(()=>focusCamera(false)).observe(wallpaper);
+  reducedMotion.addEventListener('change',()=>focusCamera(false));
+  mapToggle?.addEventListener('click',()=>{ showWorld=!showWorld; mapToggle.textContent=showWorld ? 'Focus on my country ↗' : 'Show the world ↗'; focusCamera(); });
+  focusCamera(false);
+}
 function drawMap() {
   if (!panel) return;
   const countries = new Set(activity?.countries.map(row => row.code) || []);
-  const pins = panel.querySelector('.visitor-pins'); pins.replaceChildren();
+  const pins = panel.querySelector('.visitor-pins'); pins.replaceChildren(); pinPoint=null;
   for (const outline of panel.querySelectorAll('[data-country]')) {
     const code = outline.dataset.country, mine = code === ownCountry, recent = countries.has(code);
     outline.dataset.you = String(mine); outline.dataset.recent = String(recent);
+    if(mine) pinPoint={x:Number(outline.dataset.x),y:Number(outline.dataset.y)};
     if (!mine && !recent) continue;
     const circle = document.createElementNS(svgNS, 'circle');
     for (const [key, value] of Object.entries({cx:outline.dataset.x, cy:outline.dataset.y, r:mine ? '4' : '2.5'})) circle.setAttribute(key, value);
     pins.append(circle);
     if (mine) { const ring = circle.cloneNode(); ring.setAttribute('r', '9'); ring.setAttribute('class', 'pin-ring'); pins.append(ring); }
   }
+  const canFocus=[...panel.querySelectorAll('[data-country]')].some(p=>p.dataset.country===ownCountry);
+  if(mapToggle) mapToggle.hidden=!canFocus;
+  if(homePin && !canFocus) homePin.hidden=true;
+  if(focusedCountry!==ownCountry) { focusedCountry=ownCountry; focusCamera(); }
+  else if(frame) applyFrame(frame);
 }
 function unavailable(message) {
   activity = null; drawMap();
@@ -109,7 +205,7 @@ function unavailable(message) {
 async function refreshActivity() {
   if (!panel || document.hidden || fetching) return;
   if (paused) return unavailable('Privacy mode');
-  if (!activityAvailable) return unavailable('Your visit');
+  if (!activityAvailable) return unavailable('Your corner of the world');
   fetching = true;
   try {
     const response = await fetch('/api/visitor-activity', {signal:AbortSignal.timeout(8000)});
@@ -121,7 +217,7 @@ async function refreshActivity() {
     activity = result; drawMap();
     panel.querySelectorAll('[data-world-summary], [data-global-legend]').forEach(element => { element.hidden = false; });
     set('activity-status', result.environment === 'preview' ? 'Preview activity' : 'Live · Umami Cloud');
-    panel.querySelector('[data-activity-status]').dataset.connected = 'true';
+    panel.querySelector('[data-activity-status]')?.setAttribute('data-connected','true');
     set('world-visitors', String(result.visitors)); set('world-views', String(result.views)); set('world-countries', String(result.countries.length));
     set('activity-update', `Updated ${new Date(result.observedAt).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})} · 30-minute window`);
     set('map-caption', result.countries.length ? result.countries.slice().sort((a,b)=>b.visitors-a.visitors).slice(0,4).map(row => `${countryName(row.code)} ${row.visitors}`).join(' · ') : 'No recorded visitors in the last 30 minutes.');
@@ -135,7 +231,9 @@ async function connect() {
     const config = await response.json();
     activityAvailable = config.activityAvailable === true;
     ownCountry = /^[A-Z]{2}$/.test(config.country || '') ? config.country : null;
-    set('location', ownCountry ? `Joining from ${countryName(ownCountry)}` : 'Your country is unavailable');
+    set('pin-country',ownCountry ? countryName(ownCountry) : 'Around the world');
+    set('country-name',ownCountry ? `${countryName(ownCountry)}.` : 'Somewhere.');
+    set('location',ownCountry ? `${countryName(ownCountry)} · approximate country` : 'Country location is unavailable');
     drawMap();
     if (!paused && config.analytics && !document.querySelector('script[data-website-id]')) {
       const url = new URL(config.analytics.scriptUrl);
