@@ -49,11 +49,11 @@
 /* Keep visitor details out of the homepage's content flow. */
 .visitor-experience--home{height:0}
 .visitor-pin-note{position:fixed;z-index:2;width:0;height:0}
-.visitor-pin-trigger{position:absolute;left:-16px;top:-16px;width:32px;height:32px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--map-focus);cursor:pointer}
+.visitor-pin-trigger{position:absolute;left:-22px;top:-22px;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--map-focus);cursor:pointer}
 .pin-dot{display:block;width:7px;height:7px;border-radius:50%;margin:auto;background:currentColor;box-shadow:0 0 0 5px color-mix(in srgb,var(--map-focus) 12%,transparent)}
 .visitor-pin-trigger:hover .pin-dot{box-shadow:0 0 0 8px color-mix(in srgb,var(--map-focus) 16%,transparent)}
 .visitor-pin-trigger:focus-visible,.visitor-pin-card a:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
-.visitor-pin-card{position:absolute;bottom:25px;width:244px;padding:18px 20px 15px;border:1px solid var(--line);border-radius:10px;background:color-mix(in srgb,var(--surface) 96%,transparent);box-shadow:0 8px 28px #00000012;color:var(--ink);text-align:left}
+.visitor-pin-card{position:absolute;bottom:25px;width:244px;padding:18px 20px 15px;border:1px solid var(--line);border-radius:10px;background:var(--surface);box-shadow:0 8px 28px #00000012;color:var(--ink);text-align:left}
 .visitor-pin-card::after{content:'';position:absolute;bottom:-5px;left:var(--pin-offset,50%);width:8px;height:8px;background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line);transform:translateX(-50%) rotate(45deg)}
 .visitor-pin-card .pin-eyebrow{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:0 0 3px}
 .visitor-pin-card h2{font-size:23px;letter-spacing:-.5px;line-height:1.2;margin:0 0 15px;overflow-wrap:anywhere}
